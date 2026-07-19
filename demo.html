@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo del Sistema - TSolutions IPIDD</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Alpine.js for interactions -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Phosphor Icons for elegant UI icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        soberOrange: '#c25e1a',
+                        soberOrangeDark: '#994a15',
+                        soberOrangeLight: '#e07a2f',
+                        darkBg: '#0a0a0c',
+                        darkPanel: 'rgba(23, 23, 25, 0.7)',
+                        brandRed: '#dc2626',
+                        brandYellow: '#eab308',
+                        brandGreen: '#16a34a'
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0a0c;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(194, 94, 26, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(194, 94, 26, 0.05), transparent 25%);
+            color: #f1f5f9;
+        }
+        .glass-panel {
+            background: rgba(24, 24, 27, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        .glow-text {
+            text-shadow: 0 0 15px rgba(224, 122, 47, 0.5);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased h-screen overflow-hidden flex" x-data="{ chatOpen: true, mobileMenu: false }">
+
+    <!-- Mobile menu button -->
+    <div class="lg:hidden fixed top-4 left-4 z-50">
+        <button @click="mobileMenu = !mobileMenu" class="p-2 rounded-lg bg-darkPanel border border-white/10 text-white">
+            <i class="ph ph-list text-2xl"></i>
+        </button>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="w-64 h-full glass-panel flex flex-col transition-transform duration-300 absolute lg:relative z-40"
+           :class="mobileMenu ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'">
+        <div class="p-6 flex items-center gap-3 border-b border-white/10">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-soberOrangeLight to-soberOrangeDark flex items-center justify-center shadow-lg shadow-soberOrange/20">
+                <i class="ph-bold ph-wrench text-white"></i>
+            </div>
+            <h1 class="font-bold text-xl tracking-tight text-white glow-text">TSolutions</h1>
+        </div>
+        
+        <nav class="flex-1 py-6 px-4 space-y-2">
+            <a href="#" class="flex items-center gap-3 px-4 py-3 bg-soberOrange/10 text-soberOrangeLight rounded-xl border border-soberOrange/20 transition-all">
+                <i class="ph ph-squares-four text-xl"></i>
+                <span class="font-medium">Dashboard</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all">
+                <i class="ph ph-package text-xl"></i>
+                <span class="font-medium">Inventario</span>
+                <span class="ml-auto w-2 h-2 rounded-full bg-brandRed animate-pulse"></span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all">
+                <i class="ph ph-currency-circle-dollar text-xl"></i>
+                <span class="font-medium">Ventas</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all">
+                <i class="ph ph-chart-line-up text-xl"></i>
+                <span class="font-medium">Reportes</span>
+            </a>
+        </nav>
+
+        <div class="p-4 border-t border-white/10">
+            <div class="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5">
+                <img src="https://i.pravatar.cc/100?img=33" alt="Admin" class="w-10 h-10 rounded-full border border-white/20">
+                <div>
+                    <p class="text-sm font-medium text-white">Admin Ferretería</p>
+                    <p class="text-xs text-brandGreen flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-brandGreen"></span> En línea
+                    </p>
+                </div>
+            </div>
+            <a href="/" class="mt-4 flex items-center justify-center gap-2 w-full py-2 text-sm text-gray-400 hover:text-white transition-colors">
+                <i class="ph ph-arrow-left"></i> Volver al sitio web
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 h-full overflow-y-auto custom-scrollbar relative">
+        <!-- Header -->
+        <header class="h-20 flex items-center justify-between px-8 lg:px-10 sticky top-0 z-30 bg-darkBg/80 backdrop-blur-md border-b border-white/5">
+            <div class="pl-10 lg:pl-0">
+                <h2 class="text-2xl font-bold text-white">Métricas en Tiempo Real</h2>
+                <p class="text-sm text-gray-400">Resumen de operaciones del día</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="relative p-2 text-gray-400 hover:text-white transition-colors">
+                    <i class="ph ph-bell text-2xl"></i>
+                    <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-brandYellow rounded-full border border-darkBg"></span>
+                </button>
+                <div class="h-8 w-px bg-white/10"></div>
+                <div class="text-right hidden sm:block">
+                    <p class="text-sm font-medium text-white">18 Jul 2026</p>
+                    <p class="text-xs text-gray-400">16:42 PM</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Widgets -->
+        <div class="p-8 lg:p-10 pb-32">
+            <!-- KPIS -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <!-- Ventas -->
+                <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i class="ph-fill ph-trend-up text-6xl text-brandGreen"></i>
+                    </div>
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-8 h-8 rounded-full bg-brandGreen/20 flex items-center justify-center">
+                            <i class="ph ph-currency-dollar text-brandGreen"></i>
+                        </div>
+                        <h3 class="text-gray-400 font-medium">Ventas del Día</h3>
+                    </div>
+                    <p class="text-3xl font-bold text-white mb-1">$14,520.00</p>
+                    <p class="text-sm text-brandGreen flex items-center gap-1">
+                        <i class="ph ph-arrow-up-right"></i> +12% vs ayer
+                    </p>
+                </div>
+                
+                <!-- Alertas Inventario -->
+                <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i class="ph-fill ph-warning text-6xl text-brandRed"></i>
+                    </div>
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-8 h-8 rounded-full bg-brandRed/20 flex items-center justify-center">
+                            <i class="ph ph-package text-brandRed"></i>
+                        </div>
+                        <h3 class="text-gray-400 font-medium">Alertas de Stock</h3>
+                    </div>
+                    <p class="text-3xl font-bold text-white mb-1">8 <span class="text-lg font-normal text-gray-400">artículos</span></p>
+                    <p class="text-sm text-brandRed flex items-center gap-1">
+                        <i class="ph ph-warning-circle"></i> Requieren reabastecimiento crítico
+                    </p>
+                </div>
+
+                <!-- Consultas IA -->
+                <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group border-soberOrange/30">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i class="ph-fill ph-robot text-6xl text-soberOrangeLight"></i>
+                    </div>
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-8 h-8 rounded-full bg-soberOrange/20 flex items-center justify-center">
+                            <i class="ph ph-robot text-soberOrangeLight"></i>
+                        </div>
+                        <h3 class="text-gray-400 font-medium">Consultas FerreBot</h3>
+                    </div>
+                    <p class="text-3xl font-bold text-white mb-1">124</p>
+                    <p class="text-sm text-soberOrangeLight flex items-center gap-1">
+                        <i class="ph ph-check-circle"></i> 98% resueltas automáticamente
+                    </p>
+                </div>
+            </div>
+
+            <!-- Main Charts / Tables Area -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Recent Activity Table -->
+                <div class="glass-panel rounded-2xl col-span-2 p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-bold text-white">Movimientos Recientes</h3>
+                        <button class="text-sm text-soberOrangeLight hover:text-white transition-colors">Ver todos</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="text-gray-400 text-sm border-b border-white/10">
+                                    <th class="pb-3 font-medium">Producto</th>
+                                    <th class="pb-3 font-medium">Tipo</th>
+                                    <th class="pb-3 font-medium">Estado</th>
+                                    <th class="pb-3 font-medium text-right">Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm">
+                                <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+                                    <td class="py-4 flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center">
+                                            <i class="ph ph-hammer text-gray-400"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-white">Martillo Truper 16oz</p>
+                                            <p class="text-xs text-gray-500">SKU: TRP-16OZ-01</p>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 text-gray-300">Venta Mostrador</td>
+                                    <td class="py-4">
+                                        <span class="px-2.5 py-1 text-xs rounded-full bg-brandGreen/20 text-brandGreen border border-brandGreen/30">Completado</span>
+                                    </td>
+                                    <td class="py-4 text-right font-medium text-white">$245.00</td>
+                                </tr>
+                                <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+                                    <td class="py-4 flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center">
+                                            <i class="ph ph-paint-roller text-gray-400"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-white">Pintura Vinilica 19L Blanca</p>
+                                            <p class="text-xs text-gray-500">SKU: COM-VIN-19L</p>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 text-gray-300">Pedido Proveedor</td>
+                                    <td class="py-4">
+                                        <span class="px-2.5 py-1 text-xs rounded-full bg-brandYellow/20 text-brandYellow border border-brandYellow/30">En Tránsito</span>
+                                    </td>
+                                    <td class="py-4 text-right font-medium text-white">-$1,890.00</td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="py-4 flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center">
+                                            <i class="ph ph-screencast text-gray-400"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-white">Caja de Pijas Tablaroca</p>
+                                            <p class="text-xs text-gray-500">SKU: PIJ-TAB-100</p>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 text-gray-300">Venta Online</td>
+                                    <td class="py-4">
+                                        <span class="px-2.5 py-1 text-xs rounded-full bg-brandRed/20 text-brandRed border border-brandRed/30">Stock Crítico</span>
+                                    </td>
+                                    <td class="py-4 text-right font-medium text-white">$120.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Mini Roadmap Status -->
+                <div class="glass-panel rounded-2xl p-6 bg-gradient-to-b from-darkPanel to-black/40">
+                    <h3 class="text-lg font-bold text-white mb-2">Avance Digitalización</h3>
+                    <p class="text-sm text-gray-400 mb-6">Roadmap 90 Días</p>
+                    
+                    <div class="space-y-6 relative before:absolute before:inset-0 before:ml-[11px] before:w-px md:before:mx-auto md:before:translate-x-0 before:h-full before:bg-white/10 before:-z-10">
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                            <div class="flex items-center justify-center w-6 h-6 rounded-full border-4 border-darkBg bg-brandGreen text-white shadow shadow-brandGreen shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2"></div>
+                            <div class="w-[calc(100%-3rem)] md:w-[calc(50%-1.5rem)] p-4 rounded-xl glass-panel border-brandGreen/30">
+                                <div class="flex items-center justify-between mb-1">
+                                    <h4 class="font-bold text-white text-sm">Fase 1</h4>
+                                    <span class="text-xs text-brandGreen font-medium">100%</span>
+                                </div>
+                                <p class="text-xs text-gray-400">Sistema base e inventario</p>
+                            </div>
+                        </div>
+                        
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                            <div class="flex items-center justify-center w-6 h-6 rounded-full border-4 border-darkBg bg-soberOrangeLight text-white shadow shadow-soberOrangeLight shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 animate-pulse-slow"></div>
+                            <div class="w-[calc(100%-3rem)] md:w-[calc(50%-1.5rem)] p-4 rounded-xl glass-panel border-soberOrange/50 relative overflow-hidden">
+                                <div class="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-soberOrangeLight to-brandYellow w-[60%]"></div>
+                                <div class="flex items-center justify-between mb-1">
+                                    <h4 class="font-bold text-white text-sm">Fase 2</h4>
+                                    <span class="text-xs text-soberOrangeLight font-medium">En progreso</span>
+                                </div>
+                                <p class="text-xs text-gray-400">Integración de FerreBot IA</p>
+                            </div>
+                        </div>
+
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-6 h-6 rounded-full border-4 border-darkBg bg-gray-700 text-white shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2"></div>
+                            <div class="w-[calc(100%-3rem)] md:w-[calc(50%-1.5rem)] p-4 rounded-xl glass-panel opacity-50">
+                                <div class="flex items-center justify-between mb-1">
+                                    <h4 class="font-bold text-white text-sm">Fase 3</h4>
+                                    <span class="text-xs text-gray-500 font-medium">Próximo</span>
+                                </div>
+                                <p class="text-xs text-gray-400">Dashboard y App Móvil</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FerreBot AI Floating Chat -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        
+        <!-- Chat Window -->
+        <div x-show="chatOpen" 
+             x-transition:enter="transition ease-out duration-300 transform"
+             x-transition:enter-start="opacity-0 translate-y-10 scale-95"
+             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+             x-transition:leave="transition ease-in duration-200 transform"
+             x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+             x-transition:leave-end="opacity-0 translate-y-10 scale-95"
+             class="w-80 sm:w-96 glass-panel rounded-2xl mb-4 overflow-hidden border border-soberOrange/30 shadow-2xl shadow-soberOrange/10 flex flex-col h-[450px]"
+             style="display: none;">
+             
+            <!-- Chat Header -->
+            <div class="p-4 bg-gradient-to-r from-soberOrangeDark to-soberOrangeLight flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white backdrop-blur-sm">
+                        <i class="ph-fill ph-robot text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white">FerreBot IA</h3>
+                        <p class="text-xs text-white/80 flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span> Online
+                        </p>
+                    </div>
+                </div>
+                <button @click="chatOpen = false" class="text-white/80 hover:text-white bg-white/10 hover:bg-white/20 rounded-full p-1.5 transition-colors">
+                    <i class="ph ph-x"></i>
+                </button>
+            </div>
+
+            <!-- Chat Body -->
+            <div class="flex-1 p-4 overflow-y-auto custom-scrollbar flex flex-col gap-4">
+                
+                <!-- AI Message -->
+                <div class="flex gap-3 max-w-[85%]">
+                    <div class="w-8 h-8 rounded-full bg-soberOrange/20 border border-soberOrange/30 flex items-center justify-center shrink-0">
+                        <i class="ph ph-robot text-soberOrangeLight"></i>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 p-3 rounded-2xl rounded-tl-sm text-sm text-gray-300">
+                        Hola, soy FerreBot. He detectado que <span class="text-brandRed font-medium">3 productos</span> están por agotarse hoy. ¿Te gustaría ver el reporte o prefieres que genere una orden de compra tentativa?
+                    </div>
+                </div>
+
+                <!-- User Message -->
+                <div class="flex gap-3 max-w-[85%] self-end flex-row-reverse">
+                    <img src="https://i.pravatar.cc/100?img=33" class="w-8 h-8 rounded-full border border-white/20 shrink-0">
+                    <div class="bg-soberOrangeDark text-white p-3 rounded-2xl rounded-tr-sm text-sm">
+                        Muéstrame cuáles son esos productos, por favor.
+                    </div>
+                </div>
+
+                <!-- AI Message with List -->
+                <div class="flex gap-3 max-w-[90%]">
+                    <div class="w-8 h-8 rounded-full bg-soberOrange/20 border border-soberOrange/30 flex items-center justify-center shrink-0">
+                        <i class="ph ph-robot text-soberOrangeLight"></i>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 p-3 rounded-2xl rounded-tl-sm text-sm text-gray-300">
+                        Claro, aquí tienes la lista:
+                        <ul class="mt-2 space-y-2">
+                            <li class="flex items-center justify-between p-2 rounded bg-black/30 border border-white/5">
+                                <div>
+                                    <span class="block text-white font-medium text-xs">Pijas Tablaroca 1"</span>
+                                    <span class="text-[10px] text-gray-500">Stock: 2 cajas</span>
+                                </div>
+                                <span class="text-[10px] bg-brandRed/20 text-brandRed px-1.5 py-0.5 rounded">Crítico</span>
+                            </li>
+                            <li class="flex items-center justify-between p-2 rounded bg-black/30 border border-white/5">
+                                <div>
+                                    <span class="block text-white font-medium text-xs">Cemento Cruz Azul 50kg</span>
+                                    <span class="text-[10px] text-gray-500">Stock: 5 bultos</span>
+                                </div>
+                                <span class="text-[10px] bg-brandYellow/20 text-brandYellow px-1.5 py-0.5 rounded">Bajo</span>
+                            </li>
+                            <li class="flex items-center justify-between p-2 rounded bg-black/30 border border-white/5">
+                                <div>
+                                    <span class="block text-white font-medium text-xs">Tubo PVC 1/2" Sanitario</span>
+                                    <span class="text-[10px] text-gray-500">Stock: 12 tramos</span>
+                                </div>
+                                <span class="text-[10px] bg-brandYellow/20 text-brandYellow px-1.5 py-0.5 rounded">Bajo</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Chat Input -->
+            <div class="p-3 border-t border-white/10 bg-darkBg/50 flex gap-2 items-center">
+                <button class="text-gray-400 hover:text-white p-2">
+                    <i class="ph ph-paperclip text-lg"></i>
+                </button>
+                <input type="text" placeholder="Escribe a FerreBot..." class="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm text-white focus:outline-none focus:border-soberOrange/50 focus:bg-white/10 transition-colors">
+                <button class="bg-soberOrangeLight hover:bg-soberOrange text-white w-9 h-9 rounded-full flex items-center justify-center transition-colors">
+                    <i class="ph-bold ph-paper-plane-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Toggle Button -->
+        <button @click="chatOpen = !chatOpen" 
+                class="w-14 h-14 rounded-full bg-gradient-to-r from-soberOrangeDark to-soberOrangeLight shadow-lg shadow-soberOrange/30 text-white flex items-center justify-center hover:scale-105 transition-transform">
+            <i x-show="!chatOpen" class="ph-bold ph-chat-teardrop-text text-2xl"></i>
+            <i x-show="chatOpen" class="ph-bold ph-x text-2xl" style="display: none;"></i>
+        </button>
+    </div>
+
+</body>
+</html>
