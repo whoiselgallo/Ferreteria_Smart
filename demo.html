@@ -91,7 +91,8 @@
           ocrDone: false,
           // Foto reconocidad Demo
           photoAnalyzed: false
-      }">
+      }"
+      x-init="currentTab = new URLSearchParams(window.location.search).get('tab') || 'dashboard'">
 
     <!-- Mobile menu button -->
     <div class="lg:hidden fixed top-4 left-4 z-50">
@@ -104,8 +105,11 @@
     <aside class="w-64 h-full glass-panel flex flex-col transition-transform duration-300 absolute lg:relative z-40"
            :class="mobileMenu ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'">
         <div class="p-6 flex items-center gap-3 border-b border-white/10">
-            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-soberOrangeLight to-soberOrangeDark flex items-center justify-center shadow-lg shadow-soberOrange/20">
-                <i class="ph-bold ph-wrench text-white"></i>
+            <div class="w-8 h-8 flex items-center justify-center">
+                <svg viewBox="0 0 100 100" class="w-7 h-7 text-soberOrangeLight">
+                    <polygon points="50,5 90,28 90,72 50,95 10,72 10,28" fill="none" stroke="currentColor" stroke-width="8"/>
+                    <polygon points="50,20 80,70 20,70" fill="none" stroke="currentColor" stroke-width="8"/>
+                </svg>
             </div>
             <div>
                 <h1 class="font-bold text-lg tracking-tight text-white glow-text">TSolutions</h1>
@@ -219,6 +223,12 @@
                 </button>
             </div>
         </header>
+
+        <!-- Banner de Advertencia Demo -->
+        <div class="bg-soberOrange/15 border-b border-soberOrange/35 text-center py-2.5 text-xs text-soberOrangeLight font-semibold flex items-center justify-center gap-2 shrink-0">
+            <i class="ph-bold ph-warning-circle text-base"></i>
+            <span>Esto es un demo ilustrativo, no el producto completo</span>
+        </div>
 
         <!-- VISTAS INTERACTIVAS SEGÚN LA PESTAÑA SELECCIONADA -->
         <div class="p-6 lg:p-10 pb-32 flex-1">

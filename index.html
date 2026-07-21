@@ -293,19 +293,23 @@
                 </div>
             </div>
 
-            <!-- Columna Derecha: Texto descriptivo como en la referencia -->
-            <div class="lg:col-span-3 text-left lg:text-right space-y-6 lg:border-l border-white/10 lg:pl-8 py-4">
-                <div class="space-y-1">
-                    <p class="text-xs text-gray-500 uppercase tracking-widest font-bold">Arquitectura</p>
-                    <p class="text-sm text-gray-300 font-medium">Para que los agentes de codificación</p>
+            <!-- Columna Derecha: Texto descriptivo renovado -->
+            <div class="lg:col-span-3 text-left lg:text-right space-y-5 lg:border-l border-white/10 lg:pl-8 py-2">
+                <div class="space-y-1 group/item">
+                    <p class="text-xs text-gray-500 uppercase tracking-widest font-extrabold">Operación</p>
+                    <p class="text-sm font-medium transition-all duration-300 text-white group-hover/item:text-aquaTurquesa group-hover/item:drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">Estandarización y automatización de procesos core</p>
                 </div>
-                <div class="space-y-1">
-                    <p class="text-xs text-gray-500 uppercase tracking-widest font-bold">Despliegue</p>
-                    <p class="text-sm text-gray-300 font-medium">Para enviar aplicaciones y agentes</p>
+                <div class="space-y-1 group/item">
+                    <p class="text-xs text-gray-500 uppercase tracking-widest font-extrabold">Identidad</p>
+                    <p class="text-sm font-medium transition-all duration-300 text-white group-hover/item:text-aquaTurquesa group-hover/item:drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">Brand building y percepción de valor premium</p>
                 </div>
-                <div class="space-y-1">
-                    <p class="text-xs text-gray-500 uppercase tracking-widest font-bold">Automatización</p>
-                    <p class="text-sm text-gray-300 font-medium">Automatizado por agentes inteligentes</p>
+                <div class="space-y-1 group/item">
+                    <p class="text-xs text-gray-500 uppercase tracking-widest font-extrabold">Consultoría</p>
+                    <p class="text-sm font-medium transition-all duration-300 text-white group-hover/item:text-aquaTurquesa group-hover/item:drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">Dirección ejecutiva y estrategia corporativa</p>
+                </div>
+                <div class="space-y-1 group/item">
+                    <p class="text-xs text-gray-500 uppercase tracking-widest font-extrabold">IA Personalizada</p>
+                    <p class="text-sm font-medium transition-all duration-300 text-white group-hover/item:text-aquaTurquesa group-hover/item:drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">Modelos de IA adaptados a las reglas del negocio</p>
                 </div>
             </div>
 
@@ -521,7 +525,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 
                 <!-- Módulo 1 -->
-                <div class="glass-panel p-8 rounded-3xl border-white/10 hover:border-naranjaEnergy/40 transition-all duration-300 group hover:-translate-y-1">
+                <div @click="triggerImplosionWithTab($event, 'inventario')" class="glass-panel p-8 rounded-3xl border-white/10 hover:border-naranjaEnergy/40 transition-all duration-300 group hover:-translate-y-1 cursor-pointer">
                     <div class="w-14 h-14 rounded-2xl bg-naranjaEnergy/10 border border-naranjaEnergy/30 flex items-center justify-center text-naranjaEnergy mb-6 group-hover:scale-110 transition-transform">
                         <i class="ph-bold ph-package text-3xl"></i>
                     </div>
@@ -536,7 +540,7 @@
                 </div>
 
                 <!-- Módulo 2 -->
-                <div class="glass-panel p-8 rounded-3xl border-white/10 hover:border-aquaTurquesa/40 transition-all duration-300 group hover:-translate-y-1">
+                <div @click="triggerImplosionWithTab($event, 'ventas')" class="glass-panel p-8 rounded-3xl border-white/10 hover:border-aquaTurquesa/40 transition-all duration-300 group hover:-translate-y-1 cursor-pointer">
                     <div class="w-14 h-14 rounded-2xl bg-aquaTurquesa/10 border border-aquaTurquesa/30 flex items-center justify-center text-aquaTurquesa mb-6 group-hover:scale-110 transition-transform">
                         <i class="ph-bold ph-shopping-cart-simple text-3xl"></i>
                     </div>
@@ -551,7 +555,7 @@
                 </div>
 
                 <!-- Módulo 3 -->
-                <div class="glass-panel p-8 rounded-3xl border-white/10 hover:border-naranjaEnergy/40 transition-all duration-300 group hover:-translate-y-1">
+                <div @click="triggerImplosionWithTab($event, 'compras')" class="glass-panel p-8 rounded-3xl border-white/10 hover:border-naranjaEnergy/40 transition-all duration-300 group hover:-translate-y-1 cursor-pointer">
                     <div class="w-14 h-14 rounded-2xl bg-naranjaEnergy/10 border border-naranjaEnergy/30 flex items-center justify-center text-naranjaEnergy mb-6 group-hover:scale-110 transition-transform">
                         <i class="ph-bold ph-receipt text-3xl"></i>
                     </div>
@@ -566,7 +570,7 @@
                 </div>
 
                 <!-- Módulo 4 -->
-                <div class="glass-panel p-8 rounded-3xl border-white/10 hover:border-aquaTurquesa/40 transition-all duration-300 group hover:-translate-y-1">
+                <div @click="triggerImplosionWithTab($event, 'facturacion')" class="glass-panel p-8 rounded-3xl border-white/10 hover:border-aquaTurquesa/40 transition-all duration-300 group hover:-translate-y-1 cursor-pointer">
                     <div class="w-14 h-14 rounded-2xl bg-aquaTurquesa/10 border border-aquaTurquesa/30 flex items-center justify-center text-aquaTurquesa mb-6 group-hover:scale-110 transition-transform">
                         <i class="ph-bold ph-file-cloud text-3xl"></i>
                     </div>
@@ -581,7 +585,7 @@
                 </div>
 
                 <!-- Módulo 5 -->
-                <div class="glass-panel p-8 rounded-3xl border-white/10 hover:border-naranjaEnergy/40 transition-all duration-300 group hover:-translate-y-1">
+                <div @click="triggerImplosionWithTab($event, 'logistica')" class="glass-panel p-8 rounded-3xl border-white/10 hover:border-naranjaEnergy/40 transition-all duration-300 group hover:-translate-y-1 cursor-pointer">
                     <div class="w-14 h-14 rounded-2xl bg-naranjaEnergy/10 border border-naranjaEnergy/30 flex items-center justify-center text-naranjaEnergy mb-6 group-hover:scale-110 transition-transform">
                         <i class="ph-bold ph-truck text-3xl"></i>
                     </div>
@@ -596,7 +600,7 @@
                 </div>
 
                 <!-- IA PERSONALIZADA -->
-                <div id="ferrebot" class="glass-panel p-8 rounded-3xl border-aquaTurquesa/40 bg-gradient-to-br from-aquaTurquesa/10 via-midnightPanel to-negroProfundo hover:border-aquaTurquesa/80 transition-all duration-300 relative overflow-hidden group">
+                <div @click="triggerImplosionWithTab($event, 'ferrebot')" id="ferrebot" class="glass-panel p-8 rounded-3xl border-aquaTurquesa/40 bg-gradient-to-br from-aquaTurquesa/10 via-midnightPanel to-negroProfundo hover:border-aquaTurquesa/80 transition-all duration-300 relative overflow-hidden group cursor-pointer">
                     <div class="flex items-center gap-3 mb-4">
                         <div class="w-12 h-12 rounded-2xl bg-aquaTurquesa text-negroProfundo flex items-center justify-center font-bold shadow-[0_0_15px_rgba(0,229,255,0.4)]">
                             <i class="ph-bold ph-robot text-2xl"></i>
@@ -974,6 +978,18 @@
                     document.body.style.opacity = '0';
                     setTimeout(() => {
                         window.location.href = '/demo.html';
+                    }, 800);
+                },
+
+                // Animación de implosión para tarjetas de módulos
+                triggerImplosionWithTab(event, tabName) {
+                    event.preventDefault();
+                    document.body.style.transformOrigin = `${event.clientX}px ${event.clientY}px`;
+                    document.body.style.transform = 'scale(0)';
+                    document.body.style.filter = 'blur(45px)';
+                    document.body.style.opacity = '0';
+                    setTimeout(() => {
+                        window.location.href = `/demo.html?tab=${tabName}`;
                     }, 800);
                 }
             }
