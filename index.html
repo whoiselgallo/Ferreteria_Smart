@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TSolutions IPIDD — Digitalización 90 Días</title>
+    <title>TSolutions IPIDD — Digitalización Ferretera en 90 Días</title>
     
     <!-- Google Fonts: Bruno Ace & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Alpine.js for interactive booking calendar -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     
     <style>
-        /* TSolutions Design Tokens */
         :root {
           --color-naranjaEnergy: #F97316;
           --color-aquaTurquesa: #00E5FF;
@@ -27,8 +29,9 @@
           --color-deepGrid: #0f0f1e;
           --font-bruno: "Bruno Ace", sans-serif;
           --font-inter: "Inter", sans-serif;
-          --shadow-glowEnergy: 0 0 12px rgba(249,115,22,0.35);
-          --shadow-glowEnergyHover: 0 0 20px rgba(249,115,22,0.55);
+          --shadow-glowEnergy: 0 0 15px rgba(249,115,22,0.4);
+          --shadow-glowEnergyHover: 0 0 25px rgba(249,115,22,0.65);
+          --shadow-glowAqua: 0 0 15px rgba(0,229,255,0.4);
         }
 
         @keyframes gridMove {
@@ -51,17 +54,18 @@
         }
 
         .glass-panel {
-            background: rgba(10, 10, 20, 0.6);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(10, 10, 20, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .glow-text-energy {
-            text-shadow: 0 0 15px rgba(249,115,22,0.5);
+            text-shadow: 0 0 15px rgba(249,115,22,0.6);
         }
         
         .glow-text-aqua {
-            text-shadow: 0 0 15px rgba(0,229,255,0.5);
+            text-shadow: 0 0 15px rgba(0,229,255,0.6);
         }
 
         .btn-glow-energy {
@@ -72,6 +76,27 @@
         .btn-glow-energy:hover {
             box-shadow: var(--shadow-glowEnergyHover);
             transform: translateY(-2px);
+        }
+
+        .btn-glow-aqua {
+            box-shadow: var(--shadow-glowAqua);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-glow-aqua:hover {
+            box-shadow: 0 0 25px rgba(0,229,255,0.65);
+            transform: translateY(-2px);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.2);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(249,115,22,0.3);
+            border-radius: 10px;
         }
     </style>
 
@@ -96,7 +121,7 @@
         }
     </script>
 </head>
-<body class="antialiased relative min-h-screen flex flex-col">
+<body class="antialiased relative min-h-screen flex flex-col" x-data="agendaApp()">
 
     <!-- Background Grid -->
     <div class="fixed inset-0 bg-grid-pattern -z-10 opacity-30"></div>
@@ -105,236 +130,298 @@
     <!-- Header -->
     <header class="fixed top-0 w-full z-50 glass-panel border-b border-white/5">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <div class="w-10 h-10 rounded bg-naranjaEnergy/10 border border-naranjaEnergy/30 flex items-center justify-center">
-                    <i class="ph-bold ph-wrench text-naranjaEnergy text-xl"></i>
+            <a href="#inicio" class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-naranjaEnergy to-naranjaEnergy/60 border border-naranjaEnergy/40 flex items-center justify-center shadow-lg shadow-naranjaEnergy/20">
+                    <i class="ph-bold ph-wrench text-white text-xl"></i>
                 </div>
-                <h1 class="font-bruno text-xl tracking-wider">
-                    <span class="text-white">TSolutions</span><span class="text-aquaTurquesa glow-text-aqua">IPIDD</span>
-                </h1>
-            </div>
-            <nav class="hidden md:flex gap-8">
-                <a href="#inicio" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Inicio</a>
-                <a href="#modulos" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Módulos Smart</a>
-                <a href="#roadmap" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">El Roadmap</a>
-            </nav>
-            <a href="/demo.html" class="hidden md:flex items-center gap-2 bg-naranjaEnergy text-white px-5 py-2.5 rounded-full font-semibold text-sm btn-glow-energy">
-                <i class="ph-bold ph-play"></i>
-                Ver Demo
+                <div>
+                    <h1 class="font-bruno text-xl tracking-wider leading-none">
+                        <span class="text-white">TSolutions</span><span class="text-aquaTurquesa glow-text-aqua">IPIDD</span>
+                    </h1>
+                    <span class="text-[10px] uppercase tracking-widest text-gray-400 font-semibold block mt-0.5">Digitalización Ferretera 360°</span>
+                </div>
             </a>
+            
+            <nav class="hidden lg:flex gap-8">
+                <a href="#ecosistema" class="text-sm font-medium text-gray-300 hover:text-aquaTurquesa transition-colors">Ecosistema 360°</a>
+                <a href="#modulos" class="text-sm font-medium text-gray-300 hover:text-naranjaEnergy transition-colors">Módulos Smart</a>
+                <a href="#ferrebot" class="text-sm font-medium text-gray-300 hover:text-aquaTurquesa transition-colors">FerreBot IA</a>
+                <a href="#roadmap" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Roadmap 90 Días</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <a href="/demo.html" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 text-xs font-semibold text-gray-300 hover:text-white hover:bg-white/5 transition-all">
+                    <i class="ph-bold ph-desktop text-aquaTurquesa"></i> Demo Live
+                </a>
+                <button @click="openModal()" class="flex items-center gap-2 bg-naranjaEnergy text-white px-5 py-2.5 rounded-full font-bold text-sm btn-glow-energy cursor-pointer">
+                    <i class="ph-bold ph-calendar-plus"></i>
+                    Agendar Cita
+                </button>
+            </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- HERO SECTION (Gancho Comercial Principal) -->
     <section id="inicio" class="pt-40 pb-20 px-6 relative flex-1 flex flex-col justify-center items-center text-center">
-        <!-- Radial gradient highlight -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-naranjaEnergy/10 blur-[120px] rounded-full pointer-events-none -z-10"></div>
+        <!-- Radial gradient background -->
+        <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-naranjaEnergy/10 blur-[140px] rounded-full pointer-events-none -z-10"></div>
+        <div class="absolute top-1/2 left-1/3 w-[400px] h-[400px] bg-aquaTurquesa/10 blur-[120px] rounded-full pointer-events-none -z-10"></div>
 
-        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-aquaTurquesa/10 border border-aquaTurquesa/20 text-aquaTurquesa text-xs font-bold uppercase tracking-widest mb-8">
-            <span class="w-2 h-2 rounded-full bg-aquaTurquesa animate-pulse"></span>
-            Evolución para Ferreterías
+        <!-- Badge de Autoridad -->
+        <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-aquaTurquesa/10 border border-aquaTurquesa/30 text-aquaTurquesa text-xs font-extrabold uppercase tracking-widest mb-8 shadow-[0_0_15px_rgba(0,229,255,0.2)]">
+            <span class="w-2.5 h-2.5 rounded-full bg-aquaTurquesa animate-pulse"></span>
+            La Primera Plataforma Mexicana 360° para PyMES Ferreteras
         </div>
         
-        <h2 class="font-bruno text-5xl md:text-7xl leading-tight max-w-4xl mx-auto mb-8">
-            Transformación Digital en <span class="text-naranjaEnergy glow-text-energy block mt-2">90 Días</span>
+        <h2 class="font-bruno text-4xl sm:text-6xl md:text-7xl leading-tight max-w-5xl mx-auto mb-8 tracking-tight">
+            Transforma tu Ferretería en una <br class="hidden sm:inline">
+            <span class="text-naranjaEnergy glow-text-energy">Empresa Escalable</span> en 90 Días
         </h2>
         
-        <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 font-light">
-            Automatiza tu inventario, dispara tus ventas y revoluciona el servicio al cliente con nuestro ecosistema inteligente equipado con <strong>FerreBot IA</strong>.
+        <p class="text-lg md:text-2xl text-gray-300 max-w-3xl mx-auto mb-10 font-light leading-relaxed">
+            No vendemos software aislado. Entregamos el <strong class="text-white font-semibold">sistema completo</strong>: 
+            <span class="text-aquaTurquesa font-semibold">Operación Inteligente</span> + 
+            <span class="text-naranjaEnergy font-semibold">Identidad de Marca</span> + 
+            <span class="text-white font-semibold">Consultoría Estratégica</span> + 
+            <span class="text-aquaTurquesa font-semibold">FerreBot IA Personalizado</span>.
         </p>
 
-        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a href="/demo.html" class="flex items-center justify-center gap-3 bg-naranjaEnergy text-white px-8 py-4 rounded-full font-bold text-lg btn-glow-energy w-full sm:w-auto">
-                Explorar el Demo Interactivo
-                <i class="ph-bold ph-arrow-right"></i>
+        <!-- CTAs Principales -->
+        <div class="flex flex-col sm:flex-row gap-5 justify-center items-center w-full max-w-md mx-auto mb-16">
+            <button @click="openModal()" class="w-full sm:w-auto flex items-center justify-center gap-3 bg-naranjaEnergy text-white px-8 py-5 rounded-full font-extrabold text-lg btn-glow-energy cursor-pointer">
+                <i class="ph-bold ph-calendar-check text-2xl"></i>
+                Agendar Presentación Ejecutiva
+            </button>
+            <a href="/demo.html" class="w-full sm:w-auto flex items-center justify-center gap-3 bg-white/5 border border-white/10 text-white px-8 py-5 rounded-full font-semibold text-lg hover:bg-white/10 transition-all">
+                <i class="ph-bold ph-play-circle text-2xl text-aquaTurquesa"></i>
+                Explorar Demo
             </a>
-            <a href="#modulos" class="flex items-center justify-center gap-3 bg-white/5 border border-white/10 text-white px-8 py-4 rounded-full font-medium text-lg hover:bg-white/10 transition-colors w-full sm:w-auto">
-                Explorar Módulos
-                <i class="ph ph-caret-down"></i>
-            </a>
+        </div>
+
+        <!-- Indicadores de Confianza / Cupos Limitados -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto w-full pt-8 border-t border-white/10 text-left">
+            <div class="glass-panel p-4 rounded-2xl border-white/5">
+                <div class="text-3xl font-bruno text-naranjaEnergy mb-1">90 Días</div>
+                <div class="text-xs text-gray-400 font-medium uppercase tracking-wider">Implementación Llave en Mano</div>
+            </div>
+            <div class="glass-panel p-4 rounded-2xl border-white/5">
+                <div class="text-3xl font-bruno text-aquaTurquesa mb-1">Máx 4/Día</div>
+                <div class="text-xs text-gray-400 font-medium uppercase tracking-wider">Citas Ejecutivas Personalizadas</div>
+            </div>
+            <div class="glass-panel p-4 rounded-2xl border-white/5">
+                <div class="text-3xl font-bruno text-white mb-1">100%</div>
+                <div class="text-xs text-gray-400 font-medium uppercase tracking-wider">Control Inventarios & Cotejo</div>
+            </div>
+            <div class="glass-panel p-4 rounded-2xl border-white/5">
+                <div class="text-3xl font-bruno text-naranjaEnergy mb-1">FerreBot</div>
+                <div class="text-xs text-gray-400 font-medium uppercase tracking-wider">IA Entrenada con tu Catálogo</div>
+            </div>
         </div>
     </section>
 
-    <!-- Módulos Requeridos Section -->
-    <section id="modulos" class="py-24 px-6 relative border-t border-white/5 bg-negroProfundo">
+    <!-- SECCIÓN 2: ECOSISTEMA 360° (Los 3 Motores + Insight Relevante) -->
+    <section id="ecosistema" class="py-24 px-6 relative bg-midnightPanel border-t border-white/5">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-16">
-                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-naranjaEnergy/10 border border-naranjaEnergy/30 text-naranjaEnergy text-xs font-bold uppercase tracking-wider mb-4">
-                    <i class="ph-bold ph-cpu"></i> Arquitectura Modular
+                <span class="text-xs font-bold text-naranjaEnergy uppercase tracking-widest block mb-2">La Diferencia TSolutions IPIDD</span>
+                <h3 class="font-bruno text-3xl md:text-5xl text-white mb-6">No vendes piezas, vendes el sistema completo</h3>
+                <p class="text-gray-400 max-w-3xl mx-auto text-base md:text-lg">
+                    La mayoría de las agencias te venden un sitio web aislado y los proveedores de software solo una licencia. Nosotros unificamos <strong class="text-white">estrategia, identidad y tecnología</strong> en un solo motor operativo.
+                </p>
+            </div>
+
+            <!-- Los 3 Motores del Ecosistema -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                
+                <!-- Motor 1 -->
+                <div class="glass-panel p-8 rounded-3xl border-naranjaEnergy/20 hover:border-naranjaEnergy/50 transition-all duration-300 relative group">
+                    <div class="w-12 h-12 rounded-2xl bg-naranjaEnergy/10 border border-naranjaEnergy/30 flex items-center justify-center text-naranjaEnergy mb-6 group-hover:scale-110 transition-transform">
+                        <i class="ph-bold ph-gear text-2xl"></i>
+                    </div>
+                    <span class="text-xs font-bold text-naranjaEnergy uppercase tracking-widest">Motor 01 • El Motor Técnico</span>
+                    <h4 class="font-bruno text-2xl text-white mt-2 mb-4">Ferretería Smart</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Digitalización, automatización y eficiencia operativa real en cada rincón de tu ferretería.</p>
+                    <ul class="space-y-2.5 text-xs text-gray-300 border-t border-white/10 pt-4">
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-naranjaEnergy"></i> Inventarios optimizados y conteos cíclicos</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-naranjaEnergy"></i> Ventas, POS y Cotizaciones en 1 Clic</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-naranjaEnergy"></i> Logística y rastreo de envíos</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-naranjaEnergy"></i> Integración nativa con FerreBot IA</li>
+                    </ul>
                 </div>
-                <h3 class="font-bruno text-3xl md:text-5xl text-white mb-4">Estructura Base de Módulos</h3>
-                <p class="text-gray-400 max-w-2xl mx-auto text-base">Diseñado específicamente para cubrir cada necesidad operativa y estratégica de una ferretería moderna.</p>
+
+                <!-- Motor 2 -->
+                <div class="glass-panel p-8 rounded-3xl border-aquaTurquesa/20 hover:border-aquaTurquesa/50 transition-all duration-300 relative group">
+                    <div class="w-12 h-12 rounded-2xl bg-aquaTurquesa/10 border border-aquaTurquesa/30 flex items-center justify-center text-aquaTurquesa mb-6 group-hover:scale-110 transition-transform">
+                        <i class="ph-bold ph-palette text-2xl"></i>
+                    </div>
+                    <span class="text-xs font-bold text-aquaTurquesa uppercase tracking-widest">Motor 02 • El Motor de Percepción</span>
+                    <h4 class="font-bruno text-2xl text-white mt-2 mb-4">Brand Identity Building</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Construcción de marca sólida, diseño coherente y posicionamiento profesional frente a la competencia.</p>
+                    <ul class="space-y-2.5 text-xs text-gray-300 border-t border-white/10 pt-4">
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-aquaTurquesa"></i> Identidad visual y Branding de impacto</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-aquaTurquesa"></i> Experiencia de marca uniforme en tienda y digital</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-aquaTurquesa"></i> Generación de contenido visual premium</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-aquaTurquesa"></i> Diferenciación en mercados saturados</li>
+                    </ul>
+                </div>
+
+                <!-- Motor 3 -->
+                <div class="glass-panel p-8 rounded-3xl border-white/20 hover:border-white/40 transition-all duration-300 relative group">
+                    <div class="w-12 h-12 rounded-2xl bg-white/10 border border-white/30 flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform">
+                        <i class="ph-bold ph-chart-line-up text-2xl"></i>
+                    </div>
+                    <span class="text-xs font-bold text-gray-300 uppercase tracking-widest">Motor 03 • El Motor de Decisión</span>
+                    <h4 class="font-bruno text-2xl text-white mt-2 mb-4">Consultoría Estratégica</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Dirección ejecutiva, análisis de datos y acompañamiento constante para escalar tu modelo de negocio.</p>
+                    <ul class="space-y-2.5 text-xs text-gray-300 border-t border-white/10 pt-4">
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-white"></i> Estrategia empresarial personalizada</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-white"></i> Investigación de mercado y competencia</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-white"></i> Planes de expansión y rentabilidad</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-white"></i> Dirección continua durante todo el ciclo</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Insight Destacado (Caja de Impacto Comercial) -->
+            <div class="glass-panel p-8 md:p-12 rounded-3xl border-naranjaEnergy/40 bg-gradient-to-r from-naranjaEnergy/10 via-midnightPanel to-aquaTurquesa/10 relative overflow-hidden">
+                <div class="max-w-4xl mx-auto text-center relative z-10">
+                    <div class="inline-flex items-center gap-2 text-naranjaEnergy font-bold text-sm uppercase tracking-widest mb-4">
+                        <i class="ph-bold ph-lightning text-xl"></i> Insight Clave del Proyecto
+                    </div>
+                    <h4 class="font-bruno text-2xl md:text-4xl text-white mb-6 leading-tight">
+                        Democratizando las herramientas corporativas para la PyME Mexicana
+                    </h4>
+                    <p class="text-gray-300 text-base md:text-lg leading-relaxed font-light mb-8">
+                        Lo que estás a punto de implementar es la <strong>única solución mexicana</strong> que une consultoría ejecutiva + tecnología de punta + branding + contenido automatizado en un solo flujo. El mismo nivel operativo que usan las grandes cadenas internacionales, ahora adaptado al ritmo y necesidad de tu ferretería.
+                    </p>
+                    <button @click="openModal()" class="inline-flex items-center justify-center gap-3 bg-naranjaEnergy text-white px-8 py-4 rounded-full font-bold text-base btn-glow-energy cursor-pointer">
+                        <i class="ph-bold ph-user-check"></i>
+                        Agendar Sesión con Javier Gallardo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN 3: MÓDULOS REQUERIDOS & FERREBOT IA -->
+    <section id="modulos" class="py-24 px-6 relative bg-negroProfundo border-t border-white/5">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs font-bold text-aquaTurquesa uppercase tracking-widest block mb-2">Módulos Automatizados</span>
+                <h3 class="font-bruno text-3xl md:text-5xl text-white mb-4">Estructura Operativa Smart</h3>
+                <p class="text-gray-400 max-w-2xl mx-auto text-base">Módulos especializados que resuelven los problemas reales del mostrador y almacén ferretero.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 
-                <!-- Módulo 1: Control de Inventario y Almacén -->
+                <!-- Módulo 1 -->
                 <div class="glass-panel p-8 rounded-3xl border-white/10 hover:border-naranjaEnergy/40 transition-all duration-300 group hover:-translate-y-1">
                     <div class="w-14 h-14 rounded-2xl bg-naranjaEnergy/10 border border-naranjaEnergy/30 flex items-center justify-center text-naranjaEnergy mb-6 group-hover:scale-110 transition-transform">
                         <i class="ph-bold ph-package text-3xl"></i>
                     </div>
                     <span class="text-xs font-bold text-naranjaEnergy uppercase tracking-widest">Módulo 01</span>
                     <h4 class="font-bruno text-2xl text-white mt-1 mb-4">Smart Stock & Almacén</h4>
-                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Gestión de SKUs complejos, conteos cíclicos automatizados y prevención de périda.</p>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Control de inventario sin errores humanos, clasificación y auditorías continuas.</p>
                     <ul class="space-y-3 text-sm text-gray-300 border-t border-white/10 pt-4">
-                        <li class="flex items-center gap-2">
-                            <i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
-                            <span>Conteos Cíclicos por clasificación ABC/XYZ</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
-                            <span>Control de Scrap, Mermas y Desecho</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
-                            <span>Alertas de Stock Mínimo y Reorden</span>
-                        </li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i> Conteos Cíclicos clasificación ABC/XYZ</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i> Control estricto de Scrap y Mermas</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i> Alertas de Stock Mínimo y Reorden</li>
                     </ul>
                 </div>
 
-                <!-- Módulo 2: Ventas, Cotizaciones y POS -->
+                <!-- Módulo 2 -->
                 <div class="glass-panel p-8 rounded-3xl border-white/10 hover:border-aquaTurquesa/40 transition-all duration-300 group hover:-translate-y-1">
                     <div class="w-14 h-14 rounded-2xl bg-aquaTurquesa/10 border border-aquaTurquesa/30 flex items-center justify-center text-aquaTurquesa mb-6 group-hover:scale-110 transition-transform">
                         <i class="ph-bold ph-shopping-cart-simple text-3xl"></i>
                     </div>
                     <span class="text-xs font-bold text-aquaTurquesa uppercase tracking-widest">Módulo 02</span>
                     <h4 class="font-bruno text-2xl text-white mt-1 mb-4">Ventas & Cotizador POS</h4>
-                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Facturación ágil de mostrador y emisión instantánea de presupuestos comerciales.</p>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Punto de venta ultra rápido de mostrador y presupuestos inmediatos.</p>
                     <ul class="space-y-3 text-sm text-gray-300 border-t border-white/10 pt-4">
-                        <li class="flex items-center gap-2">
-                            <i class="ph-bold ph-check-circle text-aquaTurquesa"></i>
-                            <span>POS ultrarrápido + Código de barras</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <i class="ph-bold ph-check-circle text-aquaTurquesa"></i>
-                            <span>Cotización a Pedido/Factura en 1 Clic</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <i class="ph-bold ph-check-circle text-aquaTurquesa"></i>
-                            <span>Envío directo por WhatsApp y Email</span>
-                        </li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-aquaTurquesa"></i> POS ultrarrápido + Código de barras</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-aquaTurquesa"></i> Cotización a Pedido/Factura en 1 Clic</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-aquaTurquesa"></i> Envío directo por WhatsApp y Email</li>
                     </ul>
                 </div>
 
-                <!-- Módulo 3: Compras, Cotejo & Archivo -->
+                <!-- Módulo 3 -->
                 <div class="glass-panel p-8 rounded-3xl border-white/10 hover:border-naranjaEnergy/40 transition-all duration-300 group hover:-translate-y-1">
                     <div class="w-14 h-14 rounded-2xl bg-naranjaEnergy/10 border border-naranjaEnergy/30 flex items-center justify-center text-naranjaEnergy mb-6 group-hover:scale-110 transition-transform">
                         <i class="ph-bold ph-receipt text-3xl"></i>
                     </div>
                     <span class="text-xs font-bold text-naranjaEnergy uppercase tracking-widest">Módulo 03</span>
                     <h4 class="font-bruno text-2xl text-white mt-1 mb-4">Compras & Cotejo 3-Way</h4>
-                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Auditoría automatizada de facturas contra recepciones de mercancía y órdenes de compra.</p>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Auditoría automática de facturas contra recepciones de mercancía y órdenes.</p>
                     <ul class="space-y-3 text-sm text-gray-300 border-t border-white/10 pt-4">
-                        <li class="flex items-center gap-2">
-                            <i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
-                            <span>Cotejo automático (OC vs Guía vs Factura)</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
-                            <span>Archivo digital indexado de expedientes</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
-                            <span>Órdenes de Compra sugeridas por Lead Time</span>
-                        </li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i> Cotejo automático (OC vs Guía vs Factura)</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i> Expediente digital único de proveedores</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i> Sugerencia de compras según Lead Time</li>
                     </ul>
                 </div>
 
-                <!-- Módulo 4: Logística y Envíos -->
+                <!-- Módulo 4 -->
                 <div class="glass-panel p-8 rounded-3xl border-white/10 hover:border-aquaTurquesa/40 transition-all duration-300 group hover:-translate-y-1">
                     <div class="w-14 h-14 rounded-2xl bg-aquaTurquesa/10 border border-aquaTurquesa/30 flex items-center justify-center text-aquaTurquesa mb-6 group-hover:scale-110 transition-transform">
-                        <i class="ph-bold ph-truck text-3xl"></i>
-                    </div>
-                    <span class="text-xs font-bold text-aquaTurquesa uppercase tracking-widest">Módulo 04</span>
-                    <h4 class="font-bruno text-2xl text-white mt-1 mb-4">Logística & Despachos</h4>
-                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Planificación inteligente de entregas para materiales pesados y distribución local.</p>
-                    <ul class="space-y-3 text-sm text-gray-300 border-t border-white/10 pt-4">
-                        <li class="flex items-center gap-2">
-                            <i class="ph-bold ph-check-circle text-aquaTurquesa"></i>
-                            <span>Optimización de rutas por zonas</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <i class="ph-bold ph-check-circle text-aquaTurquesa"></i>
-                            <span>Reserva automática de inventario</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <i class="ph-bold ph-check-circle text-aquaTurquesa"></i>
-                            <span>Seguimiento de envío en tiempo real</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Módulo 5: Facturación Automática -->
-                <div class="glass-panel p-8 rounded-3xl border-white/10 hover:border-naranjaEnergy/40 transition-all duration-300 group hover:-translate-y-1">
-                    <div class="w-14 h-14 rounded-2xl bg-naranjaEnergy/10 border border-naranjaEnergy/30 flex items-center justify-center text-naranjaEnergy mb-6 group-hover:scale-110 transition-transform">
                         <i class="ph-bold ph-file-cloud text-3xl"></i>
                     </div>
-                    <span class="text-xs font-bold text-naranjaEnergy uppercase tracking-widest">Módulo 05</span>
+                    <span class="text-xs font-bold text-aquaTurquesa uppercase tracking-widest">Módulo 04</span>
                     <h4 class="font-bruno text-2xl text-white mt-1 mb-4">Facturación Automática</h4>
-                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Emisión y timbrado fiscal instantáneo al cerrar ventas o procesar cobros programados.</p>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Timbrado fiscal automático y portal de autofacturación inmediata para clientes.</p>
                     <ul class="space-y-3 text-sm text-gray-300 border-t border-white/10 pt-4">
-                        <li class="flex items-center gap-2">
-                            <i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
-                            <span>Timbrado/Sellado Fiscal Inmediato</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
-                            <span>Portal de Auto-Facturación con Código QR</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
-                            <span>Despacho automático de XML + PDF</span>
-                        </li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-aquaTurquesa"></i> Timbrado/Sellado fiscal al instante</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-aquaTurquesa"></i> Auto-Facturación por código QR</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-aquaTurquesa"></i> Despacho automático de XML + PDF</li>
                     </ul>
                 </div>
 
-                <!-- Módulo 6: Ecosistema FerreBot IA -->
-                <div class="glass-panel p-8 rounded-3xl border-aquaTurquesa/30 hover:border-aquaTurquesa/60 transition-all duration-300 group hover:-translate-y-1 md:col-span-2 lg:col-span-2 relative overflow-hidden">
-                    <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-aquaTurquesa/10 rounded-full blur-3xl pointer-events-none"></div>
-                    
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="w-14 h-14 rounded-2xl bg-aquaTurquesa text-negroProfundo flex items-center justify-center font-bold shadow-[0_0_20px_rgba(0,229,255,0.4)]">
-                            <i class="ph-bold ph-sparkle text-3xl"></i>
+                <!-- Módulo 5 -->
+                <div class="glass-panel p-8 rounded-3xl border-white/10 hover:border-naranjaEnergy/40 transition-all duration-300 group hover:-translate-y-1">
+                    <div class="w-14 h-14 rounded-2xl bg-naranjaEnergy/10 border border-naranjaEnergy/30 flex items-center justify-center text-naranjaEnergy mb-6 group-hover:scale-110 transition-transform">
+                        <i class="ph-bold ph-truck text-3xl"></i>
+                    </div>
+                    <span class="text-xs font-bold text-naranjaEnergy uppercase tracking-widest">Módulo 05</span>
+                    <h4 class="font-bruno text-2xl text-white mt-1 mb-4">Logística & Despachos</h4>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Optimización de entregas para materiales pesados y distribución local.</p>
+                    <ul class="space-y-3 text-sm text-gray-300 border-t border-white/10 pt-4">
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i> Agrupación de rutas por zona</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i> Reserva automática de inventario</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i> Rastreo de guías en tiempo real</li>
+                    </ul>
+                </div>
+
+                <!-- FERREBOT IA DESTACADO -->
+                <div id="ferrebot" class="glass-panel p-8 rounded-3xl border-aquaTurquesa/40 bg-gradient-to-br from-aquaTurquesa/10 via-midnightPanel to-negroProfundo hover:border-aquaTurquesa/80 transition-all duration-300 relative overflow-hidden group">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-aquaTurquesa text-negroProfundo flex items-center justify-center font-bold shadow-[0_0_15px_rgba(0,229,255,0.4)]">
+                            <i class="ph-bold ph-robot text-2xl"></i>
                         </div>
                         <div>
-                            <span class="text-xs font-bold text-aquaTurquesa uppercase tracking-widest">Módulo 06 (Core IA)</span>
-                            <h4 class="font-bruno text-2xl text-white">Ecosistema FerreBot IA</h4>
+                            <span class="text-xs font-bold text-aquaTurquesa uppercase tracking-widest">Módulo Estrella</span>
+                            <h4 class="font-bruno text-2xl text-white">FerreBot IA Personalizado</h4>
                         </div>
                     </div>
-
-                    <p class="text-gray-300 text-sm mb-6 leading-relaxed max-w-2xl">
-                        Capacidades avanzadas de Visión Artificial y Procesamiento de Lenguaje Natural diseñadas para acelerar la identificación de repuestos y automatizar la administración.
+                    <p class="text-gray-300 text-sm mb-6 leading-relaxed">
+                        Entrenamos un modelo de IA exclusivo con el catálogo de tu ferretería para atender clientes, resolver dudas técnicas e identificar tornillería por foto.
                     </p>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-white/10 pt-6">
-                        <div class="p-4 rounded-2xl bg-white/5 border border-white/5">
-                            <i class="ph-bold ph-camera text-naranjaEnergy text-2xl mb-2"></i>
-                            <h5 class="font-bold text-white text-sm mb-1">Reconocimiento Visual</h5>
-                            <p class="text-xs text-gray-400">Toma fotos de tornillos o piezas físicas para identificar su SKU exacto.</p>
-                        </div>
-                        <div class="p-4 rounded-2xl bg-white/5 border border-white/5">
-                            <i class="ph-bold ph-file-search text-aquaTurquesa text-2xl mb-2"></i>
-                            <h5 class="font-bold text-white text-sm mb-1">OCR Facturas & Matching</h5>
-                            <p class="text-xs text-gray-400">Extrae datos de PDFs de proveedores y los coteja automáticamente.</p>
-                        </div>
-                        <div class="p-4 rounded-2xl bg-white/5 border border-white/5">
-                            <i class="ph-bold ph-trend-up text-naranjaEnergy text-2xl mb-2"></i>
-                            <h5 class="font-bold text-white text-sm mb-1">Predicción de Demanda</h5>
-                            <p class="text-xs text-gray-400">Forecast automatizado para anticiparse a compras estacionales.</p>
-                        </div>
-                    </div>
+                    <ul class="space-y-3 text-sm text-gray-300 border-t border-white/10 pt-4">
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-sparkle text-aquaTurquesa"></i> Buscador por cámara de fotos (Tornillos/Piezas)</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-sparkle text-aquaTurquesa"></i> OCR inteligente para extraer facturas PDF</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-sparkle text-aquaTurquesa"></i> Asistente de ventas WhatsApp 24/7</li>
+                    </ul>
                 </div>
 
             </div>
         </div>
     </section>
 
-    <!-- Roadmap Section -->
+    <!-- SECCIÓN 4: ROADMAP EN 90 DÍAS -->
     <section id="roadmap" class="py-24 px-6 bg-midnightPanel relative border-t border-white/5">
         <div class="max-w-5xl mx-auto">
             <div class="text-center mb-16">
-                <h3 class="font-bruno text-3xl md:text-4xl text-white mb-4">El Camino al Éxito</h3>
-                <p class="text-gray-400 max-w-2xl mx-auto">Implementamos la tecnología por fases para asegurar una transición suave y resultados medibles desde el primer mes.</p>
+                <span class="text-xs font-bold text-naranjaEnergy uppercase tracking-widest block mb-2">Metodología Comprobada</span>
+                <h3 class="font-bruno text-3xl md:text-4xl text-white mb-4">El Roadmap de Implementación (90 Días)</h3>
+                <p class="text-gray-400 max-w-2xl mx-auto">Un proceso por fases diseñado para no interrumpir tu operación diaria mientras modernizas el negocio.</p>
             </div>
 
             <div class="relative space-y-12 before:absolute before:inset-0 before:ml-[1.75rem] md:before:mx-auto md:before:translate-x-0 before:w-0.5 before:h-full before:bg-gradient-to-b before:from-naranjaEnergy before:via-aquaTurquesa before:to-white/10">
@@ -345,9 +432,9 @@
                         <i class="ph-bold ph-package text-2xl"></i>
                     </div>
                     <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl glass-panel border-naranjaEnergy/20 transition-transform hover:-translate-y-1">
-                        <div class="text-naranjaEnergy text-sm font-bold uppercase tracking-wider mb-2">Fase 1 (Día 1-30)</div>
-                        <h4 class="font-bold text-xl text-white mb-3">Fundamentos e Inventario</h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">Implementación del sistema central, migración del catálogo de productos, control de stock y capacitación inicial del personal.</p>
+                        <div class="text-naranjaEnergy text-sm font-bold uppercase tracking-wider mb-2">Mes 1 (Día 1-30)</div>
+                        <h4 class="font-bold text-xl text-white mb-3">Fundamentos, Inventario & Brand Identity</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">Migración de catálogo SKUs, conteos cíclicos iniciales, definición de la identidad visual de marca y configuración del POS.</p>
                     </div>
                 </div>
 
@@ -357,21 +444,21 @@
                         <i class="ph-bold ph-robot text-2xl"></i>
                     </div>
                     <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl glass-panel border-aquaTurquesa/20 transition-transform hover:-translate-y-1">
-                        <div class="text-aquaTurquesa text-sm font-bold uppercase tracking-wider mb-2">Fase 2 (Día 31-60)</div>
-                        <h4 class="font-bold text-xl text-white mb-3">Integración FerreBot IA</h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">Despliegue del asistente virtual con Inteligencia Artificial para consultas automáticas, alertas de reabastecimiento y atención.</p>
+                        <div class="text-aquaTurquesa text-sm font-bold uppercase tracking-wider mb-2">Mes 2 (Día 31-60)</div>
+                        <h4 class="font-bold text-xl text-white mb-3">Integración FerreBot IA & Facturación</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">Entrenamiento del Bot con tu catálogo, despliegue del buscador por foto, cotejo 3-way de facturas y timbrado automático.</p>
                     </div>
                 </div>
 
                 <!-- Fase 3 -->
                 <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-                    <div class="flex items-center justify-center w-14 h-14 rounded-full border-4 border-negroProfundo bg-white/20 text-white shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                    <div class="flex items-center justify-center w-14 h-14 rounded-full border-4 border-negroProfundo bg-white text-negroProfundo shadow-[0_0_15px_rgba(255,255,255,0.5)] shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
                         <i class="ph-bold ph-chart-bar text-2xl"></i>
                     </div>
-                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl glass-panel opacity-60 hover:opacity-100 transition-opacity border-white/10">
-                        <div class="text-gray-400 text-sm font-bold uppercase tracking-wider mb-2">Fase 3 (Día 61-90)</div>
-                        <h4 class="font-bold text-xl text-white mb-3">Dashboard Analítico Completo</h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">Activación del panel de control ejecutivo en tiempo real, integración con aplicación móvil y ajustes finales de escalabilidad.</p>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl glass-panel border-white/20 transition-transform hover:-translate-y-1">
+                        <div class="text-gray-300 text-sm font-bold uppercase tracking-wider mb-2">Mes 3 (Día 61-90)</div>
+                        <h4 class="font-bold text-xl text-white mb-3">Consultoría Estratégica & Despliegue Total</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">Activación del Dashboard ejecutivo, optimización de logística de envíos y plan de expansión estratégica continua.</p>
                     </div>
                 </div>
 
@@ -379,22 +466,289 @@
         </div>
     </section>
 
-    <!-- Call to Action -->
-    <section class="py-20 px-6 bg-negroProfundo relative border-t border-white/5 overflow-hidden">
-        <div class="absolute inset-0 bg-naranjaEnergy/5 opacity-50"></div>
-        <div class="max-w-4xl mx-auto text-center relative z-10">
-            <h3 class="font-bruno text-3xl md:text-5xl text-white mb-8">¿Listo para modernizar tu negocio?</h3>
-            <a href="/demo.html" class="inline-flex items-center justify-center gap-3 bg-aquaTurquesa text-negroProfundo px-10 py-5 rounded-full font-bold text-lg shadow-[0_0_20px_rgba(0,229,255,0.4)] hover:shadow-[0_0_30px_rgba(0,229,255,0.6)] hover:scale-105 transition-all">
-                <i class="ph-bold ph-desktop"></i>
-                Probar Demo de la Plataforma
-            </a>
+    <!-- CALL TO ACTION FINAL -->
+    <section class="py-24 px-6 bg-negroProfundo relative border-t border-white/5 overflow-hidden text-center">
+        <div class="absolute inset-0 bg-gradient-to-r from-naranjaEnergy/10 via-transparent to-aquaTurquesa/10"></div>
+        <div class="max-w-4xl mx-auto relative z-10">
+            <span class="text-xs font-bold text-naranjaEnergy uppercase tracking-widest block mb-4">Agenda Abierta • Cupo Limitado (4 Citas / Día)</span>
+            <h3 class="font-bruno text-3xl md:text-5xl text-white mb-6">¿Listo para transformar tu Ferretería?</h3>
+            <p class="text-gray-300 text-lg max-w-2xl mx-auto mb-10 font-light">
+                Solicita tu sesión personalizada con <strong>Javier Gallardo</strong>. Analizaremos tu operación actual y te mostraremos la arquitectura exacta para digitalizar tu negocio en 90 días.
+            </p>
+            <button @click="openModal()" class="inline-flex items-center justify-center gap-3 bg-naranjaEnergy text-white px-10 py-5 rounded-full font-extrabold text-xl btn-glow-energy cursor-pointer">
+                <i class="ph-bold ph-calendar-check text-2xl"></i>
+                Reservar Cita Ejecutiva Ahora
+            </button>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="py-8 border-t border-white/10 bg-deepGrid text-center px-6">
-        <p class="text-gray-500 text-sm font-medium">© 2026 TSolutions IPIDD. Todos los derechos reservados.</p>
+    <!-- FOOTER -->
+    <footer class="py-12 border-t border-white/10 bg-deepGrid text-center px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-naranjaEnergy flex items-center justify-center text-white">
+                    <i class="ph-bold ph-wrench"></i>
+                </div>
+                <span class="font-bruno text-lg text-white">TSolutions <span class="text-aquaTurquesa">IPIDD</span></span>
+            </div>
+            <p class="text-gray-400 text-sm font-medium">
+                Contacto Ejecutivo: <a href="mailto:javier.gallardo@tsolutionsipidd.com" class="text-naranjaEnergy hover:underline">javier.gallardo@tsolutionsipidd.com</a>
+            </p>
+            <p class="text-gray-500 text-xs">© 2026 TSolutions IPIDD. Plataforma 360° para PyMES.</p>
+        </div>
     </footer>
 
+    <!-- MODAL DE AGENDA DE CITAS (Javier Gallardo) -->
+    <div x-show="modalOpen" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-negroProfundo/80 backdrop-blur-md overflow-y-auto"
+         style="display: none;">
+        
+        <div class="relative w-full max-w-2xl bg-midnightPanel border border-white/15 rounded-3xl p-6 md:p-8 shadow-2xl my-8 text-left"
+             @click.outside="modalOpen = false">
+            
+            <!-- Botón Cerrar -->
+            <button @click="modalOpen = false" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl">
+                <i class="ph-bold ph-x"></i>
+            </button>
+
+            <!-- Encabezado del Modal -->
+            <div class="mb-6 border-b border-white/10 pb-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-naranjaEnergy/10 text-naranjaEnergy text-xs font-bold uppercase tracking-wider mb-2">
+                    <i class="ph-bold ph-calendar"></i> Citas de 1 Hora • Máx 4 por día
+                </div>
+                <h3 class="font-bruno text-2xl md:text-3xl text-white">Agendar Presentación Ejecutiva</h3>
+                <p class="text-gray-400 text-sm mt-1">Con <strong class="text-white">Javier Gallardo</strong> (Director de Consultoría & Tecnología)</p>
+            </div>
+
+            <!-- Formulario de Agenda -->
+            <div x-show="!submitted">
+                <form @submit.prevent="submitBooking()" class="space-y-4">
+                    
+                    <!-- 1. Modalidad (Zoom vs Presencial) -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Modalidad de la Cita</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button type="button" 
+                                    @click="modalidad = 'zoom'"
+                                    :class="modalidad === 'zoom' ? 'bg-aquaTurquesa/20 border-aquaTurquesa text-aquaTurquesa font-bold' : 'bg-white/5 border-white/10 text-gray-400'"
+                                    class="flex items-center justify-center gap-2 p-3 rounded-2xl border text-sm transition-all cursor-pointer">
+                                <i class="ph-bold ph-video-camera text-lg"></i>
+                                <span>Vía Zoom (Virtual)</span>
+                            </button>
+                            <button type="button" 
+                                    @click="modalidad = 'presencial'"
+                                    :class="modalidad === 'presencial' ? 'bg-naranjaEnergy/20 border-naranjaEnergy text-naranjaEnergy font-bold' : 'bg-white/5 border-white/10 text-gray-400'"
+                                    class="flex items-center justify-center gap-2 p-3 rounded-2xl border text-sm transition-all cursor-pointer">
+                                <i class="ph-bold ph-buildings text-lg"></i>
+                                <span>Presencial (Oficina)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 2. Selección de Fecha -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1">Selecciona la Fecha</label>
+                        <input type="date" 
+                               x-model="fecha" 
+                               :min="minDate"
+                               @change="checkSlotAvailability()"
+                               required
+                               class="w-full bg-negroProfundo border border-white/10 rounded-2xl px-4 py-3 text-white focus:outline-none focus:border-aquaTurquesa text-sm">
+                        
+                        <div x-show="dayFull" class="text-red-400 text-xs mt-1 font-semibold flex items-center gap-1">
+                            <i class="ph-bold ph-warning-circle"></i> Esta fecha ya tiene las 4 citas máximas ocupadas. Por favor elige otro día.
+                        </div>
+                    </div>
+
+                    <!-- 3. Horarios Disponibles (10 am a 4 pm con 1 hr de diferencia) -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">
+                            Horario Disponible (10:00 AM - 4:00 PM) 
+                            <span class="text-gray-400 font-normal lowercase">(Citas asignadas: <span x-text="getBookedCount(fecha)"></span>/4)</span>
+                        </label>
+                        
+                        <div class="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                            <template x-for="timeSlot in availableTimeSlots" :key="timeSlot">
+                                <button type="button"
+                                        @click="hora = timeSlot"
+                                        :disabled="isSlotBooked(fecha, timeSlot) || dayFull"
+                                        :class="hora === timeSlot ? 'bg-naranjaEnergy text-white border-naranjaEnergy font-bold' : (isSlotBooked(fecha, timeSlot) ? 'bg-white/5 text-gray-600 border-white/5 cursor-not-allowed line-through' : 'bg-white/5 border-white/10 text-gray-300 hover:border-white/30')"
+                                        class="p-2.5 rounded-xl border text-xs text-center transition-all cursor-pointer">
+                                    <span x-text="timeSlot"></span>
+                                </button>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- 4. Datos del Lead -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-white/10 pt-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-1">Nombre Completo *</label>
+                            <input type="text" x-model="nombre" required placeholder="Ej. Carlos Mendoza" class="w-full bg-negroProfundo border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-naranjaEnergy">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-1">Ferretería / Empresa *</label>
+                            <input type="text" x-model="empresa" required placeholder="Ej. Ferretería El Candado" class="w-full bg-negroProfundo border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-naranjaEnergy">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-1">Correo Electrónico *</label>
+                            <input type="email" x-model="email" required placeholder="ejemplo@dominio.com" class="w-full bg-negroProfundo border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-naranjaEnergy">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-1">Teléfono / WhatsApp *</label>
+                            <input type="tel" x-model="telefono" required placeholder="+52 55 1234 5678" class="w-full bg-negroProfundo border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-naranjaEnergy">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-300 mb-1">¿Algún objetivo o duda en particular?</label>
+                        <textarea x-model="comentarios" rows="2" placeholder="Comentarios breves sobre el estado actual de tu ferretería..." class="w-full bg-negroProfundo border border-white/10 rounded-xl px-4 py-2 text-white text-sm focus:outline-none focus:border-naranjaEnergy"></textarea>
+                    </div>
+
+                    <!-- Botón Enviar -->
+                    <button type="submit" 
+                            :disabled="!fecha || !hora || dayFull"
+                            class="w-full py-4 rounded-full bg-naranjaEnergy text-white font-extrabold text-base btn-glow-energy transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                        Confirmar y Enviar Alerta a Javier Gallardo
+                    </button>
+                    
+                    <p class="text-[11px] text-gray-500 text-center">
+                        🔒 Notificación automática enviada a: <span class="text-gray-300">javier.gallardo@tsolutionsipidd.com</span>
+                    </p>
+                </form>
+            </div>
+
+            <!-- Mensaje de Confirmación Exitosa -->
+            <div x-show="submitted" class="text-center py-8 space-y-4">
+                <div class="w-16 h-16 rounded-full bg-aquaTurquesa/20 border border-aquaTurquesa text-aquaTurquesa flex items-center justify-center text-3xl mx-auto shadow-[0_0_20px_rgba(0,229,255,0.4)]">
+                    <i class="ph-bold ph-check-circle"></i>
+                </div>
+                
+                <h4 class="font-bruno text-2xl text-white">¡Cita Agendada con Éxito!</h4>
+                
+                <div class="glass-panel p-6 rounded-2xl border-white/10 text-left max-w-lg mx-auto text-sm space-y-2">
+                    <p class="text-gray-300"><strong class="text-white">Cliente:</strong> <span x-text="nombre"></span> (<span x-text="empresa"></span>)</p>
+                    <p class="text-gray-300"><strong class="text-white">Fecha & Hora:</strong> <span x-text="fecha"></span> a las <span x-text="hora"></span></p>
+                    <p class="text-gray-300"><strong class="text-white">Modalidad:</strong> <span class="uppercase text-aquaTurquesa font-semibold" x-text="modalidad"></span></p>
+                    <p class="text-gray-300"><strong class="text-white">Notificación enviada a:</strong> javier.gallardo@tsolutionsipidd.com</p>
+                </div>
+
+                <p class="text-xs text-gray-400 max-w-md mx-auto leading-relaxed">
+                    Hemos registrado tu solicitud en el sistema de TSolutions IPIDD. Javier Gallardo revisará la información y te enviará la liga de Zoom o confirmación presencial a tu correo.
+                </p>
+
+                <button @click="resetForm()" class="px-8 py-3 rounded-full bg-white/10 text-white font-bold text-sm hover:bg-white/20 transition-all cursor-pointer">
+                    Cerrar y Volver al Sitio
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SCRIPT DE LÓGICA DE AGENDA (AlpineJS Component) -->
+    <script>
+        function agendaApp() {
+            return {
+                modalOpen: false,
+                modalidad: 'zoom',
+                fecha: new Date().toISOString().split('T')[0],
+                minDate: new Date().toISOString().split('T')[0],
+                hora: '10:00 AM',
+                nombre: '',
+                empresa: '',
+                email: '',
+                telefono: '',
+                comentarios: '',
+                submitted: false,
+                dayFull: false,
+                
+                // Horarios fijos de 10 am a 4 pm con 1 hora de diferencia
+                availableTimeSlots: [
+                    '10:00 AM',
+                    '11:00 AM',
+                    '12:00 PM',
+                    '01:00 PM',
+                    '02:00 PM',
+                    '03:00 PM',
+                    '04:00 PM'
+                ],
+
+                // Sistema de reservas guardadas en localStorage
+                bookedDatabase: JSON.parse(localStorage.getItem('tsolutions_citas_db') || '{}'),
+
+                openModal() {
+                    this.modalOpen = true;
+                    this.submitted = false;
+                    this.checkSlotAvailability();
+                },
+
+                getBookedCount(dateStr) {
+                    if (!dateStr || !this.bookedDatabase[dateStr]) return 0;
+                    return this.bookedDatabase[dateStr].length;
+                },
+
+                isSlotBooked(dateStr, timeSlot) {
+                    if (!dateStr || !this.bookedDatabase[dateStr]) return false;
+                    return this.bookedDatabase[dateStr].includes(timeSlot);
+                },
+
+                checkSlotAvailability() {
+                    const bookedCount = this.getBookedCount(this.fecha);
+                    // Regla: Máximo 4 citas por día
+                    if (bookedCount >= 4) {
+                        this.dayFull = true;
+                        this.hora = '';
+                    } else {
+                        this.dayFull = false;
+                        // Seleccionar el primer slot disponible
+                        const unbooked = this.availableTimeSlots.find(slot => !this.isSlotBooked(this.fecha, slot));
+                        this.hora = unbooked || '';
+                    }
+                },
+
+                submitBooking() {
+                    if (this.dayFull || !this.fecha || !this.hora) return;
+
+                    // 1. Guardar cita en localStorage
+                    if (!this.bookedDatabase[this.fecha]) {
+                        this.bookedDatabase[this.fecha] = [];
+                    }
+                    this.bookedDatabase[this.fecha].push(this.hora);
+                    localStorage.setItem('tsolutions_citas_db', JSON.stringify(this.bookedDatabase));
+
+                    // 2. Simular envío de notificación / alerta por correo a javier.gallardo@tsolutionsipidd.com
+                    console.log("ALERTA ENVIADA A: javier.gallardo@tsolutionsipidd.com", {
+                        destinatario: "javier.gallardo@tsolutionsipidd.com",
+                        cliente: this.nombre,
+                        empresa: this.empresa,
+                        email: this.email,
+                        telefono: this.telefono,
+                        fecha: this.fecha,
+                        hora: this.hora,
+                        modalidad: this.modalidad,
+                        comentarios: this.comentarios
+                    });
+
+                    this.submitted = true;
+                },
+
+                resetForm() {
+                    this.modalOpen = false;
+                    this.submitted = false;
+                    this.nombre = '';
+                    this.empresa = '';
+                    this.email = '';
+                    this.telefono = '';
+                    this.comentarios = '';
+                }
+            }
+        }
+    </script>
 </body>
 </html>
