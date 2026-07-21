@@ -69,15 +69,6 @@
         .glow-text {
             text-shadow: 0 0 15px rgba(224, 122, 47, 0.5);
         }
-
-        @keyframes ctaPulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.6); }
-            70% { transform: scale(1.04); box-shadow: 0 0 0 12px rgba(249, 115, 22, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
-        }
-        .pulsing-orange-cta {
-            animation: ctaPulse 2s infinite;
-        }
     </style>
 </head>
 <body class="font-sans antialiased h-screen overflow-hidden flex" x-data="demoApp()">
@@ -105,7 +96,7 @@
             </div>
         </div>
         
-        <!-- Navegación por Pantallas Demo (Totalmente activados) -->
+        <!-- Navegación por Pantallas Demo -->
         <nav class="flex-1 py-6 px-4 space-y-1.5 overflow-y-auto custom-scrollbar">
             
             <!-- Dashboard -->
@@ -221,28 +212,8 @@
         <!-- VISTAS INTERACTIVAS SEGÚN LA PESTAÑA SELECCIONADA -->
         <div class="p-6 lg:p-10 pb-32 flex-1 space-y-8">
 
-            <!--persistent floating pulsing button on bottom right of the main content area (alternative for visual clarity)-->
-            <div class="fixed bottom-24 right-8 z-30">
-                <button @click="openModal()" class="pulsing-orange-cta bg-naranjaEnergy text-white font-extrabold px-6 py-4 rounded-full text-sm shadow-xl flex items-center gap-2 hover:bg-orange-500 transition-transform hover:scale-105 cursor-pointer">
-                    <i class="ph-bold ph-calendar-plus text-xl animate-bounce"></i>
-                    Agenda tu cita hoy
-                </button>
-            </div>
-
             <!-- PESTAÑA 1: DASHBOARD GENERAL -->
             <div x-show="currentTab === 'dashboard'" class="space-y-6">
-                <!-- Banner CTA dentro de la pantalla -->
-                <div class="flex flex-col sm:flex-row justify-between items-center bg-naranjaEnergy/10 border border-naranjaEnergy/30 p-4 rounded-xl gap-4">
-                    <div class="text-left">
-                        <h4 class="font-bold text-white text-sm">¿Deseas implementar esta solución en tu empresa?</h4>
-                        <p class="text-xs text-gray-400">Analicemos tu operación y diseñemos tu ecosistema personalizado.</p>
-                    </div>
-                    <button @click="openModal()" class="bg-naranjaEnergy text-white font-bold px-6 py-2.5 rounded-lg text-xs hover:bg-orange-500 transition-all flex items-center gap-2 cursor-pointer shadow-lg">
-                        <i class="ph-bold ph-calendar-plus text-sm"></i>
-                        Agenda tu cita hoy
-                    </button>
-                </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
                         <div class="flex items-center gap-3 mb-2">
@@ -312,18 +283,6 @@
 
             <!-- PESTAÑA 2: INVENTARIO & STOCK -->
             <div x-show="currentTab === 'inventario'" class="space-y-6">
-                <!-- Banner CTA dentro de la pantalla -->
-                <div class="flex flex-col sm:flex-row justify-between items-center bg-naranjaEnergy/10 border border-naranjaEnergy/30 p-4 rounded-xl gap-4">
-                    <div class="text-left">
-                        <h4 class="font-bold text-white text-sm">¿Deseas implementar esta solución en tu empresa?</h4>
-                        <p class="text-xs text-gray-400">Analicemos tu operación y diseñemos tu ecosistema personalizado.</p>
-                    </div>
-                    <button @click="openModal()" class="bg-naranjaEnergy text-white font-bold px-6 py-2.5 rounded-lg text-xs hover:bg-orange-500 transition-all flex items-center gap-2 cursor-pointer shadow-lg">
-                        <i class="ph-bold ph-calendar-plus text-sm"></i>
-                        Agenda tu cita hoy
-                    </button>
-                </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-brandRed">
                         <span class="text-xs font-bold text-brandRed uppercase">Categoría A (80% Valor)</span>
@@ -380,18 +339,6 @@
 
             <!-- PESTAÑA 3: VENTAS & COTIZADOR POS -->
             <div x-show="currentTab === 'ventas'" class="space-y-6">
-                <!-- Banner CTA dentro de la pantalla -->
-                <div class="flex flex-col sm:flex-row justify-between items-center bg-naranjaEnergy/10 border border-naranjaEnergy/30 p-4 rounded-xl gap-4">
-                    <div class="text-left">
-                        <h4 class="font-bold text-white text-sm">¿Deseas implementar esta solución en tu empresa?</h4>
-                        <p class="text-xs text-gray-400">Analicemos tu operación y diseñemos tu ecosistema personalizado.</p>
-                    </div>
-                    <button @click="openModal()" class="bg-naranjaEnergy text-white font-bold px-6 py-2.5 rounded-lg text-xs hover:bg-orange-500 transition-all flex items-center gap-2 cursor-pointer shadow-lg">
-                        <i class="ph-bold ph-calendar-plus text-sm"></i>
-                        Agenda tu cita hoy
-                    </button>
-                </div>
-
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div class="lg:col-span-2 glass-panel p-6 rounded-2xl space-y-6">
                         <div class="flex items-center justify-between border-b border-white/10 pb-4">
@@ -444,18 +391,6 @@
 
             <!-- PESTAÑA 4: FACTURACIÓN AUTOMÁTICA -->
             <div x-show="currentTab === 'facturacion'" class="space-y-6">
-                <!-- Banner CTA dentro de la pantalla -->
-                <div class="flex flex-col sm:flex-row justify-between items-center bg-naranjaEnergy/10 border border-naranjaEnergy/30 p-4 rounded-xl gap-4">
-                    <div class="text-left">
-                        <h4 class="font-bold text-white text-sm">¿Deseas implementar esta solución en tu empresa?</h4>
-                        <p class="text-xs text-gray-400">Analicemos tu operación y diseñemos tu ecosistema personalizado.</p>
-                    </div>
-                    <button @click="openModal()" class="bg-naranjaEnergy text-white font-bold px-6 py-2.5 rounded-lg text-xs hover:bg-orange-500 transition-all flex items-center gap-2 cursor-pointer shadow-lg">
-                        <i class="ph-bold ph-calendar-plus text-sm"></i>
-                        Agenda tu cita hoy
-                    </button>
-                </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="glass-panel p-5 rounded-2xl">
                         <p class="text-xs text-gray-400">Facturas Timbradas</p>
@@ -478,6 +413,7 @@
                             <tr class="text-gray-400 border-b border-white/10 uppercase">
                                 <th class="py-2.5">Folio Fiscal</th>
                                 <th class="py-2.5">Receptor</th>
+                                <th class="py-2.5">Fecha</th>
                                 <th class="py-2.5">Estado</th>
                                 <th class="py-2.5 text-right">Descargas</th>
                             </tr>
@@ -486,6 +422,7 @@
                             <tr>
                                 <td class="py-3 font-mono text-white">F-0019284</td>
                                 <td class="py-3 text-gray-300">Constructora del Norte S.A.</td>
+                                <td class="py-3 text-gray-400">21 Jul 2026</td>
                                 <td class="py-3"><span class="px-2 py-0.5 bg-brandGreen/20 text-brandGreen rounded font-bold">Timbrada</span></td>
                                 <td class="py-3 text-right space-x-2">
                                     <button class="px-2 py-1 bg-white/10 rounded">XML</button>
@@ -499,18 +436,6 @@
 
             <!-- PESTAÑA 5: COMPRAS & COTEJO 3-WAY -->
             <div x-show="currentTab === 'compras'" class="space-y-6">
-                <!-- Banner CTA dentro de la pantalla -->
-                <div class="flex flex-col sm:flex-row justify-between items-center bg-naranjaEnergy/10 border border-naranjaEnergy/30 p-4 rounded-xl gap-4">
-                    <div class="text-left">
-                        <h4 class="font-bold text-white text-sm">¿Deseas implementar esta solución en tu empresa?</h4>
-                        <p class="text-xs text-gray-400">Analicemos tu operación y diseñemos tu ecosistema personalizado.</p>
-                    </div>
-                    <button @click="openModal()" class="bg-naranjaEnergy text-white font-bold px-6 py-2.5 rounded-lg text-xs hover:bg-orange-500 transition-all flex items-center gap-2 cursor-pointer shadow-lg">
-                        <i class="ph-bold ph-calendar-plus text-sm"></i>
-                        Agenda tu cita hoy
-                    </button>
-                </div>
-
                 <div class="glass-panel p-6 rounded-2xl flex flex-col md:flex-row justify-between gap-4">
                     <div>
                         <h3 class="text-lg font-bold text-white">Cotejo de 3 Vías y Extractor OCR</h3>
@@ -532,18 +457,6 @@
 
             <!-- PESTAÑA 6: LOGÍSTICA & DESPACHOS -->
             <div x-show="currentTab === 'logistica'" class="space-y-6">
-                <!-- Banner CTA dentro de la pantalla -->
-                <div class="flex flex-col sm:flex-row justify-between items-center bg-naranjaEnergy/10 border border-naranjaEnergy/30 p-4 rounded-xl gap-4">
-                    <div class="text-left">
-                        <h4 class="font-bold text-white text-sm">¿Deseas implementar esta solución en tu empresa?</h4>
-                        <p class="text-xs text-gray-400">Analicemos tu operación y diseñemos tu ecosistema personalizado.</p>
-                    </div>
-                    <button @click="openModal()" class="bg-naranjaEnergy text-white font-bold px-6 py-2.5 rounded-lg text-xs hover:bg-orange-500 transition-all flex items-center gap-2 cursor-pointer shadow-lg">
-                        <i class="ph-bold ph-calendar-plus text-sm"></i>
-                        Agenda tu cita hoy
-                    </button>
-                </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="glass-panel p-5 rounded-2xl">
                         <h4 class="font-bold text-white text-sm mb-2">Ruta Norte • Camioneta 01</h4>
@@ -560,18 +473,6 @@
 
             <!-- PESTAÑA 7: IA PERSONALIZADA -->
             <div x-show="currentTab === 'ferrebot'" class="space-y-6">
-                <!-- Banner CTA dentro de la pantalla -->
-                <div class="flex flex-col sm:flex-row justify-between items-center bg-naranjaEnergy/10 border border-naranjaEnergy/30 p-4 rounded-xl gap-4">
-                    <div class="text-left">
-                        <h4 class="font-bold text-white text-sm">¿Deseas implementar esta solución en tu empresa?</h4>
-                        <p class="text-xs text-gray-400">Analicemos tu operación y diseñemos tu ecosistema personalizado.</p>
-                    </div>
-                    <button @click="openModal()" class="bg-naranjaEnergy text-white font-bold px-6 py-2.5 rounded-lg text-xs hover:bg-orange-500 transition-all flex items-center gap-2 cursor-pointer shadow-lg">
-                        <i class="ph-bold ph-calendar-plus text-sm"></i>
-                        Agenda tu cita hoy
-                    </button>
-                </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="glass-panel p-6 rounded-2xl text-center space-y-4">
                         <div class="w-full h-40 bg-black/40 border border-dashed border-aquaTurquesa/40 rounded-xl flex items-center justify-center relative overflow-hidden">
@@ -605,7 +506,7 @@
         </div>
     </main>
 
-    <!-- FerreBot AI Floating Chat (SOLO ABRE Y CIERRA EL MODAL, SIN ACTIVAR PLATICA) -->
+    <!-- FerreBot AI Floating Chat (ABRE Y CIERRA EL MODAL, SIN ACTIVAR PLATICA) -->
     <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
         <div x-show="chatOpen" 
              x-transition:enter="transition ease-out duration-300 transform"
@@ -646,101 +547,6 @@
         </button>
     </div>
 
-    <!-- MODAL DE AGENDA DE CITAS COMPARTIDO (Javier Gallardo) -->
-    <div x-show="modalOpen" 
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0"
-         x-transition:enter-end="opacity-100"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100"
-         x-transition:leave-end="opacity-0"
-         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-negroProfundo/80 backdrop-blur-md overflow-y-auto"
-         style="display: none;">
-        
-        <div class="relative w-full max-w-2xl bg-midnightPanel border border-white/15 rounded-3xl p-6 md:p-8 shadow-2xl my-8 text-left"
-             @click.outside="modalOpen = false">
-            
-            <button @click="modalOpen = false" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl cursor-pointer">
-                <i class="ph-bold ph-x"></i>
-            </button>
-
-            <div class="mb-6 border-b border-white/10 pb-4">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-naranjaEnergy/10 text-naranjaEnergy text-xs font-bold uppercase tracking-wider mb-2">
-                    <i class="ph-bold ph-calendar"></i> Citas de 1 Hora • Máx 4 por día
-                </div>
-                <h3 class="font-bruno text-2xl md:text-3xl text-white">Agendar Presentación Ejecutiva</h3>
-                <p class="text-gray-400 text-sm mt-1">Con <strong class="text-white">Javier Gallardo</strong> (Director de Consultoría & Tecnología)</p>
-            </div>
-
-            <div x-show="!submitted">
-                <form @submit.prevent="submitBooking()" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Modalidad de la Cita</label>
-                        <div class="grid grid-cols-2 gap-3">
-                            <button type="button" @click="modalidad = 'zoom'" :class="modalidad === 'zoom' ? 'bg-aquaTurquesa/20 border-aquaTurquesa text-aquaTurquesa font-bold' : 'bg-white/5 border-white/10 text-gray-400'" class="flex items-center justify-center gap-2 p-3 rounded-2xl border text-sm transition-all cursor-pointer">
-                                <i class="ph-bold ph-video-camera text-lg"></i><span>Vía Zoom (Virtual)</span>
-                            </button>
-                            <button type="button" @click="modalidad = 'presencial'" :class="modalidad === 'presencial' ? 'bg-naranjaEnergy/20 border-naranjaEnergy text-naranjaEnergy font-bold' : 'bg-white/5 border-white/10 text-gray-400'" class="flex items-center justify-center gap-2 p-3 rounded-2xl border text-sm transition-all cursor-pointer">
-                                <i class="ph-bold ph-buildings text-lg"></i><span>Presencial (Oficina)</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1">Selecciona la Fecha</label>
-                        <input type="date" x-model="fecha" :min="minDate" @change="checkSlotAvailability()" required class="w-full bg-negroProfundo border border-white/10 rounded-2xl px-4 py-3 text-white focus:outline-none focus:border-aquaTurquesa text-sm">
-                        <div x-show="dayFull" class="text-red-400 text-xs mt-1 font-semibold flex items-center gap-1"><i class="ph-bold ph-warning-circle"></i> Esta fecha ya tiene las 4 citas máximas ocupadas.</div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Horario Disponible (10:00 AM - 4:00 PM) <span class="text-gray-400 font-normal lowercase">(Citas: <span x-text="getBookedCount(fecha)"></span>/4)</span></label>
-                        <div class="grid grid-cols-3 sm:grid-cols-4 gap-2">
-                            <template x-for="timeSlot in availableTimeSlots" :key="timeSlot">
-                                <button type="button" @click="hora = timeSlot" :disabled="isSlotBooked(fecha, timeSlot) || dayFull" :class="hora === timeSlot ? 'bg-naranjaEnergy text-white border-naranjaEnergy font-bold' : (isSlotBooked(fecha, timeSlot) ? 'bg-white/5 text-gray-600 border-white/5 cursor-not-allowed line-through' : 'bg-white/5 border-white/10 text-gray-300 hover:border-white/30')" class="p-2.5 rounded-xl border text-xs text-center transition-all cursor-pointer">
-                                    <span x-text="timeSlot"></span>
-                                </button>
-                            </template>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-white/10 pt-4">
-                        <div>
-                            <label class="block text-xs font-bold text-gray-300 mb-1">Nombre Completo *</label>
-                            <input type="text" x-model="nombre" required placeholder="Carlos Mendoza" class="w-full bg-negroProfundo border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-naranjaEnergy">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-300 mb-1">Empresa *</label>
-                            <input type="text" x-model="empresa" required placeholder="Ferretería El Candado" class="w-full bg-negroProfundo border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-naranjaEnergy">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-300 mb-1">Correo Electrónico *</label>
-                            <input type="email" x-model="email" required placeholder="ejemplo@dominio.com" class="w-full bg-negroProfundo border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-naranjaEnergy">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-300 mb-1">Teléfono / WhatsApp *</label>
-                            <input type="tel" x-model="telefono" required placeholder="+52 55 1234 5678" class="w-full bg-negroProfundo border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-naranjaEnergy">
-                        </div>
-                    </div>
-
-                    <button type="submit" :disabled="!fecha || !hora || dayFull" class="w-full py-4 rounded-full bg-naranjaEnergy text-white font-extrabold text-base pulsing-orange-cta transition-all cursor-pointer disabled:opacity-50">
-                        Confirmar y Enviar Alerta
-                    </button>
-                </form>
-            </div>
-
-            <div x-show="submitted" class="text-center py-8 space-y-4">
-                <div class="w-16 h-16 rounded-full bg-aquaTurquesa/20 border border-aquaTurquesa text-aquaTurquesa flex items-center justify-center text-3xl mx-auto"><i class="ph-bold ph-check-circle"></i></div>
-                <h4 class="font-bruno text-2xl text-white">¡Cita Agendada!</h4>
-                <div class="glass-panel p-6 rounded-2xl border-white/10 text-left max-w-lg mx-auto text-sm space-y-2">
-                    <p class="text-gray-300"><strong class="text-white">Cliente:</strong> <span x-text="nombre"></span> (<span x-text="empresa"></span>)</p>
-                    <p class="text-gray-300"><strong class="text-white">Fecha:</strong> <span x-text="fecha"></span> a las <span x-text="hora"></span></p>
-                    <p class="text-gray-300"><strong class="text-white">Modalidad:</strong> <span class="uppercase text-aquaTurquesa font-semibold" x-text="modalidad"></span></p>
-                </div>
-                <button @click="resetForm()" class="px-8 py-3 rounded-full bg-white/10 text-white font-bold text-sm hover:bg-white/20 transition-all cursor-pointer">Cerrar y Volver</button>
-            </div>
-        </div>
-    </div>
-
     <!-- SCRIPT DE LÓGICA DE DEMO -->
     <script>
         function demoApp() {
@@ -756,66 +562,7 @@
                 ],
                 ocrProcessing: false,
                 ocrDone: false,
-                photoAnalyzed: false,
-
-                // Estados del Modal Agenda
-                modalOpen: false,
-                modalidad: 'zoom',
-                fecha: new Date().toISOString().split('T')[0],
-                minDate: new Date().toISOString().split('T')[0],
-                hora: '10:00 AM',
-                nombre: '',
-                empresa: '',
-                email: '',
-                telefono: '',
-                comentarios: '',
-                submitted: false,
-                dayFull: false,
-                availableTimeSlots: ['10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM'],
-                bookedDatabase: JSON.parse(localStorage.getItem('tsolutions_citas_db') || '{}'),
-
-                openModal() {
-                    this.modalOpen = true;
-                    this.submitted = false;
-                    this.checkSlotAvailability();
-                },
-                getBookedCount(dateStr) {
-                    if (!dateStr || !this.bookedDatabase[dateStr]) return 0;
-                    return this.bookedDatabase[dateStr].length;
-                },
-                isSlotBooked(dateStr, timeSlot) {
-                    if (!dateStr || !this.bookedDatabase[dateStr]) return false;
-                    return this.bookedDatabase[dateStr].includes(timeSlot);
-                },
-                checkSlotAvailability() {
-                    const bookedCount = this.getBookedCount(this.fecha);
-                    if (bookedCount >= 4) {
-                        this.dayFull = true;
-                        this.hora = '';
-                    } else {
-                        this.dayFull = false;
-                        const unbooked = this.availableTimeSlots.find(slot => !this.isSlotBooked(this.fecha, slot));
-                        this.hora = unbooked || '';
-                    }
-                },
-                submitBooking() {
-                    if (this.dayFull || !this.fecha || !this.hora) return;
-                    if (!this.bookedDatabase[this.fecha]) {
-                        this.bookedDatabase[this.fecha] = [];
-                    }
-                    this.bookedDatabase[this.fecha].push(this.hora);
-                    localStorage.setItem('tsolutions_citas_db', JSON.stringify(this.bookedDatabase));
-                    this.submitted = true;
-                },
-                resetForm() {
-                    this.modalOpen = false;
-                    this.submitted = false;
-                    this.nombre = '';
-                    this.empresa = '';
-                    this.email = '';
-                    this.telefono = '';
-                    this.comentarios = '';
-                }
+                photoAnalyzed: false
             }
         }
     </script>
