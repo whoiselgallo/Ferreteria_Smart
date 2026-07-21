@@ -13,7 +13,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -22,11 +22,13 @@
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                        bruno: ['Bruno Ace', 'sans-serif'],
                     },
                     colors: {
                         soberOrange: '#c25e1a',
                         soberOrangeDark: '#994a15',
                         soberOrangeLight: '#e07a2f',
+                        aquaTurquesa: '#00E5FF',
                         darkBg: '#0a0a0c',
                         darkPanel: 'rgba(23, 23, 25, 0.7)',
                         brandRed: '#dc2626',
@@ -45,7 +47,7 @@
             background-color: #0a0a0c;
             background-image: 
                 radial-gradient(circle at 15% 50%, rgba(194, 94, 26, 0.08), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(194, 94, 26, 0.05), transparent 25%);
+                radial-gradient(circle at 85% 30%, rgba(0, 229, 255, 0.05), transparent 25%);
             color: #f1f5f9;
         }
         .glass-panel {
@@ -57,6 +59,7 @@
         }
         .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
+            height: 6px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
             background: transparent;
@@ -68,9 +71,27 @@
         .glow-text {
             text-shadow: 0 0 15px rgba(224, 122, 47, 0.5);
         }
+        .glow-text-aqua {
+            text-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
+        }
     </style>
 </head>
-<body class="font-sans antialiased h-screen overflow-hidden flex" x-data="{ chatOpen: true, mobileMenu: false }">
+<body class="font-sans antialiased h-screen overflow-hidden flex" 
+      x-data="{ 
+          chatOpen: false, 
+          mobileMenu: false,
+          currentTab: 'dashboard',
+          // Estado demo de ventas POS
+          posCart: [
+              { id: 1, name: 'Martillo Truper 16oz', code: 'TRP-16OZ', price: 245.00, qty: 2 },
+              { id: 2, name: 'Caja Pijas Tablaroca 1"', code: 'PIJ-TAB-100', price: 120.00, qty: 1 }
+          ],
+          // OCR Compras demo
+          ocrProcessing: false,
+          ocrDone: false,
+          // Foto reconocidad Demo
+          photoAnalyzed: false
+      }">
 
     <!-- Mobile menu button -->
     <div class="lg:hidden fixed top-4 left-4 z-50">
@@ -86,39 +107,72 @@
             <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-soberOrangeLight to-soberOrangeDark flex items-center justify-center shadow-lg shadow-soberOrange/20">
                 <i class="ph-bold ph-wrench text-white"></i>
             </div>
-            <h1 class="font-bold text-xl tracking-tight text-white glow-text">TSolutions</h1>
+            <div>
+                <h1 class="font-bold text-lg tracking-tight text-white glow-text">TSolutions</h1>
+                <span class="text-[10px] text-aquaTurquesa uppercase tracking-widest block -mt-1 font-semibold">Demo Multimódulo</span>
+            </div>
         </div>
         
-        <nav class="flex-1 py-6 px-4 space-y-1 overflow-y-auto custom-scrollbar">
-            <a href="#" class="flex items-center gap-3 px-4 py-2.5 bg-soberOrange/10 text-soberOrangeLight rounded-xl border border-soberOrange/20 transition-all text-sm font-medium">
+        <!-- Navegación por Pantallas Demo -->
+        <nav class="flex-1 py-6 px-4 space-y-1.5 overflow-y-auto custom-scrollbar">
+            
+            <!-- Dashboard -->
+            <button @click="currentTab = 'dashboard'; mobileMenu = false" 
+                    :class="currentTab === 'dashboard' ? 'bg-soberOrange/20 text-soberOrangeLight border-soberOrange/40 font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent'"
+                    class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl border transition-all text-sm text-left">
                 <i class="ph ph-squares-four text-lg"></i>
-                <span>Dashboard</span>
-            </a>
-            <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all text-sm font-medium">
+                <span>01. Dashboard General</span>
+            </button>
+
+            <!-- Inventario & Stock -->
+            <button @click="currentTab = 'inventario'; mobileMenu = false" 
+                    :class="currentTab === 'inventario' ? 'bg-soberOrange/20 text-soberOrangeLight border-soberOrange/40 font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent'"
+                    class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl border transition-all text-sm text-left">
                 <i class="ph ph-package text-lg"></i>
-                <span>Inventario & Stock</span>
+                <span>02. Inventario & Stock</span>
                 <span class="ml-auto w-2 h-2 rounded-full bg-brandRed animate-pulse"></span>
-            </a>
-            <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all text-sm font-medium">
+            </button>
+
+            <!-- Ventas & POS -->
+            <button @click="currentTab = 'ventas'; mobileMenu = false" 
+                    :class="currentTab === 'ventas' ? 'bg-soberOrange/20 text-soberOrangeLight border-soberOrange/40 font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent'"
+                    class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl border transition-all text-sm text-left">
                 <i class="ph ph-shopping-cart-simple text-lg"></i>
-                <span>Ventas & Cotizador</span>
-            </a>
-            <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all text-sm font-medium">
+                <span>03. Ventas & Cotizador POS</span>
+            </button>
+
+            <!-- Facturación Automática -->
+            <button @click="currentTab = 'facturacion'; mobileMenu = false" 
+                    :class="currentTab === 'facturacion' ? 'bg-soberOrange/20 text-soberOrangeLight border-soberOrange/40 font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent'"
+                    class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl border transition-all text-sm text-left">
                 <i class="ph ph-file-cloud text-lg"></i>
-                <span>Facturación Automática</span>
-            </a>
-            <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all text-sm font-medium">
+                <span>04. Facturación Automática</span>
+            </button>
+
+            <!-- Compras & Cotejo 3-Way -->
+            <button @click="currentTab = 'compras'; mobileMenu = false" 
+                    :class="currentTab === 'compras' ? 'bg-soberOrange/20 text-soberOrangeLight border-soberOrange/40 font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent'"
+                    class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl border transition-all text-sm text-left">
                 <i class="ph ph-receipt text-lg"></i>
-                <span>Compras & Cotejo</span>
-            </a>
-            <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all text-sm font-medium">
+                <span>05. Compras & Cotejo 3-Way</span>
+            </button>
+
+            <!-- Logística & Envíos -->
+            <button @click="currentTab = 'logistica'; mobileMenu = false" 
+                    :class="currentTab === 'logistica' ? 'bg-soberOrange/20 text-soberOrangeLight border-soberOrange/40 font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent'"
+                    class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl border transition-all text-sm text-left">
                 <i class="ph ph-truck text-lg"></i>
-                <span>Logística & Envíos</span>
-            </a>
-            <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all text-sm font-medium text-soberOrangeLight">
-                <i class="ph ph-sparkle text-lg"></i>
-                <span>FerreBot IA</span>
-            </a>
+                <span>06. Logística & Despachos</span>
+            </button>
+
+            <!-- FerreBot IA -->
+            <button @click="currentTab = 'ferrebot'; mobileMenu = false" 
+                    :class="currentTab === 'ferrebot' ? 'bg-aquaTurquesa/20 text-aquaTurquesa border-aquaTurquesa/40 font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent'"
+                    class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl border transition-all text-sm text-left">
+                <i class="ph ph-robot text-lg text-aquaTurquesa"></i>
+                <span class="text-aquaTurquesa font-medium">07. FerreBot IA (Visual)</span>
+            </button>
+
         </nav>
 
         <div class="p-4 border-t border-white/10">
@@ -131,207 +185,494 @@
                     </p>
                 </div>
             </div>
-            <a href="/" class="mt-4 flex items-center justify-center gap-2 w-full py-2 text-sm text-gray-400 hover:text-white transition-colors">
-                <i class="ph ph-arrow-left"></i> Volver al sitio web
+            <a href="/" class="mt-4 flex items-center justify-center gap-2 w-full py-2 text-xs text-gray-400 hover:text-white transition-colors">
+                <i class="ph ph-arrow-left"></i> Volver a la Landing Page
             </a>
         </div>
     </aside>
 
-    <!-- Main Content -->
-    <main class="flex-1 h-full overflow-y-auto custom-scrollbar relative">
-        <!-- Header -->
-        <header class="h-20 flex items-center justify-between px-8 lg:px-10 sticky top-0 z-30 bg-darkBg/80 backdrop-blur-md border-b border-white/5">
+    <!-- Main Content Area -->
+    <main class="flex-1 h-full overflow-y-auto custom-scrollbar relative flex flex-col">
+        <!-- Top Header -->
+        <header class="h-20 flex items-center justify-between px-8 lg:px-10 sticky top-0 z-30 bg-darkBg/90 backdrop-blur-md border-b border-white/5 shrink-0">
             <div class="pl-10 lg:pl-0">
-                <h2 class="text-2xl font-bold text-white">Métricas en Tiempo Real</h2>
-                <p class="text-sm text-gray-400">Resumen de operaciones del día</p>
+                <h2 class="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
+                    <span x-show="currentTab === 'dashboard'">01. Métricas & Dashboard Ejecutivo</span>
+                    <span x-show="currentTab === 'inventario'">02. Control de Inventario, ABC/XYZ & Scrap</span>
+                    <span x-show="currentTab === 'ventas'">03. Punto de Venta (POS) & Cotizador</span>
+                    <span x-show="currentTab === 'facturacion'">04. Módulo de Facturación Automática (SAT/SUNAT)</span>
+                    <span x-show="currentTab === 'compras'">05. Compras, Cotejo 3-Way & Archivo OCR</span>
+                    <span x-show="currentTab === 'logistica'">06. Logística, Rutas y Despacho de Envíos</span>
+                    <span x-show="currentTab === 'ferrebot'">07. Ecosistema FerreBot IA (Buscador por Cámara)</span>
+                </h2>
+                <p class="text-xs text-gray-400">Entorno interactivo del sistema Ferretería Smart</p>
             </div>
+            
             <div class="flex items-center gap-4">
-                <button class="relative p-2 text-gray-400 hover:text-white transition-colors">
-                    <i class="ph ph-bell text-2xl"></i>
-                    <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-brandYellow rounded-full border border-darkBg"></span>
-                </button>
-                <div class="h-8 w-px bg-white/10"></div>
-                <div class="text-right hidden sm:block">
-                    <p class="text-sm font-medium text-white">18 Jul 2026</p>
-                    <p class="text-xs text-gray-400">16:42 PM</p>
+                <div class="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-soberOrange/10 border border-soberOrange/30 text-soberOrangeLight text-xs">
+                    <span class="w-2 h-2 rounded-full bg-soberOrangeLight animate-pulse"></span>
+                    Demostración Activa
                 </div>
+                <button @click="chatOpen = !chatOpen" class="relative p-2 text-gray-400 hover:text-white transition-colors">
+                    <i class="ph ph-chat-teardrop-text text-2xl text-aquaTurquesa"></i>
+                    <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-aquaTurquesa rounded-full border border-darkBg"></span>
+                </button>
             </div>
         </header>
 
-        <!-- Dashboard Widgets -->
-        <div class="p-8 lg:p-10 pb-32">
-            <!-- KPIS -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <!-- Ventas -->
-                <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                        <i class="ph-fill ph-trend-up text-6xl text-brandGreen"></i>
-                    </div>
-                    <div class="flex items-center gap-3 mb-2">
-                        <div class="w-8 h-8 rounded-full bg-brandGreen/20 flex items-center justify-center">
-                            <i class="ph ph-currency-dollar text-brandGreen"></i>
+        <!-- VISTAS INTERACTIVAS SEGÚN LA PESTAÑA SELECCIONADA -->
+        <div class="p-6 lg:p-10 pb-32 flex-1">
+
+            <!-- PESTAÑA 1: DASHBOARD GENERAL -->
+            <div x-show="currentTab === 'dashboard'" class="space-y-8">
+                <!-- KPIs -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-8 h-8 rounded-full bg-brandGreen/20 flex items-center justify-center text-brandGreen"><i class="ph ph-currency-dollar"></i></div>
+                            <h3 class="text-gray-400 text-sm font-medium">Ventas del Día</h3>
                         </div>
-                        <h3 class="text-gray-400 font-medium">Ventas del Día</h3>
+                        <p class="text-3xl font-bold text-white mb-1">$14,520.00</p>
+                        <p class="text-xs text-brandGreen flex items-center gap-1"><i class="ph ph-arrow-up-right"></i> +12% vs ayer</p>
                     </div>
-                    <p class="text-3xl font-bold text-white mb-1">$14,520.00</p>
-                    <p class="text-sm text-brandGreen flex items-center gap-1">
-                        <i class="ph ph-arrow-up-right"></i> +12% vs ayer
-                    </p>
-                </div>
-                
-                <!-- Alertas Inventario -->
-                <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                        <i class="ph-fill ph-warning text-6xl text-brandRed"></i>
-                    </div>
-                    <div class="flex items-center gap-3 mb-2">
-                        <div class="w-8 h-8 rounded-full bg-brandRed/20 flex items-center justify-center">
-                            <i class="ph ph-package text-brandRed"></i>
+                    
+                    <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-8 h-8 rounded-full bg-brandRed/20 flex items-center justify-center text-brandRed"><i class="ph ph-package"></i></div>
+                            <h3 class="text-gray-400 text-sm font-medium">Alertas de Stock</h3>
                         </div>
-                        <h3 class="text-gray-400 font-medium">Alertas de Stock</h3>
+                        <p class="text-3xl font-bold text-white mb-1">8 <span class="text-sm font-normal text-gray-400">artículos</span></p>
+                        <p class="text-xs text-brandRed flex items-center gap-1"><i class="ph ph-warning-circle"></i> Requieren reabastecimiento crítico</p>
                     </div>
-                    <p class="text-3xl font-bold text-white mb-1">8 <span class="text-lg font-normal text-gray-400">artículos</span></p>
-                    <p class="text-sm text-brandRed flex items-center gap-1">
-                        <i class="ph ph-warning-circle"></i> Requieren reabastecimiento crítico
-                    </p>
+
+                    <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group border-soberOrange/30">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-8 h-8 rounded-full bg-soberOrange/20 flex items-center justify-center text-soberOrangeLight"><i class="ph ph-robot"></i></div>
+                            <h3 class="text-gray-400 text-sm font-medium">Consultas FerreBot IA</h3>
+                        </div>
+                        <p class="text-3xl font-bold text-white mb-1">124</p>
+                        <p class="text-xs text-soberOrangeLight flex items-center gap-1"><i class="ph ph-check-circle"></i> 98% resueltas automáticamente</p>
+                    </div>
                 </div>
 
-                <!-- Consultas IA -->
-                <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group border-soberOrange/30">
-                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                        <i class="ph-fill ph-robot text-6xl text-soberOrangeLight"></i>
-                    </div>
-                    <div class="flex items-center gap-3 mb-2">
-                        <div class="w-8 h-8 rounded-full bg-soberOrange/20 flex items-center justify-center">
-                            <i class="ph ph-robot text-soberOrangeLight"></i>
-                        </div>
-                        <h3 class="text-gray-400 font-medium">Consultas FerreBot</h3>
-                    </div>
-                    <p class="text-3xl font-bold text-white mb-1">124</p>
-                    <p class="text-sm text-soberOrangeLight flex items-center gap-1">
-                        <i class="ph ph-check-circle"></i> 98% resueltas automáticamente
-                    </p>
-                </div>
-            </div>
-
-            <!-- Main Charts / Tables Area -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Recent Activity Table -->
-                <div class="glass-panel rounded-2xl col-span-2 p-6">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-bold text-white">Movimientos Recientes</h3>
-                        <button class="text-sm text-soberOrangeLight hover:text-white transition-colors">Ver todos</button>
-                    </div>
+                <!-- Tabla de Movimientos Recientes -->
+                <div class="glass-panel rounded-2xl p-6">
+                    <h3 class="text-lg font-bold text-white mb-4">Movimientos Recientes en Ferretería</h3>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
+                        <table class="w-full text-left border-collapse text-sm">
                             <thead>
-                                <tr class="text-gray-400 text-sm border-b border-white/10">
-                                    <th class="pb-3 font-medium">Producto</th>
-                                    <th class="pb-3 font-medium">Tipo</th>
+                                <tr class="text-gray-400 border-b border-white/10">
+                                    <th class="pb-3 font-medium">Producto SKU</th>
+                                    <th class="pb-3 font-medium">Operación</th>
                                     <th class="pb-3 font-medium">Estado</th>
                                     <th class="pb-3 font-medium text-right">Monto</th>
                                 </tr>
                             </thead>
-                            <tbody class="text-sm">
+                            <tbody>
                                 <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
-                                    <td class="py-4 flex items-center gap-3">
-                                        <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center">
-                                            <i class="ph ph-hammer text-gray-400"></i>
-                                        </div>
-                                        <div>
-                                            <p class="font-medium text-white">Martillo Truper 16oz</p>
-                                            <p class="text-xs text-gray-500">SKU: TRP-16OZ-01</p>
-                                        </div>
+                                    <td class="py-3 flex items-center gap-3">
+                                        <i class="ph ph-hammer text-soberOrangeLight text-xl"></i>
+                                        <div><p class="font-medium text-white">Martillo Truper 16oz</p><p class="text-xs text-gray-500">TRP-16OZ-01</p></div>
                                     </td>
-                                    <td class="py-4 text-gray-300">Venta Mostrador</td>
-                                    <td class="py-4">
-                                        <span class="px-2.5 py-1 text-xs rounded-full bg-brandGreen/20 text-brandGreen border border-brandGreen/30">Completado</span>
-                                    </td>
-                                    <td class="py-4 text-right font-medium text-white">$245.00</td>
+                                    <td class="py-3 text-gray-300">Venta POS Mostrador</td>
+                                    <td class="py-3"><span class="px-2.5 py-1 text-xs rounded-full bg-brandGreen/20 text-brandGreen border border-brandGreen/30">Completado</span></td>
+                                    <td class="py-3 text-right font-bold text-white">$245.00</td>
                                 </tr>
                                 <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
-                                    <td class="py-4 flex items-center gap-3">
-                                        <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center">
-                                            <i class="ph ph-paint-roller text-gray-400"></i>
-                                        </div>
-                                        <div>
-                                            <p class="font-medium text-white">Pintura Vinilica 19L Blanca</p>
-                                            <p class="text-xs text-gray-500">SKU: COM-VIN-19L</p>
-                                        </div>
+                                    <td class="py-3 flex items-center gap-3">
+                                        <i class="ph ph-paint-roller text-aquaTurquesa text-xl"></i>
+                                        <div><p class="font-medium text-white">Pintura Vinílica 19L Blanca</p><p class="text-xs text-gray-500">COM-VIN-19L</p></div>
                                     </td>
-                                    <td class="py-4 text-gray-300">Pedido Proveedor</td>
-                                    <td class="py-4">
-                                        <span class="px-2.5 py-1 text-xs rounded-full bg-brandYellow/20 text-brandYellow border border-brandYellow/30">En Tránsito</span>
-                                    </td>
-                                    <td class="py-4 text-right font-medium text-white">-$1,890.00</td>
-                                </tr>
-                                <tr class="hover:bg-white/5 transition-colors">
-                                    <td class="py-4 flex items-center gap-3">
-                                        <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center">
-                                            <i class="ph ph-screencast text-gray-400"></i>
-                                        </div>
-                                        <div>
-                                            <p class="font-medium text-white">Caja de Pijas Tablaroca</p>
-                                            <p class="text-xs text-gray-500">SKU: PIJ-TAB-100</p>
-                                        </div>
-                                    </td>
-                                    <td class="py-4 text-gray-300">Venta Online</td>
-                                    <td class="py-4">
-                                        <span class="px-2.5 py-1 text-xs rounded-full bg-brandRed/20 text-brandRed border border-brandRed/30">Stock Crítico</span>
-                                    </td>
-                                    <td class="py-4 text-right font-medium text-white">$120.00</td>
+                                    <td class="py-3 text-gray-300">Cotejo 3-Way Compras</td>
+                                    <td class="py-3"><span class="px-2.5 py-1 text-xs rounded-full bg-brandYellow/20 text-brandYellow border border-brandYellow/30">En Tránsito</span></td>
+                                    <td class="py-3 text-right font-bold text-white">-$1,890.00</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+            </div>
 
-                <!-- Mini Roadmap Status -->
-                <div class="glass-panel rounded-2xl p-6 bg-gradient-to-b from-darkPanel to-black/40">
-                    <h3 class="text-lg font-bold text-white mb-2">Avance Digitalización</h3>
-                    <p class="text-sm text-gray-400 mb-6">Roadmap 90 Días</p>
-                    
-                    <div class="space-y-6 relative before:absolute before:inset-0 before:ml-[11px] before:w-px md:before:mx-auto md:before:translate-x-0 before:h-full before:bg-white/10 before:-z-10">
-                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                            <div class="flex items-center justify-center w-6 h-6 rounded-full border-4 border-darkBg bg-brandGreen text-white shadow shadow-brandGreen shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2"></div>
-                            <div class="w-[calc(100%-3rem)] md:w-[calc(50%-1.5rem)] p-4 rounded-xl glass-panel border-brandGreen/30">
-                                <div class="flex items-center justify-between mb-1">
-                                    <h4 class="font-bold text-white text-sm">Fase 1</h4>
-                                    <span class="text-xs text-brandGreen font-medium">100%</span>
-                                </div>
-                                <p class="text-xs text-gray-400">Sistema base e inventario</p>
+            <!-- PESTAÑA 2: INVENTARIO & STOCK (Conteos Cíclicos ABC/XYZ & Scrap) -->
+            <div x-show="currentTab === 'inventario'" class="space-y-6">
+                <!-- Header del Módulo -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white/5 p-6 rounded-2xl border border-white/10">
+                    <div>
+                        <h3 class="text-xl font-bold text-white">Gestión de SKUs & Conteos Cíclicos ABC/XYZ</h3>
+                        <p class="text-xs text-gray-400 mt-1">Control físico de existencias, cálculo dinámico de stock de seguridad y registro de mermas/scrap.</p>
+                    </div>
+                    <button class="bg-soberOrangeLight text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-soberOrange transition-colors flex items-center gap-2">
+                        <i class="ph-bold ph-plus"></i> Nuevo Conteo Cíclico
+                    </button>
+                </div>
+
+                <!-- Tarjetas de Clasificación ABC/XYZ -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-brandRed">
+                        <span class="text-xs font-bold text-brandRed uppercase">Categoría A (80% Valor)</span>
+                        <h4 class="text-lg font-bruno text-white mt-1">Herramientas & Maquinaria</h4>
+                        <p class="text-xs text-gray-400 mt-1">Conteo cada 7 días • Control estricto</p>
+                    </div>
+                    <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-brandYellow">
+                        <span class="text-xs font-bold text-brandYellow uppercase">Categoría B (15% Valor)</span>
+                        <h4 class="text-lg font-bruno text-white mt-1">Tubería & Material Eléctrico</h4>
+                        <p class="text-xs text-gray-400 mt-1">Conteo cada 30 días • Control intermedio</p>
+                    </div>
+                    <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-brandGreen">
+                        <span class="text-xs font-bold text-brandGreen uppercase">Categoría C (5% Valor)</span>
+                        <h4 class="text-lg font-bruno text-white mt-1">Tornillería & Clavos por Grano</h4>
+                        <p class="text-xs text-gray-400 mt-1">Conteo cada 90 días • Compras en volumen</p>
+                    </div>
+                </div>
+
+                <!-- Tabla de Productos con Scrap y Clasificación -->
+                <div class="glass-panel rounded-2xl p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h4 class="font-bold text-white text-base">Inventario Activo de Almacén</h4>
+                        <span class="text-xs text-gray-400">Total SKUs: 1,480</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="text-gray-400 border-b border-white/10 uppercase">
+                                    <th class="py-3">SKU / Producto</th>
+                                    <th class="py-3">Clasif.</th>
+                                    <th class="py-3">Stock Físico</th>
+                                    <th class="py-3">Min / Seg.</th>
+                                    <th class="py-3">Ubicación</th>
+                                    <th class="py-3 text-center">Scrap / Merma</th>
+                                    <th class="py-3 text-right">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-white/5">
+                                <tr class="hover:bg-white/5">
+                                    <td class="py-3 font-medium text-white">TRP-16OZ • Martillo Uña Truper 16oz</td>
+                                    <td class="py-3"><span class="px-2 py-0.5 rounded bg-brandRed/20 text-brandRed font-bold">A - High</span></td>
+                                    <td class="py-3 text-white font-bold">18 pzas</td>
+                                    <td class="py-3 text-gray-400">Min: 10 | SS: 5</td>
+                                    <td class="py-3 text-gray-400">Pasillo 3 - Estante B</td>
+                                    <td class="py-3 text-center text-gray-400">0 pzas</td>
+                                    <td class="py-3 text-right">
+                                        <button class="px-2.5 py-1 bg-white/10 hover:bg-white/20 text-white rounded">Auditar</button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-white/5">
+                                    <td class="py-3 font-medium text-white">PIJ-TAB-100 • Caja Pija Tablaroca #8 x 1"</td>
+                                    <td class="py-3"><span class="px-2 py-0.5 rounded bg-brandGreen/20 text-brandGreen font-bold">C - Bulk</span></td>
+                                    <td class="py-3 text-brandRed font-bold">2 cajas ⚠️</td>
+                                    <td class="py-3 text-gray-400">Min: 15 | SS: 8</td>
+                                    <td class="py-3 text-gray-400">Gaveta 12 - Sección T</td>
+                                    <td class="py-3 text-center text-brandRed font-bold">1 dañada (Scrap)</td>
+                                    <td class="py-3 text-right">
+                                        <button class="px-2.5 py-1 bg-soberOrangeLight hover:bg-soberOrange text-white rounded">Reordenar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PESTAÑA 3: VENTAS & COTIZADOR POS -->
+            <div x-show="currentTab === 'ventas'" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Panel Principal POS (Buscador y Carrito) -->
+                <div class="lg:col-span-2 glass-panel p-6 rounded-2xl space-y-6">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="ph ph-barcode text-soberOrangeLight text-2xl"></i>
+                            Punto de Venta Mostrador (POS)
+                        </h3>
+                        <span class="text-xs bg-brandGreen/20 text-brandGreen px-3 py-1 rounded-full border border-brandGreen/30">Caja 01 - Abierta</span>
+                    </div>
+
+                    <!-- Buscador / Escáner de Código de Barras -->
+                    <div class="relative">
+                        <i class="ph ph-magnifying-glass absolute left-4 top-3.5 text-gray-400 text-lg"></i>
+                        <input type="text" placeholder="Escanea código de barras o busca por nombre de producto..." class="w-full bg-negroProfundo border border-white/10 rounded-xl pl-11 pr-4 py-3 text-sm text-white focus:outline-none focus:border-soberOrangeLight">
+                    </div>
+
+                    <!-- Tabla de Productos en Carrito POS -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm border-collapse">
+                            <thead>
+                                <tr class="text-gray-400 border-b border-white/10">
+                                    <th class="pb-3">Producto</th>
+                                    <th class="pb-3">Precio Unit.</th>
+                                    <th class="pb-3 text-center">Cant.</th>
+                                    <th class="pb-3 text-right">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-white/5">
+                                <template x-for="item in posCart" :key="item.id">
+                                    <tr>
+                                        <td class="py-3">
+                                            <p class="font-medium text-white" x-text="item.name"></p>
+                                            <p class="text-xs text-gray-500" x-text="item.code"></p>
+                                        </td>
+                                        <td class="py-3 text-gray-300" x-text="'$' + item.price.toFixed(2)"></td>
+                                        <td class="py-3 text-center">
+                                            <span class="px-3 py-1 rounded bg-white/5 text-white font-bold" x-text="item.qty"></span>
+                                        </td>
+                                        <td class="py-3 text-right font-bold text-white" x-text="'$' + (item.price * item.qty).toFixed(2)"></td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Panel Lateral de Resumen de Pago / Cotización -->
+                <div class="glass-panel p-6 rounded-2xl flex flex-col justify-between space-y-6">
+                    <div>
+                        <h4 class="font-bold text-white text-base mb-4 border-b border-white/10 pb-2">Resumen de Cuenta</h4>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between text-gray-400">
+                                <span>Subtotal:</span>
+                                <span class="text-white font-medium">$610.00</span>
+                            </div>
+                            <div class="flex justify-between text-gray-400">
+                                <span>IVA (16%):</span>
+                                <span class="text-white font-medium">$97.60</span>
+                            </div>
+                            <div class="flex justify-between text-lg font-bold border-t border-white/10 pt-3">
+                                <span class="text-white">Total a Cobrar:</span>
+                                <span class="text-soberOrangeLight">$707.60</span>
                             </div>
                         </div>
-                        
-                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                            <div class="flex items-center justify-center w-6 h-6 rounded-full border-4 border-darkBg bg-soberOrangeLight text-white shadow shadow-soberOrangeLight shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 animate-pulse-slow"></div>
-                            <div class="w-[calc(100%-3rem)] md:w-[calc(50%-1.5rem)] p-4 rounded-xl glass-panel border-soberOrange/50 relative overflow-hidden">
-                                <div class="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-soberOrangeLight to-brandYellow w-[60%]"></div>
-                                <div class="flex items-center justify-between mb-1">
-                                    <h4 class="font-bold text-white text-sm">Fase 2</h4>
-                                    <span class="text-xs text-soberOrangeLight font-medium">En progreso</span>
-                                </div>
-                                <p class="text-xs text-gray-400">Integración de FerreBot IA</p>
-                            </div>
-                        </div>
+                    </div>
 
-                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-                            <div class="flex items-center justify-center w-6 h-6 rounded-full border-4 border-darkBg bg-gray-700 text-white shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2"></div>
-                            <div class="w-[calc(100%-3rem)] md:w-[calc(50%-1.5rem)] p-4 rounded-xl glass-panel opacity-50">
-                                <div class="flex items-center justify-between mb-1">
-                                    <h4 class="font-bold text-white text-sm">Fase 3</h4>
-                                    <span class="text-xs text-gray-500 font-medium">Próximo</span>
+                    <!-- Acciones de Venta -->
+                    <div class="space-y-3">
+                        <button class="w-full py-3.5 bg-brandGreen text-white font-bold rounded-xl shadow-lg hover:bg-green-600 transition-colors flex items-center justify-center gap-2">
+                            <i class="ph-bold ph-credit-card"></i> Cobrar & Emitir Ticket
+                        </button>
+                        <button class="w-full py-3 bg-white/10 text-white font-semibold rounded-xl hover:bg-white/20 transition-colors flex items-center justify-center gap-2 text-xs">
+                            <i class="ph-bold ph-file-text"></i> Convertir a Cotización PDF
+                        </button>
+                        <button class="w-full py-2.5 bg-emerald-900/40 text-emerald-400 border border-emerald-700/50 rounded-xl hover:bg-emerald-800/40 transition-colors flex items-center justify-center gap-2 text-xs">
+                            <i class="ph-bold ph-whatsapp-logo"></i> Enviar Presupuesto por WhatsApp
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PESTAÑA 4: FACTURACIÓN AUTOMÁTICA -->
+            <div x-show="currentTab === 'facturacion'" class="space-y-6">
+                <div class="bg-gradient-to-r from-soberOrange/20 to-aquaTurquesa/10 p-6 rounded-2xl border border-white/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <span class="text-xs font-bold text-aquaTurquesa uppercase tracking-widest">Facturación Electrónica en Tiempo Real</span>
+                        <h3 class="text-2xl font-bruno text-white mt-1">Módulo E-Invoicing SAT / SUNAT</h3>
+                        <p class="text-xs text-gray-300 mt-1">Timbrado inmediato de comprobantes al finalizar la venta en POS o mediante el portal de auto-facturación por QR.</p>
+                    </div>
+                    <button class="bg-aquaTurquesa text-darkBg px-5 py-2.5 rounded-xl font-bold text-xs hover:bg-cyan-300 transition-colors shadow-lg">
+                        <i class="ph-bold ph-qr-code"></i> Generar QR Auto-Facturación
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="glass-panel p-5 rounded-2xl">
+                        <p class="text-xs text-gray-400">Facturas Timbradas (Este mes)</p>
+                        <h4 class="text-3xl font-bold text-white mt-1">342</h4>
+                        <span class="text-[11px] text-brandGreen">100% Sin Errores de Sellado</span>
+                    </div>
+                    <div class="glass-panel p-5 rounded-2xl">
+                        <p class="text-xs text-gray-400">Auto-Facturadas por Clientes (QR)</p>
+                        <h4 class="text-3xl font-bold text-aquaTurquesa mt-1">128</h4>
+                        <span class="text-[11px] text-gray-400">Ahorro en colas de mostrador</span>
+                    </div>
+                    <div class="glass-panel p-5 rounded-2xl">
+                        <p class="text-xs text-gray-400">Despacho Automático XML/PDF</p>
+                        <h4 class="text-3xl font-bold text-soberOrangeLight mt-1">470 envíos</h4>
+                        <span class="text-[11px] text-gray-400">Email & WhatsApp</span>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl">
+                    <h4 class="font-bold text-white text-base mb-4">Comprobantes Recientes Emitidos</h4>
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="text-gray-400 border-b border-white/10 uppercase">
+                                <th class="py-2.5">Folio Fiscal</th>
+                                <th class="py-2.5">Receptor / Cliente</th>
+                                <th class="py-2.5">Fecha</th>
+                                <th class="py-2.5">Estado SAT</th>
+                                <th class="py-2.5 text-right">Descargas</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5">
+                            <tr>
+                                <td class="py-3 font-mono text-white">F-0019284</td>
+                                <td class="py-3 text-gray-300">Constructora del Norte S.A. de C.V.</td>
+                                <td class="py-3 text-gray-400">21 Jul 2026 10:15 AM</td>
+                                <td class="py-3"><span class="px-2 py-0.5 bg-brandGreen/20 text-brandGreen rounded font-bold">Timbrada</span></td>
+                                <td class="py-3 text-right space-x-2">
+                                    <button class="px-2 py-1 bg-white/10 hover:bg-white/20 text-white rounded">XML</button>
+                                    <button class="px-2 py-1 bg-white/10 hover:bg-white/20 text-white rounded">PDF</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- PESTAÑA 5: COMPRAS & COTEJO 3-WAY (OCR Facturas) -->
+            <div x-show="currentTab === 'compras'" class="space-y-6">
+                <div class="glass-panel p-6 rounded-2xl border-soberOrange/30 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <span class="text-xs font-bold text-soberOrangeLight uppercase tracking-widest">Cotejo Automático de Tres Vías</span>
+                        <h3 class="text-xl font-bold text-white mt-1">3-Way Matching: Orden de Compra vs Guía vs Factura</h3>
+                        <p class="text-xs text-gray-400 mt-1">Auditamos precios y cantidades entre lo pedido, lo recibido físicamente y la factura del proveedor.</p>
+                    </div>
+                    <button @click="ocrProcessing = true; setTimeout(() => { ocrProcessing = false; ocrDone = true; }, 1500)" class="bg-soberOrangeLight text-white px-4 py-2.5 rounded-xl font-bold text-xs hover:bg-soberOrange transition-colors flex items-center gap-2">
+                        <i class="ph-bold ph-file-arrow-up"></i> Cargar Factura Proveedor (PDF/OCR)
+                    </button>
+                </div>
+
+                <!-- Simulación OCR -->
+                <div x-show="ocrProcessing" class="glass-panel p-6 rounded-2xl text-center space-y-3">
+                    <div class="w-10 h-10 border-4 border-soberOrangeLight border-t-transparent rounded-full animate-spin mx-auto"></div>
+                    <p class="text-sm font-bold text-white">Procesando OCR con FerreBot IA...</p>
+                    <p class="text-xs text-gray-400">Extrayendo partidas de "Factura_Truper_4920.pdf"</p>
+                </div>
+
+                <div x-show="ocrDone" class="p-4 rounded-xl bg-brandGreen/10 border border-brandGreen/30 text-brandGreen text-xs flex items-center justify-between">
+                    <span>✅ OCR completado: 100% de coincidencia detectada con la Orden de Compra OC-2026-089.</span>
+                    <button @click="ocrDone = false" class="text-white underline">Cerrar</button>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl">
+                    <h4 class="font-bold text-white text-base mb-4">Recepciones Pendientes de Cotejo</h4>
+                    <div class="space-y-4 text-xs">
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="font-bold text-white text-sm">Proveedor: Herramientas Truper S.A.</span>
+                                    <span class="px-2 py-0.5 bg-brandGreen/20 text-brandGreen rounded font-bold">100% Match</span>
                                 </div>
-                                <p class="text-xs text-gray-400">Dashboard y App Móvil</p>
+                                <p class="text-gray-400 mt-1">OC-8841 (Pedido: $12,450.00) == Guía Recepción #402 == Factura #TRP-991</p>
                             </div>
+                            <button class="px-4 py-2 bg-brandGreen text-white font-bold rounded-xl hover:bg-green-600">Aprobar y Archivar Expediente</button>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- PESTAÑA 6: LOGÍSTICA & DESPACHOS -->
+            <div x-show="currentTab === 'logistica'" class="space-y-6">
+                <div class="glass-panel p-6 rounded-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-white">Despacho de Pedidos & Rutas de Reparto</h3>
+                        <p class="text-xs text-gray-400 mt-1">Asignación de unidades de transporte, reserva de materiales pesados y rastreo en vivo.</p>
+                    </div>
+                    <span class="text-xs bg-aquaTurquesa/20 text-aquaTurquesa px-3 py-1 rounded-full border border-aquaTurquesa/30 font-bold">3 Vehículos en Ruta</span>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="glass-panel p-5 rounded-2xl space-y-3">
+                        <div class="flex justify-between items-center text-sm font-bold text-white border-b border-white/10 pb-2">
+                            <span>Ruta Norte • Camioneta 01</span>
+                            <span class="text-xs text-brandGreen">En Camino</span>
+                        </div>
+                        <p class="text-xs text-gray-400">4 entregas programadas (Cemento, Varilla, Tubería PVC)</p>
+                        <div class="w-full bg-white/10 rounded-full h-2">
+                            <div class="bg-brandGreen h-2 rounded-full w-[75%]"></div>
+                        </div>
+                        <span class="text-[11px] text-gray-400 block text-right">3/4 Entregados</span>
+                    </div>
+
+                    <div class="glass-panel p-5 rounded-2xl space-y-3">
+                        <div class="flex justify-between items-center text-sm font-bold text-white border-b border-white/10 pb-2">
+                            <span>Ruta Centro • Furgón 02</span>
+                            <span class="text-xs text-brandYellow">Cargando</span>
+                        </div>
+                        <p class="text-xs text-gray-400">Reserva de Stock en Almacén completada</p>
+                        <div class="w-full bg-white/10 rounded-full h-2">
+                            <div class="bg-brandYellow h-2 rounded-full w-[25%]"></div>
+                        </div>
+                        <span class="text-[11px] text-gray-400 block text-right">Preparando salida</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PESTAÑA 7: FERREBOT IA (Buscador por Cámara de Fotos) -->
+            <div x-show="currentTab === 'ferrebot'" class="space-y-6">
+                <div class="bg-gradient-to-r from-aquaTurquesa/20 via-midnightPanel to-soberOrange/20 p-6 rounded-2xl border border-aquaTurquesa/30 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <span class="text-xs font-bold text-aquaTurquesa uppercase tracking-widest">Inteligencia Artificial de Visión</span>
+                        <h3 class="text-2xl font-bruno text-white mt-1">FerreBot IA: Reconocimiento Visual por Foto</h3>
+                        <p class="text-xs text-gray-300 mt-1">El cliente o vendedor toma una foto de una pija, tornillo o repuesto dañado y FerreBot IA identifica su SKU exacto en segundos.</p>
+                    </div>
+                </div>
+
+                <!-- Simulación Interactiva de Cámara -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass-panel p-6 rounded-2xl text-center space-y-4 flex flex-col justify-center items-center">
+                        <div class="w-full h-48 bg-black/40 border-2 border-dashed border-aquaTurquesa/40 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden group">
+                            <template x-if="!photoAnalyzed">
+                                <div class="space-y-2 text-center p-4">
+                                    <i class="ph-bold ph-camera text-4xl text-aquaTurquesa"></i>
+                                    <p class="text-xs text-gray-300">Haz clic para simular la captura de foto de una pieza física</p>
+                                </div>
+                            </template>
+
+                            <template x-if="photoAnalyzed">
+                                <div class="relative w-full h-full flex items-center justify-center bg-zinc-900">
+                                    <i class="ph-bold ph-nut text-6xl text-soberOrangeLight"></i>
+                                    <div class="absolute inset-0 border-2 border-brandGreen animate-pulse"></div>
+                                    <span class="absolute bottom-2 left-2 bg-black/70 text-brandGreen text-[10px] px-2 py-0.5 rounded font-mono">Coincidencia IA: 99.4%</span>
+                                </div>
+                            </template>
+                        </div>
+
+                        <button @click="photoAnalyzed = !photoAnalyzed" class="w-full py-3 bg-aquaTurquesa text-darkBg font-bold text-xs rounded-xl shadow-lg hover:bg-cyan-300 transition-colors">
+                            <span x-text="photoAnalyzed ? 'Restablecer Cámara Demo' : '📸 Simular Captura de Foto de Tornillo'"></span>
+                        </button>
+                    </div>
+
+                    <!-- Resultado de la IA -->
+                    <div class="glass-panel p-6 rounded-2xl flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-white text-base mb-3 flex items-center gap-2">
+                                <i class="ph-bold ph-sparkle text-aquaTurquesa"></i>
+                                Resultado del Análisis de IA
+                            </h4>
+
+                            <template x-if="!photoAnalyzed">
+                                <p class="text-xs text-gray-500 italic">Captura una foto en el panel izquierdo para ver el diagnóstico inteligente de FerreBot IA.</p>
+                            </template>
+
+                            <template x-if="photoAnalyzed">
+                                <div class="space-y-3 text-xs">
+                                    <div class="p-3 bg-white/5 rounded-xl border border-white/10 space-y-1">
+                                        <p class="text-gray-400">Producto Identificado:</p>
+                                        <p class="text-white font-bold text-sm">Pija Autoperforante Cabeza Hexagonal 1/4" x 1-1/2"</p>
+                                        <p class="text-soberOrangeLight font-mono">SKU: PIJ-HEX-1415</p>
+                                    </div>
+                                    <div class="p-3 bg-white/5 rounded-xl border border-white/10 space-y-1">
+                                        <p class="text-gray-400">Ubicación Físicas:</p>
+                                        <p class="text-white font-medium">Pasillo 2 • Gaveta de Tornillería #14</p>
+                                    </div>
+                                    <div class="p-3 bg-white/5 rounded-xl border border-white/10 space-y-1">
+                                        <p class="text-gray-400">Stock Disponible:</p>
+                                        <p class="text-brandGreen font-bold">450 pzas ($0.85 c/u)</p>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+
+                        <template x-if="photoAnalyzed">
+                            <button @click="currentTab = 'ventas'" class="mt-4 w-full py-2.5 bg-soberOrangeLight text-white font-bold text-xs rounded-xl hover:bg-soberOrange transition-colors">
+                                Agregar SKU al POS Mostrador
+                            </button>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 
-    <!-- FerreBot AI Floating Chat -->
+    <!-- FerreBot AI Floating Chat Chatbot -->
     <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
         
         <!-- Chat Window -->
@@ -352,9 +693,9 @@
                         <i class="ph-fill ph-robot text-xl"></i>
                     </div>
                     <div>
-                        <h3 class="font-bold text-white">FerreBot IA</h3>
-                        <p class="text-xs text-white/80 flex items-center gap-1">
-                            <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span> Online
+                        <h3 class="font-bold text-white text-sm">FerreBot IA</h3>
+                        <p class="text-[10px] text-white/80 flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span> Asistente Activo
                         </p>
                     </div>
                 </div>
@@ -366,54 +707,12 @@
             <!-- Chat Body -->
             <div class="flex-1 p-4 overflow-y-auto custom-scrollbar flex flex-col gap-4">
                 
-                <!-- AI Message -->
                 <div class="flex gap-3 max-w-[85%]">
                     <div class="w-8 h-8 rounded-full bg-soberOrange/20 border border-soberOrange/30 flex items-center justify-center shrink-0">
                         <i class="ph ph-robot text-soberOrangeLight"></i>
                     </div>
-                    <div class="bg-white/5 border border-white/10 p-3 rounded-2xl rounded-tl-sm text-sm text-gray-300">
-                        Hola, soy FerreBot. He detectado que <span class="text-brandRed font-medium">3 productos</span> están por agotarse hoy. ¿Te gustaría ver el reporte o prefieres que genere una orden de compra tentativa?
-                    </div>
-                </div>
-
-                <!-- User Message -->
-                <div class="flex gap-3 max-w-[85%] self-end flex-row-reverse">
-                    <img src="https://i.pravatar.cc/100?img=33" class="w-8 h-8 rounded-full border border-white/20 shrink-0">
-                    <div class="bg-soberOrangeDark text-white p-3 rounded-2xl rounded-tr-sm text-sm">
-                        Muéstrame cuáles son esos productos, por favor.
-                    </div>
-                </div>
-
-                <!-- AI Message with List -->
-                <div class="flex gap-3 max-w-[90%]">
-                    <div class="w-8 h-8 rounded-full bg-soberOrange/20 border border-soberOrange/30 flex items-center justify-center shrink-0">
-                        <i class="ph ph-robot text-soberOrangeLight"></i>
-                    </div>
-                    <div class="bg-white/5 border border-white/10 p-3 rounded-2xl rounded-tl-sm text-sm text-gray-300">
-                        Claro, aquí tienes la lista:
-                        <ul class="mt-2 space-y-2">
-                            <li class="flex items-center justify-between p-2 rounded bg-black/30 border border-white/5">
-                                <div>
-                                    <span class="block text-white font-medium text-xs">Pijas Tablaroca 1"</span>
-                                    <span class="text-[10px] text-gray-500">Stock: 2 cajas</span>
-                                </div>
-                                <span class="text-[10px] bg-brandRed/20 text-brandRed px-1.5 py-0.5 rounded">Crítico</span>
-                            </li>
-                            <li class="flex items-center justify-between p-2 rounded bg-black/30 border border-white/5">
-                                <div>
-                                    <span class="block text-white font-medium text-xs">Cemento Cruz Azul 50kg</span>
-                                    <span class="text-[10px] text-gray-500">Stock: 5 bultos</span>
-                                </div>
-                                <span class="text-[10px] bg-brandYellow/20 text-brandYellow px-1.5 py-0.5 rounded">Bajo</span>
-                            </li>
-                            <li class="flex items-center justify-between p-2 rounded bg-black/30 border border-white/5">
-                                <div>
-                                    <span class="block text-white font-medium text-xs">Tubo PVC 1/2" Sanitario</span>
-                                    <span class="text-[10px] text-gray-500">Stock: 12 tramos</span>
-                                </div>
-                                <span class="text-[10px] bg-brandYellow/20 text-brandYellow px-1.5 py-0.5 rounded">Bajo</span>
-                            </li>
-                        </ul>
+                    <div class="bg-white/5 border border-white/10 p-3 rounded-2xl text-xs text-gray-300 leading-relaxed">
+                        ¡Hola! Soy FerreBot IA. Puedo consultar existencias en tiempo real, cotejar facturas de proveedores o ayudarte a identificar tornillos por foto.
                     </div>
                 </div>
 
@@ -421,12 +720,9 @@
 
             <!-- Chat Input -->
             <div class="p-3 border-t border-white/10 bg-darkBg/50 flex gap-2 items-center">
-                <button class="text-gray-400 hover:text-white p-2">
-                    <i class="ph ph-paperclip text-lg"></i>
-                </button>
-                <input type="text" placeholder="Escribe a FerreBot..." class="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm text-white focus:outline-none focus:border-soberOrange/50 focus:bg-white/10 transition-colors">
-                <button class="bg-soberOrangeLight hover:bg-soberOrange text-white w-9 h-9 rounded-full flex items-center justify-center transition-colors">
-                    <i class="ph-bold ph-paper-plane-right"></i>
+                <input type="text" placeholder="Escribe tu consulta a FerreBot..." class="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-xs text-white focus:outline-none focus:border-soberOrange/50">
+                <button class="bg-soberOrangeLight hover:bg-soberOrange text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors">
+                    <i class="ph-bold ph-paper-plane-right text-xs"></i>
                 </button>
             </div>
         </div>
