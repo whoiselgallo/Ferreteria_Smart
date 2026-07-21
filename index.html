@@ -1,38 +1,400 @@
-<!doctype html>
-<html lang="es">
-
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TSolutions IPIDD — Digitalización 90 Días</title>
-    <meta name="description" content="Transformamos tu ferretería con tecnología inteligente: sistema de gestión, FerreBot con IA, sitio web profesional y métricas en tiempo real. Todo en 90 días." />
-    <meta name="theme-color" content="#e07a2f" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&display=swap" rel="stylesheet" />
-    <script type="module" crossorigin src="/assets/index-oEk6d1Lx.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-BMglXc-u.css">
-  <meta property="og:type" content="website">
-		
-		<meta property="og:title" content="TSolutions IPIDD — Digitalización 90 Días">
-		<meta property="og:description" content="Transformamos tu ferretería con tecnología inteligente: sistema de gestión, FerreBot con IA, sitio web profesional y métricas en tiempo real. Todo en 90 días.">
-		
-		<meta property="og:image:width" content="1200">
-		<meta property="og:image:height" content="630">
-		<meta name="twitter:card" content="summary_large_image">
-		<meta name="twitter:title" content="TSolutions IPIDD — Digitalización 90 Días">
-		<meta name="twitter:description" content="Transformamos tu ferretería con tecnología inteligente: sistema de gestión, FerreBot con IA, sitio web profesional y métricas en tiempo real. Todo en 90 días.">
-		
-		<meta name="twitter:image:width" content="1200">
-		<meta name="twitter:image:height" content="630"><link rel="canonical" href="https://ferreteria.tsolutionsipidd.com/" /></head>
-
-  <body>
     
-		
-    <a href="/demo.html" style="position: fixed; bottom: 20px; right: 20px; background-color: #e07a2f; color: white; padding: 12px 24px; border-radius: 50px; font-family: 'Inter', sans-serif; font-weight: 600; text-decoration: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 9999; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease;">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-      Ver Demo del Sistema
-    </a>
-  </body>
+    <!-- Google Fonts: Bruno Ace & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        /* TSolutions Design Tokens */
+        :root {
+          --color-naranjaEnergy: #F97316;
+          --color-aquaTurquesa: #00E5FF;
+          --color-negroProfundo: #04040a;
+          --color-blancoPuro: #F0F0F8;
+          --color-midnightPanel: #0a0a14;
+          --color-deepGrid: #0f0f1e;
+          --font-bruno: "Bruno Ace", sans-serif;
+          --font-inter: "Inter", sans-serif;
+          --shadow-glowEnergy: 0 0 12px rgba(249,115,22,0.35);
+          --shadow-glowEnergyHover: 0 0 20px rgba(249,115,22,0.55);
+        }
 
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 50px 50px; }
+        }
+
+        body {
+            background-color: var(--color-negroProfundo);
+            color: var(--color-blancoPuro);
+            font-family: var(--font-inter);
+            overflow-x: hidden;
+        }
+
+        .bg-grid-pattern {
+            background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        .glass-panel {
+            background: rgba(10, 10, 20, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glow-text-energy {
+            text-shadow: 0 0 15px rgba(249,115,22,0.5);
+        }
+        
+        .glow-text-aqua {
+            text-shadow: 0 0 15px rgba(0,229,255,0.5);
+        }
+
+        .btn-glow-energy {
+            box-shadow: var(--shadow-glowEnergy);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-glow-energy:hover {
+            box-shadow: var(--shadow-glowEnergyHover);
+            transform: translateY(-2px);
+        }
+    </style>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        naranjaEnergy: "var(--color-naranjaEnergy)",
+                        aquaTurquesa: "var(--color-aquaTurquesa)",
+                        negroProfundo: "var(--color-negroProfundo)",
+                        blancoPuro: "var(--color-blancoPuro)",
+                        midnightPanel: "var(--color-midnightPanel)",
+                        deepGrid: "var(--color-deepGrid)",
+                    },
+                    fontFamily: {
+                        bruno: ["Bruno Ace", "sans-serif"],
+                        inter: ["Inter", "sans-serif"],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="antialiased relative min-h-screen flex flex-col">
+
+    <!-- Background Grid -->
+    <div class="fixed inset-0 bg-grid-pattern -z-10 opacity-30"></div>
+    <div class="fixed inset-0 bg-gradient-to-b from-negroProfundo/50 via-negroProfundo to-negroProfundo -z-10"></div>
+
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-50 glass-panel border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 rounded bg-naranjaEnergy/10 border border-naranjaEnergy/30 flex items-center justify-center">
+                    <i class="ph-bold ph-wrench text-naranjaEnergy text-xl"></i>
+                </div>
+                <h1 class="font-bruno text-xl tracking-wider">
+                    <span class="text-white">TSolutions</span><span class="text-aquaTurquesa glow-text-aqua">IPIDD</span>
+                </h1>
+            </div>
+            <nav class="hidden md:flex gap-8">
+                <a href="#inicio" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Inicio</a>
+                <a href="#modulos" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Módulos Smart</a>
+                <a href="#roadmap" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">El Roadmap</a>
+            </nav>
+            <a href="/demo.html" class="hidden md:flex items-center gap-2 bg-naranjaEnergy text-white px-5 py-2.5 rounded-full font-semibold text-sm btn-glow-energy">
+                <i class="ph-bold ph-play"></i>
+                Ver Demo
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="pt-40 pb-20 px-6 relative flex-1 flex flex-col justify-center items-center text-center">
+        <!-- Radial gradient highlight -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-naranjaEnergy/10 blur-[120px] rounded-full pointer-events-none -z-10"></div>
+
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-aquaTurquesa/10 border border-aquaTurquesa/20 text-aquaTurquesa text-xs font-bold uppercase tracking-widest mb-8">
+            <span class="w-2 h-2 rounded-full bg-aquaTurquesa animate-pulse"></span>
+            Evolución para Ferreterías
+        </div>
+        
+        <h2 class="font-bruno text-5xl md:text-7xl leading-tight max-w-4xl mx-auto mb-8">
+            Transformación Digital en <span class="text-naranjaEnergy glow-text-energy block mt-2">90 Días</span>
+        </h2>
+        
+        <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 font-light">
+            Automatiza tu inventario, dispara tus ventas y revoluciona el servicio al cliente con nuestro ecosistema inteligente equipado con <strong>FerreBot IA</strong>.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a href="/demo.html" class="flex items-center justify-center gap-3 bg-naranjaEnergy text-white px-8 py-4 rounded-full font-bold text-lg btn-glow-energy w-full sm:w-auto">
+                Explorar el Demo Interactivo
+                <i class="ph-bold ph-arrow-right"></i>
+            </a>
+            <a href="#modulos" class="flex items-center justify-center gap-3 bg-white/5 border border-white/10 text-white px-8 py-4 rounded-full font-medium text-lg hover:bg-white/10 transition-colors w-full sm:w-auto">
+                Explorar Módulos
+                <i class="ph ph-caret-down"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Módulos Requeridos Section -->
+    <section id="modulos" class="py-24 px-6 relative border-t border-white/5 bg-negroProfundo">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-naranjaEnergy/10 border border-naranjaEnergy/30 text-naranjaEnergy text-xs font-bold uppercase tracking-wider mb-4">
+                    <i class="ph-bold ph-cpu"></i> Arquitectura Modular
+                </div>
+                <h3 class="font-bruno text-3xl md:text-5xl text-white mb-4">Estructura Base de Módulos</h3>
+                <p class="text-gray-400 max-w-2xl mx-auto text-base">Diseñado específicamente para cubrir cada necesidad operativa y estratégica de una ferretería moderna.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Módulo 1: Control de Inventario y Almacén -->
+                <div class="glass-panel p-8 rounded-3xl border-white/10 hover:border-naranjaEnergy/40 transition-all duration-300 group hover:-translate-y-1">
+                    <div class="w-14 h-14 rounded-2xl bg-naranjaEnergy/10 border border-naranjaEnergy/30 flex items-center justify-center text-naranjaEnergy mb-6 group-hover:scale-110 transition-transform">
+                        <i class="ph-bold ph-package text-3xl"></i>
+                    </div>
+                    <span class="text-xs font-bold text-naranjaEnergy uppercase tracking-widest">Módulo 01</span>
+                    <h4 class="font-bruno text-2xl text-white mt-1 mb-4">Smart Stock & Almacén</h4>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Gestión de SKUs complejos, conteos cíclicos automatizados y prevención de périda.</p>
+                    <ul class="space-y-3 text-sm text-gray-300 border-t border-white/10 pt-4">
+                        <li class="flex items-center gap-2">
+                            <i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
+                            <span>Conteos Cíclicos por clasificación ABC/XYZ</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
+                            <span>Control de Scrap, Mermas y Desecho</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
+                            <span>Alertas de Stock Mínimo y Reorden</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Módulo 2: Ventas, Cotizaciones y POS -->
+                <div class="glass-panel p-8 rounded-3xl border-white/10 hover:border-aquaTurquesa/40 transition-all duration-300 group hover:-translate-y-1">
+                    <div class="w-14 h-14 rounded-2xl bg-aquaTurquesa/10 border border-aquaTurquesa/30 flex items-center justify-center text-aquaTurquesa mb-6 group-hover:scale-110 transition-transform">
+                        <i class="ph-bold ph-shopping-cart-simple text-3xl"></i>
+                    </div>
+                    <span class="text-xs font-bold text-aquaTurquesa uppercase tracking-widest">Módulo 02</span>
+                    <h4 class="font-bruno text-2xl text-white mt-1 mb-4">Ventas & Cotizador POS</h4>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Facturación ágil de mostrador y emisión instantánea de presupuestos comerciales.</p>
+                    <ul class="space-y-3 text-sm text-gray-300 border-t border-white/10 pt-4">
+                        <li class="flex items-center gap-2">
+                            <i class="ph-bold ph-check-circle text-aquaTurquesa"></i>
+                            <span>POS ultrarrápido + Código de barras</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="ph-bold ph-check-circle text-aquaTurquesa"></i>
+                            <span>Cotización a Pedido/Factura en 1 Clic</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="ph-bold ph-check-circle text-aquaTurquesa"></i>
+                            <span>Envío directo por WhatsApp y Email</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Módulo 3: Compras, Cotejo & Archivo -->
+                <div class="glass-panel p-8 rounded-3xl border-white/10 hover:border-naranjaEnergy/40 transition-all duration-300 group hover:-translate-y-1">
+                    <div class="w-14 h-14 rounded-2xl bg-naranjaEnergy/10 border border-naranjaEnergy/30 flex items-center justify-center text-naranjaEnergy mb-6 group-hover:scale-110 transition-transform">
+                        <i class="ph-bold ph-receipt text-3xl"></i>
+                    </div>
+                    <span class="text-xs font-bold text-naranjaEnergy uppercase tracking-widest">Módulo 03</span>
+                    <h4 class="font-bruno text-2xl text-white mt-1 mb-4">Compras & Cotejo 3-Way</h4>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Auditoría automatizada de facturas contra recepciones de mercancía y órdenes de compra.</p>
+                    <ul class="space-y-3 text-sm text-gray-300 border-t border-white/10 pt-4">
+                        <li class="flex items-center gap-2">
+                            <i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
+                            <span>Cotejo automático (OC vs Guía vs Factura)</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
+                            <span>Archivo digital indexado de expedientes</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
+                            <span>Órdenes de Compra sugeridas por Lead Time</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Módulo 4: Logística y Envíos -->
+                <div class="glass-panel p-8 rounded-3xl border-white/10 hover:border-aquaTurquesa/40 transition-all duration-300 group hover:-translate-y-1">
+                    <div class="w-14 h-14 rounded-2xl bg-aquaTurquesa/10 border border-aquaTurquesa/30 flex items-center justify-center text-aquaTurquesa mb-6 group-hover:scale-110 transition-transform">
+                        <i class="ph-bold ph-truck text-3xl"></i>
+                    </div>
+                    <span class="text-xs font-bold text-aquaTurquesa uppercase tracking-widest">Módulo 04</span>
+                    <h4 class="font-bruno text-2xl text-white mt-1 mb-4">Logística & Despachos</h4>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Planificación inteligente de entregas para materiales pesados y distribución local.</p>
+                    <ul class="space-y-3 text-sm text-gray-300 border-t border-white/10 pt-4">
+                        <li class="flex items-center gap-2">
+                            <i class="ph-bold ph-check-circle text-aquaTurquesa"></i>
+                            <span>Optimización de rutas por zonas</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="ph-bold ph-check-circle text-aquaTurquesa"></i>
+                            <span>Reserva automática de inventario</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="ph-bold ph-check-circle text-aquaTurquesa"></i>
+                            <span>Seguimiento de envío en tiempo real</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Módulo 5: Facturación Automática -->
+                <div class="glass-panel p-8 rounded-3xl border-white/10 hover:border-naranjaEnergy/40 transition-all duration-300 group hover:-translate-y-1">
+                    <div class="w-14 h-14 rounded-2xl bg-naranjaEnergy/10 border border-naranjaEnergy/30 flex items-center justify-center text-naranjaEnergy mb-6 group-hover:scale-110 transition-transform">
+                        <i class="ph-bold ph-file-cloud text-3xl"></i>
+                    </div>
+                    <span class="text-xs font-bold text-naranjaEnergy uppercase tracking-widest">Módulo 05</span>
+                    <h4 class="font-bruno text-2xl text-white mt-1 mb-4">Facturación Automática</h4>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Emisión y timbrado fiscal instantáneo al cerrar ventas o procesar cobros programados.</p>
+                    <ul class="space-y-3 text-sm text-gray-300 border-t border-white/10 pt-4">
+                        <li class="flex items-center gap-2">
+                            <i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
+                            <span>Timbrado/Sellado Fiscal Inmediato</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
+                            <span>Portal de Auto-Facturación con Código QR</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
+                            <span>Despacho automático de XML + PDF</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Módulo 6: Ecosistema FerreBot IA -->
+                <div class="glass-panel p-8 rounded-3xl border-aquaTurquesa/30 hover:border-aquaTurquesa/60 transition-all duration-300 group hover:-translate-y-1 md:col-span-2 lg:col-span-2 relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-aquaTurquesa/10 rounded-full blur-3xl pointer-events-none"></div>
+                    
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-14 h-14 rounded-2xl bg-aquaTurquesa text-negroProfundo flex items-center justify-center font-bold shadow-[0_0_20px_rgba(0,229,255,0.4)]">
+                            <i class="ph-bold ph-sparkle text-3xl"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold text-aquaTurquesa uppercase tracking-widest">Módulo 06 (Core IA)</span>
+                            <h4 class="font-bruno text-2xl text-white">Ecosistema FerreBot IA</h4>
+                        </div>
+                    </div>
+
+                    <p class="text-gray-300 text-sm mb-6 leading-relaxed max-w-2xl">
+                        Capacidades avanzadas de Visión Artificial y Procesamiento de Lenguaje Natural diseñadas para acelerar la identificación de repuestos y automatizar la administración.
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-white/10 pt-6">
+                        <div class="p-4 rounded-2xl bg-white/5 border border-white/5">
+                            <i class="ph-bold ph-camera text-naranjaEnergy text-2xl mb-2"></i>
+                            <h5 class="font-bold text-white text-sm mb-1">Reconocimiento Visual</h5>
+                            <p class="text-xs text-gray-400">Toma fotos de tornillos o piezas físicas para identificar su SKU exacto.</p>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-white/5 border border-white/5">
+                            <i class="ph-bold ph-file-search text-aquaTurquesa text-2xl mb-2"></i>
+                            <h5 class="font-bold text-white text-sm mb-1">OCR Facturas & Matching</h5>
+                            <p class="text-xs text-gray-400">Extrae datos de PDFs de proveedores y los coteja automáticamente.</p>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-white/5 border border-white/5">
+                            <i class="ph-bold ph-trend-up text-naranjaEnergy text-2xl mb-2"></i>
+                            <h5 class="font-bold text-white text-sm mb-1">Predicción de Demanda</h5>
+                            <p class="text-xs text-gray-400">Forecast automatizado para anticiparse a compras estacionales.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section id="roadmap" class="py-24 px-6 bg-midnightPanel relative border-t border-white/5">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16">
+                <h3 class="font-bruno text-3xl md:text-4xl text-white mb-4">El Camino al Éxito</h3>
+                <p class="text-gray-400 max-w-2xl mx-auto">Implementamos la tecnología por fases para asegurar una transición suave y resultados medibles desde el primer mes.</p>
+            </div>
+
+            <div class="relative space-y-12 before:absolute before:inset-0 before:ml-[1.75rem] md:before:mx-auto md:before:translate-x-0 before:w-0.5 before:h-full before:bg-gradient-to-b before:from-naranjaEnergy before:via-aquaTurquesa before:to-white/10">
+                
+                <!-- Fase 1 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                    <div class="flex items-center justify-center w-14 h-14 rounded-full border-4 border-negroProfundo bg-naranjaEnergy text-white shadow-[0_0_15px_rgba(249,115,22,0.5)] shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                        <i class="ph-bold ph-package text-2xl"></i>
+                    </div>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl glass-panel border-naranjaEnergy/20 transition-transform hover:-translate-y-1">
+                        <div class="text-naranjaEnergy text-sm font-bold uppercase tracking-wider mb-2">Fase 1 (Día 1-30)</div>
+                        <h4 class="font-bold text-xl text-white mb-3">Fundamentos e Inventario</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">Implementación del sistema central, migración del catálogo de productos, control de stock y capacitación inicial del personal.</p>
+                    </div>
+                </div>
+
+                <!-- Fase 2 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                    <div class="flex items-center justify-center w-14 h-14 rounded-full border-4 border-negroProfundo bg-aquaTurquesa text-negroProfundo shadow-[0_0_15px_rgba(0,229,255,0.5)] shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                        <i class="ph-bold ph-robot text-2xl"></i>
+                    </div>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl glass-panel border-aquaTurquesa/20 transition-transform hover:-translate-y-1">
+                        <div class="text-aquaTurquesa text-sm font-bold uppercase tracking-wider mb-2">Fase 2 (Día 31-60)</div>
+                        <h4 class="font-bold text-xl text-white mb-3">Integración FerreBot IA</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">Despliegue del asistente virtual con Inteligencia Artificial para consultas automáticas, alertas de reabastecimiento y atención.</p>
+                    </div>
+                </div>
+
+                <!-- Fase 3 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                    <div class="flex items-center justify-center w-14 h-14 rounded-full border-4 border-negroProfundo bg-white/20 text-white shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                        <i class="ph-bold ph-chart-bar text-2xl"></i>
+                    </div>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl glass-panel opacity-60 hover:opacity-100 transition-opacity border-white/10">
+                        <div class="text-gray-400 text-sm font-bold uppercase tracking-wider mb-2">Fase 3 (Día 61-90)</div>
+                        <h4 class="font-bold text-xl text-white mb-3">Dashboard Analítico Completo</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">Activación del panel de control ejecutivo en tiempo real, integración con aplicación móvil y ajustes finales de escalabilidad.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-20 px-6 bg-negroProfundo relative border-t border-white/5 overflow-hidden">
+        <div class="absolute inset-0 bg-naranjaEnergy/5 opacity-50"></div>
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <h3 class="font-bruno text-3xl md:text-5xl text-white mb-8">¿Listo para modernizar tu negocio?</h3>
+            <a href="/demo.html" class="inline-flex items-center justify-center gap-3 bg-aquaTurquesa text-negroProfundo px-10 py-5 rounded-full font-bold text-lg shadow-[0_0_20px_rgba(0,229,255,0.4)] hover:shadow-[0_0_30px_rgba(0,229,255,0.6)] hover:scale-105 transition-all">
+                <i class="ph-bold ph-desktop"></i>
+                Probar Demo de la Plataforma
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 border-t border-white/10 bg-deepGrid text-center px-6">
+        <p class="text-gray-500 text-sm font-medium">© 2026 TSolutions IPIDD. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
 </html>
