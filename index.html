@@ -128,13 +128,14 @@
         }
         .logo-interactive-glow {
             position: absolute;
-            width: 350px;
-            height: 350px;
+            width: 600px;
+            height: 600px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(249,115,22,0.18) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(249,115,22,0.15) 0%, transparent 70%);
             pointer-events: none;
             transform: translate(-50%, -50%);
             transition: left 0.1s ease-out, top 0.1s ease-out;
+            z-index: 1;
         }
 
         /* Estilo de Tarjetas Magnéticas */
@@ -231,7 +232,13 @@
     </header>
 
     <!-- HERO SECTION (Diseño Renovado Basado en Referencia Visual) -->
-    <section id="inicio" class="pt-36 pb-20 px-6 relative min-h-screen flex flex-col justify-center border-b border-white/5 overflow-hidden bg-negroProfundo">
+    <section id="inicio" 
+             @mousemove="moveGlow($event)" 
+             @mouseleave="hideGlow()" 
+             class="pt-36 pb-20 px-6 relative min-h-screen flex flex-col justify-center border-b border-white/5 overflow-hidden bg-negroProfundo">
+        
+        <!-- Brillo de cursor (rectangular a lo largo de todo el Hero) -->
+        <div class="logo-interactive-glow" x-ref="logoGlow" style="left: 50%; top: 50%; opacity: 0.8;"></div>
         
         <!-- Contenedor de 3 Columnas Grid -->
         <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
@@ -266,14 +273,9 @@
                 </div>
             </div>
 
-            <!-- Columna Central: Logotipo TSolutions Interactivo con Brillo de Cursor -->
+            <!-- Columna Central: Logotipo TSolutions Interactivo -->
             <div class="lg:col-span-4 flex justify-center items-center py-8">
-                <div class="w-80 h-80 rounded-full logo-interactive-container flex items-center justify-center shadow-2xl border border-white/5 group"
-                     @mousemove="moveGlow($event)"
-                     @mouseleave="hideGlow()">
-                    
-                    <!-- Brillo de cursor -->
-                    <div class="logo-interactive-glow" x-ref="logoGlow" style="left: 50%; top: 50%; opacity: 0.8;"></div>
+                <div class="w-80 h-80 rounded-full logo-interactive-container flex items-center justify-center shadow-2xl border border-white/5 group">
                     
                     <!-- Logotipo TSolutions central -->
                     <div class="relative z-10 w-44 h-44 flex items-center justify-center">
