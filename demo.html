@@ -514,15 +514,29 @@
 
             <!-- PESTAÑA 4: FACTURACIÓN AUTOMÁTICA -->
             <div x-show="currentTab === 'facturacion'" class="space-y-6">
-                <!-- Tarjeta de Control con Facturación Manual -->
-                <div class="glass-panel p-6 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-4 border-l-4 border-l-aquaTurquesa">
-                    <div>
-                        <h3 class="text-lg font-bold text-white">Facturación Semi-Automática</h3>
-                        <p class="text-xs text-gray-400 mt-1">Crea un comprobante fiscal capturando únicamente los datos del cliente. Ferrebot resolverá y timbrará el resto.</p>
+                <!-- Tarjetas de Control de Facturación -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Tarjeta 1: Facturación Manual -->
+                    <div class="glass-panel p-6 rounded-2xl flex flex-col justify-between gap-4 border-l-4 border-l-aquaTurquesa">
+                        <div>
+                            <h3 class="text-base font-bold text-white">Facturación Semi-Automática</h3>
+                            <p class="text-xs text-gray-400 mt-1">Crea un comprobante fiscal de mostrador capturando únicamente el RFC. Ferrebot resolverá y timbrará el resto.</p>
+                        </div>
+                        <button @click="openBillingModal()" class="w-full bg-aquaTurquesa text-darkBg py-2.5 rounded-xl text-xs font-bold hover:bg-white hover:scale-102 transition-all cursor-pointer flex items-center justify-center gap-2 mt-2">
+                            <i class="ph-bold ph-file-plus text-sm"></i> Facturación Manual (Administrador)
+                        </button>
                     </div>
-                    <button @click="openBillingModal()" class="bg-aquaTurquesa text-darkBg px-5 py-2.5 rounded-xl text-xs font-bold shrink-0 hover:bg-white hover:scale-105 transition-all cursor-pointer flex items-center gap-2">
-                        <i class="ph-bold ph-file-plus text-sm"></i> Facturación Manual
-                    </button>
+
+                    <!-- Tarjeta 2: Auto-Facturación QR Cliente Final -->
+                    <div class="glass-panel p-6 rounded-2xl flex flex-col justify-between gap-4 border-l-4 border-l-soberOrange">
+                        <div>
+                            <h3 class="text-base font-bold text-white">Auto-Facturación QR (Cliente Final)</h3>
+                            <p class="text-xs text-gray-400 mt-1">Simula la experiencia de un cliente final escaneando el código QR impreso en su ticket de compra.</p>
+                        </div>
+                        <button @click="openQrModal()" class="w-full bg-soberOrangeLight text-white py-2.5 rounded-xl text-xs font-bold hover:bg-white hover:text-darkBg hover:scale-102 transition-all cursor-pointer flex items-center justify-center gap-2 mt-2">
+                            <i class="ph-bold ph-qr-code text-sm"></i> Simular Escaneo QR Auto-Factura
+                        </button>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -532,7 +546,7 @@
                     </div>
                     <div class="glass-panel p-5 rounded-2xl">
                         <p class="text-xs text-gray-400">Auto-Facturas (QR)</p>
-                        <h4 class="text-2xl font-bold text-aquaTurquesa mt-1">583</h4>
+                        <h4 class="text-2xl font-bold text-aquaTurquesa mt-1" x-text="qrInvoicesCount">583</h4>
                     </div>
                     <div class="glass-panel p-5 rounded-2xl">
                         <p class="text-xs text-gray-400">Envíos Exitosos</p>
@@ -997,6 +1011,152 @@
         </div>
     </div>
 
+    <!-- MODAL DE AUTO-FACTURACIÓN QR (CLIENTE FINAL) -->
+    <div x-show="qrModalOpen" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-negroProfundo/80 backdrop-blur-md overflow-y-auto"
+         style="display: none;">
+        
+        <div class="relative w-full max-w-lg bg-midnightPanel border border-white/15 rounded-3xl p-6 md:p-8 shadow-2xl my-8 text-left"
+             @click.outside="if (qrStep === 'ticket' || qrStep === 'success') qrModalOpen = false">
+            
+            <!-- Close button -->
+            <button x-show="qrStep === 'ticket' || qrStep === 'register' || qrStep === 'confirm' || qrStep === 'success'" @click="qrModalOpen = false" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl cursor-pointer">
+                <i class="ph-bold ph-x"></i>
+            </button>
+
+            <!-- Header -->
+            <div class="mb-6 border-b border-white/10 pb-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-soberOrange/10 text-soberOrangeLight text-xs font-bold uppercase tracking-wider mb-2 border border-soberOrange/20">
+                    <i class="ph-bold ph-qr-code"></i> Auto-Facturación Móvil
+                </div>
+                <h3 class="font-bruno text-lg text-white">Factura de Ticket por QR</h3>
+                <p class="text-gray-400 text-xs mt-1">Ingresa tus datos fiscales. Ferrebot los procesará con el SAT.</p>
+            </div>
+
+            <!-- Paso 1: Ticket Scanned + Búsqueda RFC -->
+            <div x-show="qrStep === 'ticket'" class="space-y-5">
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-4 flex justify-between items-center text-xs">
+                    <div>
+                        <p class="text-gray-400">Ticket Escaneado</p>
+                        <p class="text-white font-mono font-bold mt-0.5">#T-90214</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-gray-400">Total de Compra</p>
+                        <p class="text-soberOrangeLight font-bold mt-0.5">$540.00 MXN</p>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider">Busca tu RFC en nuestra base de datos</label>
+                    <div class="flex gap-2">
+                        <input type="text" x-model="qrSearchRfc" placeholder="ej. GAFJ780512XYZ" class="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white uppercase focus:outline-none focus:border-soberOrangeLight">
+                        <button @click="searchRfcInDb()" class="px-5 py-2.5 bg-soberOrangeLight text-white rounded-xl text-xs font-bold hover:bg-white hover:text-darkBg transition-colors cursor-pointer">Buscar</button>
+                    </div>
+                    <span x-show="qrErrorMsg" class="text-xs text-brandRed font-medium block" x-text="qrErrorMsg"></span>
+                </div>
+
+                <div class="border-t border-white/5 pt-4 text-center">
+                    <p class="text-xs text-gray-400 mb-3">¿Es tu primera vez facturando aquí o deseas registrarte?</p>
+                    <button @click="goToRegister()" class="w-full py-2.5 border border-white/15 text-white hover:bg-white/5 transition-colors font-bold rounded-xl text-xs cursor-pointer">
+                        Registrarme como Cliente Nuevo
+                    </button>
+                </div>
+            </div>
+
+            <!-- Paso 2: Registro de Cliente Nuevo -->
+            <div x-show="qrStep === 'register'" class="space-y-4">
+                <p class="text-xs text-aquaTurquesa font-bold uppercase tracking-wider mb-2">📋 Registro de Cliente Nuevo</p>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1.5 uppercase tracking-wider">RFC</label>
+                    <input type="text" x-model="qrClientRfc" placeholder="ej. GAFJ780512XYZ" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-aquaTurquesa">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1.5 uppercase tracking-wider">Razón Social</label>
+                    <input type="text" x-model="qrClientName" placeholder="ej. Javier Gallardo Gómez" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-aquaTurquesa">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1.5 uppercase tracking-wider">Código Postal</label>
+                        <input type="text" x-model="qrClientCp" placeholder="21100" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-aquaTurquesa">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1.5 uppercase tracking-wider">Régimen Fiscal</label>
+                        <select x-model="qrClientRegimen" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-aquaTurquesa">
+                            <option value="601">601 - General de Ley Personas Morales</option>
+                            <option value="612">612 - Personas Físicas con Actividades Empresariales</option>
+                            <option value="625">625 - Régimen Simplificado de Confianza (RESICO)</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1.5 uppercase tracking-wider">Correo Electrónico</label>
+                    <input type="email" x-model="qrClientEmail" placeholder="correo@ejemplo.com" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-aquaTurquesa">
+                </div>
+                <div class="flex gap-2 pt-2">
+                    <button @click="qrStep = 'ticket'" class="w-1/3 py-2.5 border border-white/10 text-gray-400 hover:text-white rounded-xl text-xs cursor-pointer">Volver</button>
+                    <button @click="registerAndSubmitQr()" class="w-2/3 py-2.5 bg-aquaTurquesa text-darkBg font-bold rounded-xl text-xs hover:bg-white hover:scale-105 transition-all cursor-pointer">Registrar y Facturar</button>
+                </div>
+            </div>
+
+            <!-- Paso 3: Confirmación Cliente Registrado -->
+            <div x-show="qrStep === 'confirm'" class="space-y-4">
+                <p class="text-xs text-brandGreen font-bold uppercase tracking-wider mb-2">✅ ¡Cliente Encontrado en Base de Datos!</p>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-4 text-xs space-y-2.5">
+                    <div class="flex justify-between"><span class="text-gray-400">RFC:</span><span class="text-white font-mono" x-text="qrClientRfc"></span></div>
+                    <div class="flex justify-between"><span class="text-gray-400">Razón Social:</span><span class="text-white font-semibold" x-text="qrClientName"></span></div>
+                    <div class="flex justify-between"><span class="text-gray-400">C.P.:</span><span class="text-white" x-text="qrClientCp"></span></div>
+                    <div class="flex justify-between"><span class="text-gray-400">Régimen:</span><span class="text-white" x-text="qrClientRegimen"></span></div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1.5 uppercase tracking-wider">Confirmar Correo de Envío</label>
+                    <input type="email" x-model="qrClientEmail" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-soberOrangeLight">
+                </div>
+                <div class="flex gap-2 pt-2">
+                    <button @click="qrStep = 'ticket'" class="w-1/3 py-2.5 border border-white/10 text-gray-400 hover:text-white rounded-xl text-xs cursor-pointer">Volver</button>
+                    <button @click="submitExistingQr()" class="w-2/3 py-2.5 bg-soberOrangeLight text-white font-bold rounded-xl text-xs hover:bg-white hover:text-darkBg hover:scale-105 transition-all cursor-pointer">Confirmar y Facturar</button>
+                </div>
+            </div>
+
+            <!-- Paso 4: Cargando Timbrado de Ferrebot -->
+            <div x-show="qrStep === 'stamping'" class="py-10 flex flex-col items-center justify-center text-center space-y-6">
+                <div class="relative w-20 h-20 flex items-center justify-center">
+                    <div class="absolute inset-0 border-4 border-soberOrangeLight/10 border-t-soberOrangeLight rounded-full animate-spin"></div>
+                    <i class="ph-bold ph-robot text-3xl text-soberOrangeLight animate-pulse"></i>
+                </div>
+                <div>
+                    <h4 class="font-bruno text-white text-sm" x-text="qrLogMsg"></h4>
+                    <p class="text-xs text-gray-500 mt-1">Timbrado automático en progreso...</p>
+                </div>
+            </div>
+
+            <!-- Paso 5: Éxito -->
+            <div x-show="qrStep === 'success'" class="py-6 flex flex-col items-center justify-center text-center space-y-4">
+                <div class="w-16 h-16 rounded-full bg-brandGreen/20 border border-brandGreen text-brandGreen flex items-center justify-center text-3xl">
+                    <i class="ph-bold ph-check"></i>
+                </div>
+                <div>
+                    <h4 class="font-bruno text-white text-base">¡Auto-Facturación Exitosa!</h4>
+                    <p class="text-xs text-gray-400 mt-1">El CFDI 4.0 fue generado automáticamente a través de QR.</p>
+                </div>
+                <div class="w-full bg-white/5 rounded-xl p-4 text-xs text-left space-y-2 border border-white/5">
+                    <div class="flex justify-between"><span class="text-gray-400">Folio Autogenerado:</span><span class="text-white font-mono font-bold" x-text="qrSuccessFolio"></span></div>
+                    <div class="flex justify-between"><span class="text-gray-400">Cliente:</span><span class="text-white" x-text="qrClientName"></span></div>
+                    <div class="flex justify-between"><span class="text-gray-400">Monto:</span><span class="text-white font-bold">$540.00</span></div>
+                </div>
+                <button @click="qrModalOpen = false" class="w-full py-2.5 bg-brandGreen text-white font-bold rounded-xl text-xs hover:bg-white hover:text-darkBg transition-all cursor-pointer">
+                    Finalizar y Descargar Comprobantes
+                </button>
+            </div>
+
+        </div>
+    </div>
+
     <!-- SCRIPT DE LÓGICA DE DEMO -->
     <script>
         function demoApp() {
@@ -1036,6 +1196,16 @@
                     { folio: 'F-0019291', client: 'Grupo Constructor Monterrey', date: '19 Jul 2026', status: 'Timbrada' }
                 ],
 
+                // Base de datos de clientes simulada (RFCs que el sistema reconocerá automáticamente)
+                dbClients: [
+                    { rfc: 'XAXX010101000', name: 'Público en General', regimen: '616', cp: '21000', email: 'publico@ferreteriasmart.com' },
+                    { rfc: 'GAFJ780512XYZ', name: 'Javier Gallardo Gómez', regimen: '612', cp: '21100', email: 'javier.gallardo@tsolutionsipidd.com' },
+                    { rfc: 'MJU880911AA3', name: 'Materiales Juárez S.A.', regimen: '601', cp: '64000', email: 'contacto@materialesjuarez.com' }
+                ],
+
+                // Contador de auto-facturas QR
+                qrInvoicesCount: 583,
+
                 // Estados de la facturación manual semi-automática
                 billingModalOpen: false,
                 billingRfc: '',
@@ -1045,6 +1215,19 @@
                 billingRegimen: '601',
                 billingState: 'form', // 'form', 'validating', 'stamping', 'generating', 'sending', 'success'
                 billingLogMsg: '',
+
+                // Estados de la Auto-Facturación QR
+                qrModalOpen: false,
+                qrStep: 'ticket', // 'ticket', 'register', 'confirm', 'stamping', 'success'
+                qrSearchRfc: '',
+                qrErrorMsg: '',
+                qrClientRfc: '',
+                qrClientName: '',
+                qrClientCp: '',
+                qrClientRegimen: '601',
+                qrClientEmail: '',
+                qrLogMsg: '',
+                qrSuccessFolio: '',
 
                 openBillingModal() {
                     this.billingRfc = '';
@@ -1078,11 +1261,7 @@
                                 
                                 setTimeout(() => {
                                     this.billingState = 'success';
-                                    
-                                    // Crear folio autoincremental ficticio
                                     const randomFolio = 'F-0019' + Math.floor(Math.random() * 900 + 292);
-                                    
-                                    // Agregar la factura al inicio de la tabla reactiva
                                     this.invoicesList.unshift({
                                         folio: randomFolio,
                                         client: this.billingName + ' (' + this.billingRfc.toUpperCase() + ')',
@@ -1093,6 +1272,95 @@
                             }, 1000);
                         }, 1000);
                     }, 1000);
+                },
+
+                // Lógica de Auto-Facturación QR
+                openQrModal() {
+                    this.qrStep = 'ticket';
+                    this.qrSearchRfc = '';
+                    this.qrErrorMsg = '';
+                    this.qrClientRfc = '';
+                    this.qrClientName = '';
+                    this.qrClientCp = '';
+                    this.qrClientRegimen = '601';
+                    this.qrClientEmail = '';
+                    this.qrModalOpen = true;
+                },
+
+                searchRfcInDb() {
+                    this.qrErrorMsg = '';
+                    const rfcClean = this.qrSearchRfc.trim().toUpperCase();
+                    if (!rfcClean) {
+                        this.qrErrorMsg = 'Ingresa un RFC para continuar.';
+                        return;
+                    }
+                    
+                    const found = this.dbClients.find(c => c.rfc === rfcClean);
+                    if (found) {
+                        this.qrClientRfc = found.rfc;
+                        this.qrClientName = found.name;
+                        this.qrClientCp = found.cp;
+                        this.qrClientRegimen = found.regimen;
+                        this.qrClientEmail = found.email;
+                        this.qrStep = 'confirm';
+                    } else {
+                        this.qrErrorMsg = 'RFC no encontrado en nuestra base de datos. Completa tu registro para continuar.';
+                    }
+                },
+
+                goToRegister() {
+                    this.qrClientRfc = this.qrSearchRfc.toUpperCase();
+                    this.qrClientName = '';
+                    this.qrClientCp = '';
+                    this.qrClientRegimen = '601';
+                    this.qrClientEmail = '';
+                    this.qrStep = 'register';
+                },
+
+                registerAndSubmitQr() {
+                    if (!this.qrClientRfc || !this.qrClientName || !this.qrClientCp || !this.qrClientEmail) {
+                        alert('Por favor completa todos los campos del registro.');
+                        return;
+                    }
+                    // Guardar en la base de datos simulada
+                    const newClient = {
+                        rfc: this.qrClientRfc.toUpperCase(),
+                        name: this.qrClientName,
+                        regimen: this.qrClientRegimen,
+                        cp: this.qrClientCp,
+                        email: this.qrClientEmail
+                    };
+                    this.dbClients.push(newClient);
+                    this.startQrStamping();
+                },
+
+                submitExistingQr() {
+                    if (!this.qrClientEmail) {
+                        alert('Ingresa el correo para recibir los archivos.');
+                        return;
+                    }
+                    this.startQrStamping();
+                },
+
+                startQrStamping() {
+                    this.qrStep = 'stamping';
+                    this.qrLogMsg = 'Ferrebot: Validando datos en el SAT...';
+                    
+                    setTimeout(() => {
+                        this.qrLogMsg = 'Ferrebot: Generando firma digital del timbre fiscal...';
+                        
+                        setTimeout(() => {
+                            this.qrSuccessFolio = 'F-QR-' + Math.floor(Math.random() * 90000 + 10000);
+                            this.invoicesList.unshift({
+                                folio: this.qrSuccessFolio,
+                                client: this.qrClientName + ' (' + this.qrClientRfc.toUpperCase() + ')',
+                                date: 'Hoy',
+                                status: 'Timbrada'
+                            });
+                            this.qrInvoicesCount++;
+                            this.qrStep = 'success';
+                        }, 1200);
+                    }, 1200);
                 },
 
                 openDetails(key) {
