@@ -160,6 +160,53 @@
             background: rgba(249,115,22,0.3);
             border-radius: 10px;
         }
+
+        /* Reglas del Cursor 3D Personalizado */
+        header, header *, #inicio, #inicio * {
+            cursor: none !important;
+        }
+        
+        #custom-3d-cursor {
+            position: fixed;
+            width: 54px;
+            height: 54px;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cursor-center-dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: #FFFFFF;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ffffff, 0 0 20px var(--color-aquaTurquesa);
+            z-index: 10;
+        }
+
+        @keyframes spinHexagon3D {
+            0% {
+                transform: rotateX(65deg) rotateY(0deg) rotateZ(0deg);
+            }
+            100% {
+                transform: rotateX(65deg) rotateY(360deg) rotateZ(360deg);
+            }
+        }
+
+        .cursor-hexagon-3d {
+            width: 46px;
+            height: 46px;
+            color: var(--color-naranjaEnergy);
+            transform-style: preserve-3d;
+            animation: spinHexagon3D 7s linear infinite;
+            filter: drop-shadow(0 0 8px rgba(249,115,22,0.8));
+        }
     </style>
 
     <script>
@@ -184,6 +231,14 @@
     </script>
 </head>
 <body class="antialiased relative min-h-screen flex flex-col" x-data="agendaApp()">
+
+    <!-- Cursor 3D Personalizado (Hexágono giratorio + Punto de luz brillante) -->
+    <div id="custom-3d-cursor">
+        <div class="cursor-center-dot"></div>
+        <svg viewBox="0 0 100 100" class="cursor-hexagon-3d">
+            <polygon points="50,5 90,28 90,72 50,95 10,72 10,28" fill="none" stroke="currentColor" stroke-width="5"/>
+        </svg>
+    </div>
 
     <!-- Background Grid -->
     <div class="fixed inset-0 bg-grid-pattern -z-10 opacity-30"></div>
@@ -992,6 +1047,28 @@
                 }
             }
         }
+        // Tracking y control del cursor 3D personalizado
+        document.addEventListener('mousemove', (e) => {
+            const cursorEl = document.getElementById('custom-3d-cursor');
+            if (!cursorEl) return;
+            
+            const hero = document.getElementById('inicio');
+            const header = document.querySelector('header');
+            
+            const rectHero = hero ? hero.getBoundingClientRect() : null;
+            const rectHeader = header ? header.getBoundingClientRect() : null;
+            
+            const isOverHero = rectHero && (e.clientX >= rectHero.left && e.clientX <= rectHero.right && e.clientY >= rectHero.top && e.clientY <= rectHero.bottom);
+            const isOverHeader = rectHeader && (e.clientX >= rectHeader.left && e.clientX <= rectHeader.right && e.clientY >= rectHeader.top && e.clientY <= rectHeader.bottom);
+            
+            if (isOverHero || isOverHeader) {
+                cursorEl.style.left = `${e.clientX}px`;
+                cursorEl.style.top = `${e.clientY}px`;
+                cursorEl.style.opacity = '1';
+            } else {
+                cursorEl.style.opacity = '0';
+            }
+        });
     </script>
 </body>
 </html>
