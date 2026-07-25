@@ -69,6 +69,11 @@
         .glow-text {
             text-shadow: 0 0 15px rgba(224, 122, 47, 0.5);
         }
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(3deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
     </style>
 </head>
 <body class="font-sans antialiased h-screen overflow-hidden flex" x-data="demoApp()">
@@ -818,7 +823,7 @@
             </div>
 
             <div class="flex-1 p-6 flex flex-col items-center justify-center text-center space-y-3">
-                <i class="ph-bold ph-chat-circle-dots text-4xl text-soberOrangeLight"></i>
+                <img src="smiling_wrench.jpg" alt="FerreWrench IA" class="w-20 h-20 rounded-full border-2 border-soberOrange/40 shadow-lg object-cover animate-[float_4s_ease-in-out_infinite]" />
                 <p class="text-xs text-white font-medium">Chat de Demostración Cerrado</p>
                 <p class="text-[10px] text-gray-400 max-w-[220px]">Esta ventana representa la interfaz conversacional de la IA. Agenda una cita para ver el bot funcionando en tiempo real.</p>
             </div>
