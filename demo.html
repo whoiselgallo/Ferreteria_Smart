@@ -74,6 +74,16 @@
             50% { transform: translateY(-8px) rotate(3deg); }
             100% { transform: translateY(0px) rotate(0deg); }
         }
+        .magnetic-card {
+            background: rgba(18, 18, 22, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), border-color 0.3s, box-shadow 0.3s;
+        }
+        .magnetic-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            border-color: rgba(0, 229, 255, 0.35);
+            box-shadow: 0 10px 25px rgba(0, 229, 255, 0.08);
+        }
     </style>
 </head>
 <body class="font-sans antialiased h-screen overflow-hidden flex" x-data="demoApp()">
@@ -219,29 +229,33 @@
 
             <!-- PESTAÑA 1: DASHBOARD GENERAL -->
             <div x-show="currentTab === 'dashboard'" class="space-y-6">
+                <!-- Tarjetas de KPI Clickables con efecto hover y modal de seguimiento -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
+                    <div @click="openDetails('ventas_kpi')" class="glass-panel p-6 rounded-2xl relative overflow-hidden group cursor-pointer hover:border-brandGreen/40 transition-all">
                         <div class="flex items-center gap-3 mb-2">
-                            <div class="w-8 h-8 rounded-full bg-brandGreen/20 flex items-center justify-center text-brandGreen"><i class="ph ph-currency-dollar"></i></div>
+                            <div class="w-8 h-8 rounded-full bg-brandGreen/20 flex items-center justify-center text-brandGreen"><i class="ph ph-currency-dollar text-lg"></i></div>
                             <h3 class="text-gray-400 text-sm font-medium">Ventas del Día</h3>
+                            <span class="ml-auto text-[9px] uppercase tracking-wider text-brandGreen font-bold bg-brandGreen/10 px-2 py-0.5 rounded border border-brandGreen/20">Ver Pendientes</span>
                         </div>
                         <p class="text-3xl font-bold text-white mb-1">$24,930.00</p>
                         <p class="text-xs text-brandGreen flex items-center gap-1"><i class="ph ph-arrow-up-right"></i> +15% vs ayer</p>
                     </div>
                     
-                    <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
+                    <div @click="openDetails('stock_kpi')" class="glass-panel p-6 rounded-2xl relative overflow-hidden group cursor-pointer hover:border-brandRed/40 transition-all">
                         <div class="flex items-center gap-3 mb-2">
-                            <div class="w-8 h-8 rounded-full bg-brandRed/20 flex items-center justify-center text-brandRed"><i class="ph ph-package"></i></div>
+                            <div class="w-8 h-8 rounded-full bg-brandRed/20 flex items-center justify-center text-brandRed"><i class="ph ph-package text-lg"></i></div>
                             <h3 class="text-gray-400 text-sm font-medium">Alertas de Stock</h3>
+                            <span class="ml-auto text-[9px] uppercase tracking-wider text-brandRed font-bold bg-brandRed/10 px-2 py-0.5 rounded border border-brandRed/20">Ver Alertas</span>
                         </div>
                         <p class="text-3xl font-bold text-white mb-1">12 <span class="text-sm font-normal text-gray-400">artículos</span></p>
                         <p class="text-xs text-brandRed flex items-center gap-1"><i class="ph ph-warning-circle"></i> Requieren reabastecimiento crítico</p>
                     </div>
 
-                    <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group border-soberOrange/30">
+                    <div @click="openDetails('ia_kpi')" class="glass-panel p-6 rounded-2xl relative overflow-hidden group border-soberOrange/30 cursor-pointer hover:border-soberOrange/60 transition-all">
                         <div class="flex items-center gap-3 mb-2">
-                            <div class="w-8 h-8 rounded-full bg-soberOrange/20 flex items-center justify-center text-soberOrangeLight"><i class="ph ph-robot"></i></div>
+                            <div class="w-8 h-8 rounded-full bg-soberOrange/20 flex items-center justify-center text-soberOrangeLight"><i class="ph ph-robot text-lg"></i></div>
                             <h3 class="text-gray-400 text-sm font-medium">Consultas IA</h3>
+                            <span class="ml-auto text-[9px] uppercase tracking-wider text-soberOrangeLight font-bold bg-soberOrange/10 px-2 py-0.5 rounded border border-soberOrange/20">Monitorear</span>
                         </div>
                         <p class="text-3xl font-bold text-white mb-1">218</p>
                         <p class="text-xs text-soberOrangeLight flex items-center gap-1"><i class="ph ph-check-circle"></i> 99% resueltas automáticamente</p>
@@ -342,25 +356,26 @@
 
             <!-- PESTAÑA 2: INVENTARIO & STOCK -->
             <div x-show="currentTab === 'inventario'" class="space-y-6">
+                <!-- Secciones de conteo que abren alertas -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-brandRed">
+                    <div @click="openDetails('stock_kpi')" class="glass-panel p-5 rounded-2xl border-l-4 border-l-brandRed cursor-pointer hover:bg-white/5 transition-colors">
                         <span class="text-xs font-bold text-brandRed uppercase">Categoría A (80% Valor)</span>
                         <h4 class="text-lg font-bruno text-white mt-1">Herramientas & Maquinaria</h4>
-                        <p class="text-xs text-gray-400 mt-1">Conteo cada 7 días • Control estricto</p>
+                        <p class="text-xs text-gray-400 mt-1">Conteo cada 7 días • Clic para ver alertas</p>
                     </div>
-                    <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-brandYellow">
+                    <div @click="openDetails('stock_kpi')" class="glass-panel p-5 rounded-2xl border-l-4 border-l-brandYellow cursor-pointer hover:bg-white/5 transition-colors">
                         <span class="text-xs font-bold text-brandYellow uppercase">Categoría B (15% Valor)</span>
                         <h4 class="text-lg font-bruno text-white mt-1">Tubería & Material Eléctrico</h4>
-                        <p class="text-xs text-gray-400 mt-1">Conteo cada 30 días • Control intermedio</p>
+                        <p class="text-xs text-gray-400 mt-1">Conteo cada 30 días • Clic para ver alertas</p>
                     </div>
-                    <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-brandGreen">
+                    <div @click="openDetails('stock_kpi')" class="glass-panel p-5 rounded-2xl border-l-4 border-l-brandGreen cursor-pointer hover:bg-white/5 transition-colors">
                         <span class="text-xs font-bold text-brandGreen uppercase">Categoría C (5% Valor)</span>
                         <h4 class="text-lg font-bruno text-white mt-1">Tornillería & Clavos por Grano</h4>
-                        <p class="text-xs text-gray-400 mt-1">Conteo cada 90 días • Compras en volumen</p>
+                        <p class="text-xs text-gray-400 mt-1">Conteo cada 90 días • Clic para ver alertas</p>
                     </div>
                 </div>
 
-                <!-- Tabla de inventario ampliada (8 registros) -->
+                <!-- Tabla de inventario ampliada -->
                 <div class="glass-panel rounded-2xl p-6">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs border-collapse">
@@ -375,7 +390,7 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-white/5">
-                                <tr class="hover:bg-white/5">
+                                <tr class="hover:bg-white/5 cursor-pointer" @click="openDetails('stock_kpi')">
                                     <td class="py-3 font-medium text-white">TRP-16OZ • Martillo Uña Truper 16oz</td>
                                     <td class="py-3"><span class="px-2 py-0.5 rounded bg-brandRed/20 text-brandRed font-bold">A - High</span></td>
                                     <td class="py-3 text-white font-bold">18 pzas</td>
@@ -383,7 +398,7 @@
                                     <td class="py-3 text-gray-400">Pasillo 3 - Estante B</td>
                                     <td class="py-3 text-center text-gray-400">0 pzas</td>
                                 </tr>
-                                <tr class="hover:bg-white/5">
+                                <tr class="hover:bg-white/5 cursor-pointer" @click="openDetails('stock_kpi')">
                                     <td class="py-3 font-medium text-white">PIJ-TAB-100 • Caja Pija Tablaroca #8 x 1"</td>
                                     <td class="py-3"><span class="px-2 py-0.5 rounded bg-brandGreen/20 text-brandGreen font-bold">C - Bulk</span></td>
                                     <td class="py-3 text-brandRed font-bold">2 cajas ⚠️</td>
@@ -399,7 +414,7 @@
                                     <td class="py-3 text-gray-400">Estante Metales 4</td>
                                     <td class="py-3 text-center text-gray-400">0 pzas</td>
                                 </tr>
-                                <tr class="hover:bg-white/5">
+                                <tr class="hover:bg-white/5 cursor-pointer" @click="openDetails('stock_kpi')">
                                     <td class="py-3 font-medium text-white">PNT-VIN-WHT • Pintura Vinílica 19L Blanca</td>
                                     <td class="py-3"><span class="px-2 py-0.5 rounded bg-brandRed/20 text-brandRed font-bold">A - High</span></td>
                                     <td class="py-3 text-brandRed font-bold">5 pzas ⚠️</td>
@@ -407,7 +422,7 @@
                                     <td class="py-3 text-gray-400">Bodega C - Pinturas</td>
                                     <td class="py-3 text-center text-gray-400">0 pzas</td>
                                 </tr>
-                                <tr class="hover:bg-white/5">
+                                <tr class="hover:bg-white/5 cursor-pointer" @click="openDetails('stock_kpi')">
                                     <td class="py-3 font-medium text-white">LLE-ALN-SET • Juego Llaves Alen Estándar</td>
                                     <td class="py-3"><span class="px-2 py-0.5 rounded bg-brandYellow/20 text-brandYellow font-bold">B - Medium</span></td>
                                     <td class="py-3 text-white font-bold">12 pzas</td>
@@ -431,7 +446,7 @@
                                     <td class="py-3 text-gray-400">Pasillo 1 - Vitrina C</td>
                                     <td class="py-3 text-center text-gray-400">0 pzas</td>
                                 </tr>
-                                <tr class="hover:bg-white/5">
+                                <tr class="hover:bg-white/5 cursor-pointer" @click="openDetails('stock_kpi')">
                                     <td class="py-3 font-medium text-white">CLA-CON-2IN • Caja Clavos de Concreto 2"</td>
                                     <td class="py-3"><span class="px-2 py-0.5 rounded bg-brandGreen/20 text-brandGreen font-bold">C - Bulk</span></td>
                                     <td class="py-3 text-white font-bold">50 cajas</td>
@@ -445,9 +460,8 @@
                 </div>
             </div>
 
-            <!-- PESTAÑA 3: VENTAS & COTIZADOR POS -->
+            <!-- PESTAÑA 3: VENTAS & COTIZADOR POS (OMITIDO - INFORMATIVA/TRANSACCIONAL) -->
             <div x-show="currentTab === 'ventas'" class="space-y-6">
-                <!-- POS con 6 artículos precargados en el carrito -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div class="lg:col-span-2 glass-panel p-6 rounded-2xl space-y-6">
                         <div class="flex items-center justify-between border-b border-white/10 pb-4">
@@ -498,7 +512,7 @@
                 </div>
             </div>
 
-            <!-- PESTAÑA 4: FACTURACIÓN AUTOMÁTICA -->
+            <!-- PESTAÑA 4: FACTURACIÓN AUTOMÁTICA (OMITIDO - INFORMATIVA) -->
             <div x-show="currentTab === 'facturacion'" class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="glass-panel p-5 rounded-2xl">
@@ -515,7 +529,6 @@
                     </div>
                 </div>
 
-                <!-- Tabla de comprobantes ampliada (8 registros) -->
                 <div class="glass-panel p-6 rounded-2xl">
                     <h4 class="font-bold text-white text-base mb-4">Comprobantes Recientes</h4>
                     <table class="w-full text-left text-xs border-collapse">
@@ -606,14 +619,21 @@
                 </div>
             </div>
 
-            <!-- PESTAÑA 5: COMPRAS & COTEJO 3-WAY -->
+            <!-- PESTAÑA 5: COMPRAS & COTEJO 3-WAY (INCLUYE SEGUIMIENTO) -->
             <div x-show="currentTab === 'compras'" class="space-y-6">
-                <div class="glass-panel p-6 rounded-2xl flex flex-col md:flex-row justify-between gap-4">
+                <!-- Tarjeta Principal con botón para abrir los pendientes de Compras -->
+                <div class="glass-panel p-6 rounded-2xl flex flex-col md:flex-row justify-between gap-4 border-l-4 border-l-soberOrange">
                     <div>
-                        <h3 class="text-lg font-bold text-white">Cotejo de 3 Vías y Extractor OCR</h3>
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-lg font-bold text-white">Cotejo de 3 Vías y Extractor OCR</h3>
+                            <span @click="openDetails('compras_kpi')" class="cursor-pointer px-2.5 py-0.5 bg-soberOrange/20 border border-soberOrange/30 text-soberOrangeLight text-[9px] font-bold uppercase rounded-full animate-pulse flex items-center gap-1"><i class="ph-bold ph-bell-ringing"></i> 5 Pendientes</span>
+                        </div>
                         <p class="text-xs text-gray-400 mt-1">Carga las facturas de tus proveedores y FerreBot IA las conciliará contra existencias y Órdenes de Compra.</p>
                     </div>
-                    <button @click="ocrProcessing = true; setTimeout(() => { ocrProcessing = false; ocrDone = true; }, 1200)" class="bg-soberOrangeLight text-white px-4 py-2 rounded-xl text-xs font-bold shrink-0">Simular Carga de Factura PDF</button>
+                    <div class="flex gap-2">
+                        <button @click="openDetails('compras_kpi')" class="bg-white/5 border border-white/10 text-white px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer hover:bg-white/10">Ver Alertas de Compras</button>
+                        <button @click="ocrProcessing = true; setTimeout(() => { ocrProcessing = false; ocrDone = true; }, 1200)" class="bg-soberOrangeLight text-white px-4 py-2 rounded-xl text-xs font-bold shrink-0 cursor-pointer">Simular Factura PDF</button>
+                    </div>
                 </div>
 
                 <div x-show="ocrProcessing" class="glass-panel p-6 rounded-2xl text-center space-y-3">
@@ -641,35 +661,35 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-white/5">
-                                <tr>
+                                <tr class="hover:bg-white/5 cursor-pointer" @click="openDetails('compras_kpi')">
                                     <td class="py-3 font-mono text-white">OC-2026-089</td>
                                     <td class="py-3 text-gray-300">Truper Herramientas</td>
                                     <td class="py-3 text-gray-400">OC vs Guía vs Factura</td>
                                     <td class="py-3"><span class="px-2 py-0.5 bg-brandGreen/20 text-brandGreen rounded font-bold">Match 100%</span></td>
                                     <td class="py-3 text-right font-bold text-white">$14,580.00</td>
                                 </tr>
-                                <tr>
+                                <tr class="hover:bg-white/5 cursor-pointer" @click="openDetails('compras_kpi')">
                                     <td class="py-3 font-mono text-white">OC-2026-090</td>
                                     <td class="py-3 text-gray-300">Metales del Noroeste</td>
                                     <td class="py-3 text-gray-400">OC vs Guía vs Factura</td>
                                     <td class="py-3"><span class="px-2 py-0.5 bg-brandRed/20 text-brandRed rounded font-bold">Discrepancia Cant.</span></td>
                                     <td class="py-3 text-right font-bold text-white">$8,940.00</td>
                                 </tr>
-                                <tr>
+                                <tr class="hover:bg-white/5">
                                     <td class="py-3 font-mono text-white">OC-2026-091</td>
                                     <td class="py-3 text-gray-300">Pinturas Berel S.A.</td>
                                     <td class="py-3 text-gray-400">OC vs Guía vs Factura</td>
                                     <td class="py-3"><span class="px-2 py-0.5 bg-brandGreen/20 text-brandGreen rounded font-bold">Match 100%</span></td>
                                     <td class="py-3 text-right font-bold text-white">$18,900.00</td>
                                 </tr>
-                                <tr>
+                                <tr class="hover:bg-white/5">
                                     <td class="py-3 font-mono text-white">OC-2026-092</td>
                                     <td class="py-3 text-gray-300">Clavos y Tornillos de México</td>
                                     <td class="py-3 text-gray-400">OC vs Guía vs Factura</td>
                                     <td class="py-3"><span class="px-2 py-0.5 bg-brandGreen/20 text-brandGreen rounded font-bold">Match 100%</span></td>
                                     <td class="py-3 text-right font-bold text-white">$3,240.00</td>
                                 </tr>
-                                <tr>
+                                <tr class="hover:bg-white/5 cursor-pointer" @click="openDetails('compras_kpi')">
                                     <td class="py-3 font-mono text-white">OC-2026-093</td>
                                     <td class="py-3 text-gray-300">Distribuidora Eléctrica</td>
                                     <td class="py-3 text-gray-400">OC vs Guía (Sin Factura)</td>
@@ -690,7 +710,7 @@
                                     <td class="py-3"><span class="px-2 py-0.5 bg-brandGreen/20 text-brandGreen rounded font-bold">Match 100%</span></td>
                                     <td class="py-3 text-right font-bold text-white">$21,400.00</td>
                                 </tr>
-                                <tr>
+                                <tr class="hover:bg-white/5 cursor-pointer" @click="openDetails('compras_kpi')">
                                     <td class="py-3 font-mono text-white">OC-2026-096</td>
                                     <td class="py-3 text-gray-300">Herramientas Globales</td>
                                     <td class="py-3 text-gray-400">OC vs Factura (Sin Guía)</td>
@@ -703,16 +723,22 @@
                 </div>
             </div>
 
-            <!-- PESTAÑA 6: LOGÍSTICA & DESPACHOS -->
+            <!-- PESTAÑA 6: LOGÍSTICA & DESPACHOS (CON SEGUIMIENTO) -->
             <div x-show="currentTab === 'logistica'" class="space-y-6">
-                <!-- Listado de rutas de despacho (6 registros) -->
+                <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                    <h3 class="text-base font-bold text-white">Seguimiento de Despachos y Rutas Activas</h3>
+                    <button @click="openDetails('logistica_kpi')" class="px-3 py-1.5 rounded-xl border border-aquaTurquesa/30 bg-aquaTurquesa/10 text-aquaTurquesa text-xs font-bold flex items-center gap-1.5 cursor-pointer hover:bg-aquaTurquesa/20">
+                        <i class="ph-bold ph-bell-ringing"></i> Ver Incidencias y Firmas Pendientes
+                    </button>
+                </div>
+                <!-- Listado de rutas de despacho -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="glass-panel p-5 rounded-2xl">
-                        <h4 class="font-bold text-white text-sm mb-2">Ruta Norte • Camioneta 01</h4>
-                        <p class="text-xs text-gray-400 mb-3">Materiales pesados en ruta de reparto.</p>
+                    <div class="glass-panel p-5 rounded-2xl cursor-pointer hover:border-brandGreen/30 transition-colors" @click="openDetails('logistica_kpi')">
+                        <h4 class="font-bold text-white text-sm mb-2 flex items-center gap-2">Ruta Norte • Camioneta 01 <span class="ml-auto w-2 h-2 rounded-full bg-brandRed animate-pulse"></span></h4>
+                        <p class="text-xs text-gray-400 mb-3">Materiales pesados en ruta de reparto (Tráfico reportado).</p>
                         <div class="w-full bg-white/5 rounded-full h-1.5"><div class="bg-brandGreen h-1.5 rounded-full w-[75%]"></div></div>
                     </div>
-                    <div class="glass-panel p-5 rounded-2xl">
+                    <div class="glass-panel p-5 rounded-2xl cursor-pointer hover:border-brandYellow/30 transition-colors" @click="openDetails('logistica_kpi')">
                         <h4 class="font-bold text-white text-sm mb-2">Ruta Centro • Furgón 02</h4>
                         <p class="text-xs text-gray-400 mb-3">Herramientas y cajas de volumen medio.</p>
                         <div class="w-full bg-white/5 rounded-full h-1.5"><div class="bg-brandYellow h-1.5 rounded-full w-[25%]"></div></div>
@@ -727,9 +753,9 @@
                         <p class="text-xs text-gray-400 mb-3">Tuberías y conexiones PVC.</p>
                         <div class="w-full bg-white/5 rounded-full h-1.5"><div class="bg-brandGreen h-1.5 rounded-full w-[90%]"></div></div>
                     </div>
-                    <div class="glass-panel p-5 rounded-2xl">
+                    <div class="glass-panel p-5 rounded-2xl cursor-pointer hover:border-brandGreen/30 transition-colors" @click="openDetails('logistica_kpi')">
                         <h4 class="font-bold text-white text-sm mb-2">Ruta Este • Furgón 01</h4>
-                        <p class="text-xs text-gray-400 mb-3">Herrajes y cerraduras residenciales.</p>
+                        <p class="text-xs text-gray-400 mb-3">Herrajes y cerraduras residenciales (Falta firma acuse).</p>
                         <div class="w-full bg-white/5 rounded-full h-1.5"><div class="bg-brandGreen h-1.5 rounded-full w-[100%]"></div></div>
                     </div>
                     <div class="glass-panel p-5 rounded-2xl">
@@ -740,7 +766,7 @@
                 </div>
             </div>
 
-            <!-- PESTAÑA 7: IA PERSONALIZADA -->
+            <!-- PESTAÑA 7: IA PERSONALIZADA (OMITIDO - INFORMATIVA) -->
             <div x-show="currentTab === 'ferrebot'" class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="glass-panel p-6 rounded-2xl text-center space-y-4">
@@ -843,6 +869,55 @@
         </button>
     </div>
 
+    <!-- MODAL DE SEGUIMIENTO (MAGNETIC CARDS DETAILS SYSTEM) -->
+    <div x-show="detailsModalOpen" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-negroProfundo/80 backdrop-blur-md overflow-y-auto"
+         style="display: none;">
+        
+        <div class="relative w-full max-w-2xl bg-midnightPanel border border-white/15 rounded-3xl p-6 md:p-8 shadow-2xl my-8 text-left"
+             @click.outside="detailsModalOpen = false">
+            
+            <button @click="detailsModalOpen = false" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl cursor-pointer">
+                <i class="ph-bold ph-x"></i>
+            </button>
+
+            <div class="mb-6 border-b border-white/10 pb-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-aquaTurquesa/10 text-aquaTurquesa text-xs font-bold uppercase tracking-wider mb-2 border border-aquaTurquesa/20">
+                    <i class="ph-bold ph-bell-ringing"></i> Seguimiento Operativo Smart
+                </div>
+                <h3 class="font-bruno text-xl md:text-2xl text-white" x-text="detailsTitle"></h3>
+                <p class="text-gray-400 text-xs mt-1">Revisa los pendientes y ejecuta acciones inmediatas de control.</p>
+            </div>
+
+            <!-- Listado de Tarjetas Magnéticas -->
+            <div class="space-y-4 max-h-[380px] overflow-y-auto custom-scrollbar pr-2">
+                <template x-for="item in pendingItems" :key="item.id">
+                    <div class="magnetic-card p-5 rounded-2xl border border-white/10 hover:border-aquaTurquesa/40 bg-white/5 transition-all duration-300 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between group">
+                        <div class="flex gap-4 items-center">
+                            <div class="w-12 h-12 rounded-xl bg-aquaTurquesa/10 border border-aquaTurquesa/30 text-aquaTurquesa flex items-center justify-center text-2xl shrink-0 group-hover:scale-110 transition-transform">
+                                <i :class="'ph-bold ' + item.icon"></i>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <h4 class="font-bold text-white text-sm" x-text="item.title"></h4>
+                                    <span :class="'px-2 py-0.5 rounded text-[9px] font-bold border ' + item.badgeColor" x-text="item.badge"></span>
+                                </div>
+                                <p class="text-gray-400 text-xs mt-1 leading-relaxed" x-text="item.desc"></p>
+                            </div>
+                        </div>
+                        <button class="px-4 py-2 rounded-lg bg-aquaTurquesa text-darkBg text-xs font-bold hover:bg-white hover:scale-105 transition-all shrink-0 w-full sm:w-auto cursor-pointer" x-text="item.action" @click="detailsModalOpen = false; alert('Acción simulada exitosamente para: ' + item.title)"></button>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+
     <!-- SCRIPT DE LÓGICA DE DEMO -->
     <script>
         function demoApp() {
@@ -862,7 +937,54 @@
                 ],
                 ocrProcessing: false,
                 ocrDone: false,
-                photoAnalyzed: false
+                photoAnalyzed: false,
+
+                // Estados del modal de seguimiento y detalles
+                detailsModalOpen: false,
+                activeSectionKey: '',
+                detailsTitle: '',
+                pendingItems: [],
+
+                openDetails(key) {
+                    this.activeSectionKey = key;
+                    this.detailsModalOpen = true;
+                    if (key === 'ventas_kpi') {
+                        this.detailsTitle = 'Seguimiento de Ventas & Facturación';
+                        this.pendingItems = [
+                            { id: 1, title: 'Facturas Vencidas (3)', desc: 'Pedro Rojas ($4,500), Metalúrgica SA ($8,200), Constructora del Sol ($12,500)', icon: 'ph-receipt', badge: 'Crítico', badgeColor: 'bg-brandRed/20 text-brandRed border-brandRed/30', action: 'Enviar Recordatorio' },
+                            { id: 2, title: 'Cotizaciones por Vencer (2)', desc: 'Cotización #2094 para Acabados Modernos expira en 3 horas.', icon: 'ph-file-text', badge: 'Urgente', badgeColor: 'bg-brandYellow/20 text-brandYellow border-brandYellow/30', action: 'Contactar Cliente' },
+                            { id: 3, title: 'Presupuestos Aprobados (4)', desc: 'Listos para confirmación de inventario y generación de CFDI.', icon: 'ph-check-square', badge: 'Por Despachar', badgeColor: 'bg-brandGreen/20 text-brandGreen border-brandGreen/30', action: 'Facturar 1-Clic' }
+                        ];
+                    } else if (key === 'stock_kpi') {
+                        this.detailsTitle = 'Alertas de Stock & Almacén';
+                        this.pendingItems = [
+                            { id: 1, title: 'Stock Mínimo Excedido (5)', desc: 'Pija tablaroca 1" (2 cajas), Pintura vinílica blanca (5 pzas), Tubo Cobre 1/2" (2 pzas).', icon: 'ph-warning', badge: 'Reorden', badgeColor: 'bg-brandRed/20 text-brandRed border-brandRed/30', action: 'Generar Compra' },
+                            { id: 2, title: 'Scrap por Autorizar (2)', desc: '1 carretilla con daño estructural y 1 juego de llaves faltante por merma en exhibición.', icon: 'ph-trash', badge: 'Auditoría', badgeColor: 'bg-brandYellow/20 text-brandYellow border-brandYellow/30', action: 'Autorizar Merma' },
+                            { id: 3, title: 'Conteos Cíclicos Hoy (3)', desc: 'Ubicaciones asignadas: Pasillo 3 (Herramientas), Gaveta 12 (Tornillos).', icon: 'ph-calculator', badge: 'Pendiente', badgeColor: 'bg-brandGreen/20 text-brandGreen border-brandGreen/30', action: 'Iniciar Conteo' }
+                        ];
+                    } else if (key === 'ia_kpi') {
+                        this.detailsTitle = 'Monitoreo de Consultas e IA';
+                        this.pendingItems = [
+                            { id: 1, title: 'Piezas No Reconocidas (2)', desc: '2 fotos de tornillos de rosca especial no coincidieron con el catálogo estándar.', icon: 'ph-camera-slash', badge: 'Revisión Manual', badgeColor: 'bg-brandYellow/20 text-brandYellow border-brandYellow/30', action: 'Entrenar Modelo' },
+                            { id: 2, title: 'Fallas de Extracción OCR (1)', desc: 'Factura F-2026 de Proveedor FerreMex tiene discrepancia de 2 pzas con la guía.', icon: 'ph-file-search', badge: 'Discrepancia', badgeColor: 'bg-brandRed/20 text-brandRed border-brandRed/30', action: 'Revisar Detalle' },
+                            { id: 3, title: 'Clientes de Mayoreo (3)', desc: 'Clientes solicitando precios de volumen especial a través de WhatsApp.', icon: 'ph-chat-circle-dots', badge: 'Atención Humana', badgeColor: 'bg-brandGreen/20 text-brandGreen border-brandGreen/30', action: 'Intervenir Chat' }
+                        ];
+                    } else if (key === 'compras_kpi') {
+                        this.detailsTitle = 'Conciliación de Compras y Proveedores';
+                        this.pendingItems = [
+                            { id: 1, title: 'Discrepancias 3-Way (2)', desc: 'OC-2026-090 con Metales del Noroeste tiene discrepancia en cantidad (10 tubos menos recibidos).', icon: 'ph-scales', badge: 'Falta Conciliar', badgeColor: 'bg-brandRed/20 text-brandRed border-brandRed/30', action: 'Conciliar Ahora' },
+                            { id: 2, title: 'Facturas Faltantes (3)', desc: 'Órdenes OC-2026-093 y OC-2026-095 ya recibidas pero sin XML/PDF cargado.', icon: 'ph-file-x', badge: 'Pendiente XML', badgeColor: 'bg-brandYellow/20 text-brandYellow border-brandYellow/30', action: 'Solicitar Factura' },
+                            { id: 3, title: 'Proveedores por Calificar (2)', desc: 'Truper S.A. y Pinturas Berel listas para evaluación trimestral de servicio.', icon: 'ph-star', badge: 'Evaluación', badgeColor: 'bg-brandGreen/20 text-brandGreen border-brandGreen/30', action: 'Calificar' }
+                        ];
+                    } else if (key === 'logistica_kpi') {
+                        this.detailsTitle = 'Seguimiento de Logística y Rutas';
+                        this.pendingItems = [
+                            { id: 1, title: 'Incidencias en Ruta (1)', desc: 'Chofer de Camioneta 01 reporta retraso por embotellamiento en Carretera Norte.', icon: 'ph-traffic-cone', badge: 'Retrasado', badgeColor: 'bg-brandRed/20 text-brandRed border-brandRed/30', action: 'Ver Ubicación' },
+                            { id: 2, title: 'Acuses sin Subir (4)', desc: '4 despachos de ayer entregados físicamente pero sin firma de acuse digitalizada.', icon: 'ph-signature', badge: 'Pendiente Firma', badgeColor: 'bg-brandYellow/20 text-brandYellow border-brandYellow/30', action: 'Solicitar Carga' },
+                            { id: 3, title: 'Retornos de Inventario (1)', desc: '2 bultos de cemento devueltos por el cliente en Ruta Poniente por exceso de humedad.', icon: 'ph-arrow-counter-clockwise', badge: 'Ingreso Almacén', badgeColor: 'bg-brandGreen/20 text-brandGreen border-brandGreen/30', action: 'Reingresar Físico' }
+                        ];
+                    }
+                }
             }
         }
     </script>
