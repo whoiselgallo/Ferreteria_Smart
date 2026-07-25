@@ -845,10 +845,11 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-negroProfundo/80 backdrop-blur-md overflow-y-auto"
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-transparent overflow-y-auto"
          style="display: none;">
         
-        <div class="relative w-full max-w-2xl bg-midnightPanel border border-white/15 rounded-3xl p-6 md:p-8 shadow-2xl my-8 text-left"
+        <div class="relative w-full max-w-2xl border border-white/15 rounded-3xl p-6 md:p-8 shadow-2xl my-8 text-left"
+             style="background: rgba(24, 24, 27, 0.15); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);"
              @click.outside="detailsModalOpen = false">
             
             <button @click="detailsModalOpen = false" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl cursor-pointer">
@@ -894,10 +895,11 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-negroProfundo/80 backdrop-blur-md overflow-y-auto"
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-transparent overflow-y-auto"
          style="display: none;">
         
-        <div class="relative w-full max-w-lg bg-midnightPanel border border-white/15 rounded-3xl p-6 md:p-8 shadow-2xl my-8 text-left"
+        <div class="relative w-full max-w-lg border border-white/15 rounded-3xl p-6 md:p-8 shadow-2xl my-8 text-left"
+             style="background: rgba(24, 24, 27, 0.15); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);"
              @click.outside="if (billingState === 'form' || billingState === 'success') billingModalOpen = false">
             
             <!-- Close button -->
@@ -1019,10 +1021,11 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-negroProfundo/80 backdrop-blur-md overflow-y-auto"
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-transparent overflow-y-auto"
          style="display: none;">
         
-        <div class="relative w-full max-w-lg bg-midnightPanel border border-white/15 rounded-3xl p-6 md:p-8 shadow-2xl my-8 text-left"
+        <div class="relative w-full max-w-lg border border-white/15 rounded-3xl p-6 md:p-8 shadow-2xl my-8 text-left"
+             style="background: rgba(24, 24, 27, 0.15); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);"
              @click.outside="if (qrStep === 'ticket' || qrStep === 'success') qrModalOpen = false">
             
             <!-- Close button -->
