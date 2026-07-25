@@ -161,8 +161,8 @@
             border-radius: 10px;
         }
 
-        /* Reglas del Cursor 3D Personalizado */
-        header, header *, #inicio, #inicio * {
+        /* Reglas del Cursor 3D Personalizado Global */
+        html, body, html *, body * {
             cursor: none !important;
         }
         
@@ -174,7 +174,7 @@
             z-index: 9999;
             transform: translate(-50%, -50%);
             opacity: 0;
-            transition: opacity 0.2s ease-in-out;
+            transition: opacity 0.2s ease-in-out, transform 0.15s ease-out;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -188,6 +188,7 @@
             border-radius: 50%;
             box-shadow: 0 0 10px #ffffff, 0 0 20px var(--color-aquaTurquesa);
             z-index: 10;
+            transition: transform 0.2s ease, background-color 0.2s, box-shadow 0.2s;
         }
 
         @keyframes spinHexagon3D {
@@ -206,6 +207,20 @@
             transform-style: preserve-3d;
             animation: spinHexagon3D 7s linear infinite;
             filter: drop-shadow(0 0 8px rgba(249,115,22,0.8));
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.2s, filter 0.2s;
+        }
+
+        /* Estado del Cursor al Hacer Clic (Efecto Expansión y Deformación 3D) */
+        #custom-3d-cursor.click-active .cursor-hexagon-3d {
+            color: var(--color-aquaTurquesa);
+            filter: drop-shadow(0 0 16px rgba(0, 229, 255, 0.95));
+            transform: scale(1.35) rotateX(45deg);
+            animation-duration: 2.5s; /* Gira mucho más rápido al hacer clic */
+        }
+        #custom-3d-cursor.click-active .cursor-center-dot {
+            transform: scale(1.6);
+            background-color: var(--color-naranjaEnergy);
+            box-shadow: 0 0 12px var(--color-naranjaEnergy);
         }
     </style>
 
@@ -1047,27 +1062,36 @@
                 }
             }
         }
-        // Tracking y control del cursor 3D personalizado
+        // Tracking y control del cursor 3D personalizado global
         document.addEventListener('mousemove', (e) => {
             const cursorEl = document.getElementById('custom-3d-cursor');
             if (!cursorEl) return;
             
-            const hero = document.getElementById('inicio');
-            const header = document.querySelector('header');
-            
-            const rectHero = hero ? hero.getBoundingClientRect() : null;
-            const rectHeader = header ? header.getBoundingClientRect() : null;
-            
-            const isOverHero = rectHero && (e.clientX >= rectHero.left && e.clientX <= rectHero.right && e.clientY >= rectHero.top && e.clientY <= rectHero.bottom);
-            const isOverHeader = rectHeader && (e.clientX >= rectHeader.left && e.clientX <= rectHeader.right && e.clientY >= rectHeader.top && e.clientY <= rectHeader.bottom);
-            
-            if (isOverHero || isOverHeader) {
-                cursorEl.style.left = `${e.clientX}px`;
-                cursorEl.style.top = `${e.clientY}px`;
-                cursorEl.style.opacity = '1';
-            } else {
-                cursorEl.style.opacity = '0';
-            }
+            cursorEl.style.left = `${e.clientX}px`;
+            cursorEl.style.top = `${e.clientY}px`;
+            cursorEl.style.opacity = '1';
+        });
+
+        // Eventos para el estado click-active (animación tridimensional al hacer clic)
+        document.addEventListener('mousedown', () => {
+            const cursorEl = document.getElementById('custom-3d-cursor');
+            if (cursorEl) cursorEl.classList.add('click-active');
+        });
+
+        document.addEventListener('mouseup', () => {
+            const cursorEl = document.getElementById('custom-3d-cursor');
+            if (cursorEl) cursorEl.classList.remove('click-active');
+        });
+
+        // Ocultar cursor cuando sale de la ventana del navegador
+        document.addEventListener('mouseleave', () => {
+            const cursorEl = document.getElementById('custom-3d-cursor');
+            if (cursorEl) cursorEl.style.opacity = '0';
+        });
+
+        document.addEventListener('mouseenter', () => {
+            const cursorEl = document.getElementById('custom-3d-cursor');
+            if (cursorEl) cursorEl.style.opacity = '1';
         });
     </script>
 </body>
