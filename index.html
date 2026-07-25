@@ -268,7 +268,7 @@
 
             <!-- Columna Central: Logotipo TSolutions Interactivo con Brillo de Cursor -->
             <div class="lg:col-span-4 flex justify-center items-center py-8">
-                <div class="w-80 h-80 rounded-full logo-interactive-container flex items-center justify-center shadow-2xl border border-white/5"
+                <div class="w-80 h-80 rounded-full logo-interactive-container flex items-center justify-center shadow-2xl border border-white/5 group"
                      @mousemove="moveGlow($event)"
                      @mouseleave="hideGlow()">
                     
@@ -277,7 +277,7 @@
                     
                     <!-- Logotipo TSolutions central -->
                     <div class="relative z-10 w-44 h-44 flex items-center justify-center">
-                        <svg viewBox="0 0 100 100" class="w-36 h-36 text-naranjaEnergy filter drop-shadow-[0_0_20px_rgba(249,115,22,0.7)]">
+                        <svg viewBox="0 0 100 100" class="w-36 h-36 text-white filter drop-shadow-[0_0_15px_rgba(255,255,255,0.85)] group-hover:text-naranjaEnergy group-hover:drop-shadow-[0_0_22px_rgba(249,115,22,0.95)] transition-all duration-500">
                             <polygon points="50,5 90,28 90,72 50,95 10,72 10,28" fill="none" stroke="currentColor" stroke-width="6"/>
                             <polygon points="50,20 80,70 20,70" fill="none" stroke="currentColor" stroke-width="6"/>
                         </svg>
