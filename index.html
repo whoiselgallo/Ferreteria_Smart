@@ -235,16 +235,16 @@
     <section id="inicio" 
              @mousemove="moveGlow($event)" 
              @mouseleave="hideGlow()" 
-             class="pt-36 pb-20 px-6 relative min-h-screen flex flex-col justify-center border-b border-white/5 overflow-hidden bg-negroProfundo">
+             class="pt-24 lg:pt-28 pb-8 px-6 relative min-h-screen lg:min-h-0 lg:h-screen flex flex-col justify-center border-b border-white/5 overflow-hidden bg-negroProfundo">
         
         <!-- Brillo de cursor (rectangular a lo largo de todo el Hero) -->
         <div class="logo-interactive-glow" x-ref="logoGlow" style="left: 50%; top: 50%; opacity: 0.8;"></div>
         
         <!-- Contenedor de 3 Columnas Grid -->
-        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center relative z-10">
             
             <!-- Columna Izquierda: Mensaje y CTA Buttons -->
-            <div class="lg:col-span-5 text-left space-y-8">
+            <div class="lg:col-span-5 text-left space-y-6">
                 <!-- Badge de Autoridad -->
                 <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-naranjaEnergy/10 border border-naranjaEnergy/30 text-naranjaEnergy text-xs font-bold uppercase tracking-widest shadow-[0_0_15px_rgba(249,115,22,0.2)]">
                     <span class="w-2 h-2 rounded-full bg-naranjaEnergy animate-pulse"></span>
@@ -252,34 +252,34 @@
                 </div>
                 
                 <!-- Headline solicitado (Colocado a la izquierda, 2 líneas, sin 90 días) -->
-                <h2 class="font-bruno text-4xl sm:text-5xl md:text-6xl leading-tight text-white tracking-tight">
+                <h2 class="font-bruno text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight text-white tracking-tight">
                     Transformación <br>
                     <span class="text-naranjaEnergy glow-text-energy">Digital 360°</span>
                 </h2>
 
                 <!-- Botones del Hero (Dashboard PRO y Evaluación Gratuita alineados en una sola fila) -->
-                <div class="flex flex-row items-center gap-6 pt-4">
+                <div class="flex flex-row items-center gap-6 pt-2">
                     <!-- Dashboard PRO (Solo letras, aqua-turquoise, vibrante con electricidad naranja y efecto de implosión al hacer clic) -->
                     <a href="/demo.html" 
                        @click="triggerImplosion($event)"
-                       class="btn-dashboard-pro py-3 font-bruno text-lg tracking-wider font-bold cursor-pointer shrink-0">
+                       class="btn-dashboard-pro py-2 font-bruno text-base lg:text-lg tracking-wider font-bold cursor-pointer shrink-0">
                         DASHBOARD PRO
                     </a>
 
                     <button @click="openModal()" 
-                            class="px-6 py-3.5 rounded-full bg-naranjaEnergy text-white font-bold text-sm btn-glow-energy cursor-pointer transition-transform hover:scale-105 shadow-[0_0_15px_rgba(249,115,22,0.45)]">
+                            class="px-5 py-3 rounded-full bg-naranjaEnergy text-white font-bold text-xs lg:text-sm btn-glow-energy cursor-pointer transition-transform hover:scale-105 shadow-[0_0_15px_rgba(249,115,22,0.45)]">
                         Agendar Evaluación Gratuita
                     </button>
                 </div>
             </div>
 
             <!-- Columna Central: Logotipo TSolutions Interactivo -->
-            <div class="lg:col-span-4 flex justify-center items-center py-8">
-                <div class="w-80 h-80 rounded-full logo-interactive-container flex items-center justify-center shadow-2xl border border-white/5 group">
+            <div class="lg:col-span-4 flex justify-center items-center py-4">
+                <div class="w-64 h-64 lg:w-72 lg:h-72 rounded-full logo-interactive-container flex items-center justify-center shadow-2xl border border-white/5 group">
                     
                     <!-- Logotipo TSolutions central -->
-                    <div class="relative z-10 w-44 h-44 flex items-center justify-center">
-                        <svg viewBox="0 0 100 100" class="w-36 h-36 text-white filter drop-shadow-[0_0_15px_rgba(255,255,255,0.85)] group-hover:text-naranjaEnergy group-hover:drop-shadow-[0_0_22px_rgba(249,115,22,0.95)] transition-all duration-500">
+                    <div class="relative z-10 w-36 h-36 lg:w-40 lg:h-40 flex items-center justify-center">
+                        <svg viewBox="0 0 100 100" class="w-28 h-28 lg:w-32 lg:h-32 text-white filter drop-shadow-[0_0_15px_rgba(255,255,255,0.85)] group-hover:text-naranjaEnergy group-hover:drop-shadow-[0_0_22px_rgba(249,115,22,0.95)] transition-all duration-500">
                             <polygon points="50,5 90,28 90,72 50,95 10,72 10,28" fill="none" stroke="currentColor" stroke-width="6"/>
                             <polygon points="50,20 80,70 20,70" fill="none" stroke="currentColor" stroke-width="6"/>
                         </svg>
@@ -288,41 +288,41 @@
             </div>
 
             <!-- Columna Derecha: Texto descriptivo renovado -->
-            <div class="lg:col-span-3 text-left lg:text-right space-y-5 lg:border-l border-white/10 lg:pl-8 py-2">
-                <div class="space-y-1 group/item">
-                    <p class="text-xs text-gray-500 uppercase tracking-widest font-extrabold">Operación</p>
-                    <p class="text-sm font-medium transition-all duration-300 text-white group-hover/item:text-aquaTurquesa group-hover/item:drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">Estandarización y automatización de procesos core</p>
+            <div class="lg:col-span-3 text-left lg:text-right space-y-4 lg:border-l border-white/10 lg:pl-6 py-1">
+                <div class="space-y-0.5 group/item">
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest font-extrabold">Operación</p>
+                    <p class="text-xs lg:text-sm font-medium transition-all duration-300 text-white group-hover/item:text-aquaTurquesa group-hover/item:drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">Estandarización y automatización de procesos core</p>
                 </div>
-                <div class="space-y-1 group/item">
-                    <p class="text-xs text-gray-500 uppercase tracking-widest font-extrabold">Identidad</p>
-                    <p class="text-sm font-medium transition-all duration-300 text-white group-hover/item:text-aquaTurquesa group-hover/item:drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">Brand building y percepción de valor premium</p>
+                <div class="space-y-0.5 group/item">
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest font-extrabold">Identidad</p>
+                    <p class="text-xs lg:text-sm font-medium transition-all duration-300 text-white group-hover/item:text-aquaTurquesa group-hover/item:drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">Brand building y percepción de valor premium</p>
                 </div>
-                <div class="space-y-1 group/item">
-                    <p class="text-xs text-gray-500 uppercase tracking-widest font-extrabold">Consultoría</p>
-                    <p class="text-sm font-medium transition-all duration-300 text-white group-hover/item:text-aquaTurquesa group-hover/item:drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">Dirección ejecutiva y estrategia corporativa</p>
+                <div class="space-y-0.5 group/item">
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest font-extrabold">Consultoría</p>
+                    <p class="text-xs lg:text-sm font-medium transition-all duration-300 text-white group-hover/item:text-aquaTurquesa group-hover/item:drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">Dirección ejecutiva y estrategia corporativa</p>
                 </div>
-                <div class="space-y-1 group/item">
-                    <p class="text-xs text-gray-500 uppercase tracking-widest font-extrabold">IA Personalizada</p>
-                    <p class="text-sm font-medium transition-all duration-300 text-white group-hover/item:text-aquaTurquesa group-hover/item:drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">Modelos de IA adaptados a las reglas del negocio</p>
+                <div class="space-y-0.5 group/item">
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest font-extrabold">IA Personalizada</p>
+                    <p class="text-xs lg:text-sm font-medium transition-all duration-300 text-white group-hover/item:text-aquaTurquesa group-hover/item:drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">Modelos de IA adaptados a las reglas del negocio</p>
                 </div>
             </div>
 
         </div>
 
         <!-- Fila de Marcas del Pie del Hero (como en la referencia) -->
-        <div class="max-w-7xl mx-auto w-full pt-16 border-t border-white/10 mt-16 text-center">
-            <p class="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-6">Integraciones & Estándares Compatibles</p>
-            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-30 grayscale hover:opacity-60 transition-opacity">
-                <span class="font-sans font-medium text-sm text-white">Google Workspace</span>
-                <span class="font-bruno text-sm text-white tracking-widest">Vercel</span>
-                <span class="font-mono text-sm text-white">neon.tech</span>
-                <span class="font-sans font-bold text-sm text-white">Microsoft 365</span>
-                <span class="font-sans font-bold text-sm text-white">Open IA</span>
-                <span class="font-sans font-bold text-sm text-white tracking-wide">Dify</span>
-                <span class="font-sans font-semibold text-sm text-white">Hostinger</span>
-                <span class="font-sans font-medium text-sm text-white">GitHub</span>
-                <span class="font-bruno text-sm text-white tracking-widest">Render</span>
-                <span class="font-sans font-semibold text-sm text-white">GoDaddy</span>
+        <div class="max-w-7xl mx-auto w-full pt-8 border-t border-white/10 mt-8 lg:mt-10 text-center">
+            <p class="text-[9px] text-gray-500 uppercase tracking-widest font-semibold mb-3">Integraciones & Estándares Compatibles</p>
+            <div class="flex flex-wrap justify-center items-center gap-6 md:gap-12 opacity-30 grayscale hover:opacity-60 transition-opacity">
+                <span class="font-sans font-medium text-xs text-white">Google Workspace</span>
+                <span class="font-bruno text-xs text-white tracking-widest">Vercel</span>
+                <span class="font-mono text-xs text-white">neon.tech</span>
+                <span class="font-sans font-bold text-xs text-white">Microsoft 365</span>
+                <span class="font-sans font-bold text-xs text-white">Open IA</span>
+                <span class="font-sans font-bold text-xs text-white tracking-wide">Dify</span>
+                <span class="font-sans font-semibold text-xs text-white">Hostinger</span>
+                <span class="font-sans font-medium text-xs text-white">GitHub</span>
+                <span class="font-bruno text-xs text-white tracking-widest">Render</span>
+                <span class="font-sans font-semibold text-xs text-white">GoDaddy</span>
             </div>
         </div>
     </section>
