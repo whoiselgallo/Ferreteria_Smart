@@ -227,8 +227,16 @@
         <!-- VISTAS INTERACTIVAS SEGÚN LA PESTAÑA SELECCIONADA -->
         <div class="p-6 lg:p-10 pb-32 flex-1 space-y-8">
 
-            <!-- PESTAÑA 1: DASHBOARD GENERAL -->
+            <!-- PESTAÑA 1: DASHBOARD GENERAL [ESTILO: PERSONALIZADO] -->
             <div x-show="currentTab === 'dashboard'" class="space-y-6">
+                <!-- Descripción del Estilo (Top Center) -->
+                <div class="flex justify-center mb-6">
+                    <div class="max-w-xl text-center bg-white/5 border border-white/10 rounded-2xl p-4 shadow-md">
+                        <span class="text-[10px] uppercase font-extrabold tracking-widest text-soberOrangeLight">Estilo: Personalizado (Diseño Principal)</span>
+                        <p class="text-xs text-gray-300 mt-1 leading-relaxed">Diseño propietario de Ferretería Smart que combina paneles vidriados (glassmorphism), sombras responsivas al cursor y acentos vibrantes naranja y aqua para proyectar una identidad moderna y de alta tecnología.</p>
+                    </div>
+                </div>
+
                 <!-- Tarjetas de KPI Clickables con efecto hover y modal de seguimiento -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div @click="openDetails('ventas_kpi')" class="glass-panel p-6 rounded-2xl relative overflow-hidden group cursor-pointer hover:border-brandGreen/40 transition-all">
@@ -355,9 +363,13 @@
             </div>
 
             <!-- PESTAÑA 2: INVENTARIO & STOCK [ESTILO: MINIMALISTA] -->
-            <div x-show="currentTab === 'inventario'" class="space-y-6">
-                <div class="flex items-center justify-between">
-                    <span class="text-[10px] uppercase font-bold tracking-widest text-zinc-500">Estilo: Minimalista</span>
+            <div x-show="currentTab === 'inventario'" class="space-y-6" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 300;">
+                <!-- Descripción del Estilo (Top Center) -->
+                <div class="flex justify-center mb-6">
+                    <div class="max-w-xl text-center bg-transparent border border-white/10 p-4">
+                        <span class="text-[10px] uppercase font-bold tracking-widest text-zinc-400">Estilo: Minimalista</span>
+                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Reducción al mínimo elemento visual. Usa tipografía sans-serif limpia, bordes delgados rectos, nulo uso de sombras o colores decorativos, optimizando la velocidad mental de lectura.</p>
+                    </div>
                 </div>
 
                 <!-- Secciones de conteo que abren alertas (Estilo Minimalista: plano, sin bordes gruesos de color, bordes delgados) -->
@@ -465,9 +477,13 @@
             </div>
 
             <!-- PESTAÑA 3: VENTAS & COTIZADOR POS [ESTILO: CLEAN DESIGN] -->
-            <div x-show="currentTab === 'ventas'" class="space-y-4 p-6 bg-zinc-50 rounded-3xl border border-zinc-200 shadow-inner">
-                <div class="flex items-center justify-between">
-                    <span class="text-[10px] uppercase font-bold tracking-widest text-zinc-400">Estilo: Clean Design (Claro y Contrastante)</span>
+            <div x-show="currentTab === 'ventas'" class="space-y-4 p-6 bg-zinc-50 rounded-3xl border border-zinc-200 shadow-inner" style="font-family: 'Inter', system-ui, -apple-system, sans-serif;">
+                <!-- Descripción del Estilo (Top Center) -->
+                <div class="flex justify-center mb-6">
+                    <div class="max-w-xl text-center bg-white border border-zinc-200 rounded-2xl p-4 shadow-sm text-zinc-800">
+                        <span class="text-[10px] uppercase font-bold tracking-widest text-zinc-500">Estilo: Clean Design (Light Mode)</span>
+                        <p class="text-xs text-zinc-650 mt-1 leading-relaxed">Interfaz de alto contraste claro (light mode). Utiliza fondos blancos limpios, tipografía Inter de trazo medio y sutiles sombras de profundidad para emular aplicaciones de software modernas de escritorio.</p>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -521,9 +537,13 @@
             </div>
 
             <!-- PESTAÑA 4: FACTURACIÓN AUTOMÁTICA [ESTILO: DARK MODE] -->
-            <div x-show="currentTab === 'facturacion'" class="space-y-6 bg-black p-6 rounded-3xl border border-zinc-900 shadow-2xl">
-                <div class="flex items-center justify-between">
-                    <span class="text-[10px] uppercase font-bold tracking-widest text-zinc-700">Estilo: Dark Mode (Contraste Puro y Sobrio)</span>
+            <div x-show="currentTab === 'facturacion'" class="space-y-6 bg-black p-6 rounded-3xl border border-zinc-900 shadow-2xl" style="font-family: 'Roboto', 'Segoe UI', sans-serif; tracking-style: tight;">
+                <!-- Descripción del Estilo (Top Center) -->
+                <div class="flex justify-center mb-6">
+                    <div class="max-w-xl text-center bg-[#050505] border border-zinc-800 p-4">
+                        <span class="text-[10px] uppercase font-bold tracking-widest text-zinc-500">Estilo: Dark Mode</span>
+                        <p class="text-xs text-zinc-450 mt-1 leading-relaxed">Diseño de alto contraste nocturno. Fondo negro puro para reducir la fatiga ocular, tipografía Roboto compacta y acentos cromáticos reducidos para entornos de operación continua.</p>
+                    </div>
                 </div>
 
                 <!-- Tarjetas de Control de Facturación (Dark Mode: negro absoluto y bordes grises) -->
@@ -600,9 +620,13 @@
             </div>
 
             <!-- PESTAÑA 5: COMPRAS & COTEJO 3-WAY [ESTILO: ORGANIZACIONAL] -->
-            <div x-show="currentTab === 'compras'" class="space-y-6 bg-[#0f172a]/60 p-6 rounded-2xl border border-slate-800 shadow-xl">
-                <div class="flex items-center justify-between">
-                    <span class="text-[10px] uppercase font-bold tracking-widest text-slate-500">Estilo: Organizacional (Corporativo y Estructurado)</span>
+            <div x-show="currentTab === 'compras'" class="space-y-6 bg-[#0f172a]/60 p-6 rounded-2xl border border-slate-800 shadow-xl" style="font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;">
+                <!-- Descripción del Estilo (Top Center) -->
+                <div class="flex justify-center mb-6">
+                    <div class="max-w-xl text-center bg-[#1e293b]/90 border border-slate-700 p-4 rounded-xl">
+                        <span class="text-[10px] uppercase font-bold tracking-widest text-blue-400">Estilo: Organizacional</span>
+                        <p class="text-xs text-slate-300 mt-1 leading-relaxed">Estructura corporativa clásica con paletas de azul pizarra y botones sólidos. Diseñado para analistas de compras y directivos que priorizan el orden jerárquico, métricas claras y control operativo.</p>
+                    </div>
                 </div>
 
                 <!-- Tarjeta Principal con botón para abrir los pendientes de Compras (Estilo Organizacional: Azul pizarra corporativo) -->
@@ -708,7 +732,15 @@
             </div>
 
             <!-- PESTAÑA 6: LOGÍSTICA & DESPACHOS [ESTILO: RETRO] -->
-            <div x-show="currentTab === 'logistica'" class="space-y-6 bg-[#030c04] p-6 border-2 border-emerald-500/40 text-emerald-400 font-mono shadow-[0_0_20px_rgba(16,185,129,0.15)]">
+            <div x-show="currentTab === 'logistica'" class="space-y-6 bg-[#030c04] p-6 border-2 border-emerald-500/40 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.15)]" style="font-family: 'Courier New', Courier, monospace;">
+                <!-- Descripción del Estilo (Top Center) -->
+                <div class="flex justify-center mb-6">
+                    <div class="max-w-xl text-center bg-black border border-emerald-500/40 p-4">
+                        <span class="text-[10px] uppercase font-bold tracking-widest text-emerald-300">[SYS_STYLE: RETRO CRT]</span>
+                        <p class="text-xs text-emerald-500 mt-1 leading-relaxed">Emulación nostálgica de monitores CRT de fósforo verde de los años 80. Fuente monoespaciada rígida, bordes punteados de comandos y paleta exclusiva de tonalidades verde fósforo.</p>
+                    </div>
+                </div>
+
                 <div class="flex items-center justify-between border-b border-emerald-500/30 pb-3">
                     <div class="flex flex-col">
                         <span class="text-[9px] uppercase tracking-widest text-emerald-600">[ESTILO: RETRO TERMINAL EMULATION]</span>
@@ -754,9 +786,13 @@
             </div>
 
             <!-- PESTAÑA 7: IA PERSONALIZADA [ESTILO: FUTURISTICO] -->
-            <div x-show="currentTab === 'ferrebot'" class="space-y-6 bg-[#0c081e] p-6 rounded-3xl border border-fuchsia-500/20 shadow-[0_0_25px_rgba(240,46,170,0.12)]">
-                <div class="flex items-center justify-between">
-                    <span class="text-[10px] uppercase font-bold tracking-widest text-fuchsia-400">⚡ Estilo: Futurístico (Cyberpunk / Neón)</span>
+            <div x-show="currentTab === 'ferrebot'" class="space-y-6 bg-[#0c081e] p-6 rounded-3xl border border-fuchsia-500/20 shadow-[0_0_25px_rgba(240,46,170,0.12)]" style="font-family: 'Bruno Ace SC', 'Orbitron', 'Courier New', sans-serif;">
+                <!-- Descripción del Estilo (Top Center) -->
+                <div class="flex justify-center mb-6">
+                    <div class="max-w-xl text-center bg-[#120a2a]/80 border border-fuchsia-500/30 p-4 rounded-xl shadow-[0_0_15px_rgba(240,46,170,0.1)]">
+                        <span class="text-[10px] uppercase font-bold tracking-widest text-fuchsia-400">⚡ Estilo: Futurístico</span>
+                        <p class="text-xs text-zinc-300 mt-1 leading-relaxed">Interfaz inmersiva de ciencia ficción. Combina gradientes de neón cian-magenta, esquinas angulares, efectos holográficos de escaneo y tipografías tecnológicas con brillos radiantes.</p>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
