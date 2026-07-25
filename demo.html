@@ -119,7 +119,7 @@
                     :class="currentTab === 'dashboard' ? 'bg-soberOrange/20 text-soberOrangeLight border-soberOrange/40 font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent'"
                     class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl border transition-all text-sm text-left cursor-pointer">
                 <i class="ph ph-squares-four text-lg"></i>
-                <span>01. Dashboard General</span>
+                <span>01. Dashboard (Personalizado)</span>
             </button>
 
             <!-- Inventario & Stock -->
@@ -127,7 +127,7 @@
                     :class="currentTab === 'inventario' ? 'bg-soberOrange/20 text-soberOrangeLight border-soberOrange/40 font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent'"
                     class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl border transition-all text-sm text-left cursor-pointer">
                 <i class="ph ph-package text-lg"></i>
-                <span>02. Inventario & Stock</span>
+                <span>02. Inventario (Minimalista)</span>
             </button>
 
             <!-- Ventas & POS -->
@@ -135,7 +135,7 @@
                     :class="currentTab === 'ventas' ? 'bg-soberOrange/20 text-soberOrangeLight border-soberOrange/40 font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent'"
                     class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl border transition-all text-sm text-left cursor-pointer">
                 <i class="ph ph-shopping-cart-simple text-lg"></i>
-                <span>03. Ventas & Cotizador POS</span>
+                <span>03. Ventas POS (Clean Design)</span>
             </button>
 
             <!-- Facturación Automática -->
@@ -143,7 +143,7 @@
                     :class="currentTab === 'facturacion' ? 'bg-soberOrange/20 text-soberOrangeLight border-soberOrange/40 font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent'"
                     class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl border transition-all text-sm text-left cursor-pointer">
                 <i class="ph ph-file-cloud text-lg"></i>
-                <span>04. Facturación Automática</span>
+                <span>04. Facturación (Dark Mode)</span>
             </button>
 
             <!-- Compras & Cotejo 3-Way -->
@@ -151,7 +151,7 @@
                     :class="currentTab === 'compras' ? 'bg-soberOrange/20 text-soberOrangeLight border-soberOrange/40 font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent'"
                     class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl border transition-all text-sm text-left cursor-pointer">
                 <i class="ph ph-receipt text-lg"></i>
-                <span>05. Compras & Cotejo 3-Way</span>
+                <span>05. Compras (Organizacional)</span>
             </button>
 
             <!-- Logística & Envíos -->
@@ -159,7 +159,7 @@
                     :class="currentTab === 'logistica' ? 'bg-soberOrange/20 text-soberOrangeLight border-soberOrange/40 font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent'"
                     class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl border transition-all text-sm text-left cursor-pointer">
                 <i class="ph ph-truck text-lg"></i>
-                <span>06. Logística & Despachos</span>
+                <span>06. Logística (Retro)</span>
             </button>
 
             <!-- FerreBot IA -->
@@ -167,7 +167,7 @@
                     :class="currentTab === 'ferrebot' ? 'bg-aquaTurquesa/20 text-aquaTurquesa border-aquaTurquesa/40 font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent'"
                     class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl border transition-all text-sm text-left cursor-pointer">
                 <i class="ph ph-robot text-lg text-aquaTurquesa"></i>
-                <span class="text-aquaTurquesa font-medium">07. IA Personalizada</span>
+                <span class="text-aquaTurquesa font-medium">07. Ferrebot IA (Futurístico)</span>
             </button>
 
         </nav>
@@ -354,105 +354,109 @@
                 </div>
             </div>
 
-            <!-- PESTAÑA 2: INVENTARIO & STOCK -->
+            <!-- PESTAÑA 2: INVENTARIO & STOCK [ESTILO: MINIMALISTA] -->
             <div x-show="currentTab === 'inventario'" class="space-y-6">
-                <!-- Secciones de conteo que abren alertas -->
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-widest text-zinc-500">Estilo: Minimalista</span>
+                </div>
+
+                <!-- Secciones de conteo que abren alertas (Estilo Minimalista: plano, sin bordes gruesos de color, bordes delgados) -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div @click="openDetails('stock_kpi')" class="glass-panel p-5 rounded-2xl border-l-4 border-l-brandRed cursor-pointer hover:bg-white/5 transition-colors">
-                        <span class="text-xs font-bold text-brandRed uppercase">Categoría A (80% Valor)</span>
-                        <h4 class="text-lg font-bruno text-white mt-1">Herramientas & Maquinaria</h4>
-                        <p class="text-xs text-gray-400 mt-1">Conteo cada 7 días • Clic para ver alertas</p>
+                    <div @click="openDetails('stock_kpi')" class="bg-transparent border border-white/10 p-5 cursor-pointer hover:border-white/30 transition-colors">
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Categoría A (80% Valor)</span>
+                        <h4 class="text-base font-medium text-white mt-1">Herramientas & Maquinaria</h4>
+                        <p class="text-[11px] text-zinc-500 mt-1">Conteo cada 7 días • Click para ver alertas</p>
                     </div>
-                    <div @click="openDetails('stock_kpi')" class="glass-panel p-5 rounded-2xl border-l-4 border-l-brandYellow cursor-pointer hover:bg-white/5 transition-colors">
-                        <span class="text-xs font-bold text-brandYellow uppercase">Categoría B (15% Valor)</span>
-                        <h4 class="text-lg font-bruno text-white mt-1">Tubería & Material Eléctrico</h4>
-                        <p class="text-xs text-gray-400 mt-1">Conteo cada 30 días • Clic para ver alertas</p>
+                    <div @click="openDetails('stock_kpi')" class="bg-transparent border border-white/10 p-5 cursor-pointer hover:border-white/30 transition-colors">
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Categoría B (15% Valor)</span>
+                        <h4 class="text-base font-medium text-white mt-1">Tubería & Material Eléctrico</h4>
+                        <p class="text-[11px] text-zinc-500 mt-1">Conteo cada 30 días • Click para ver alertas</p>
                     </div>
-                    <div @click="openDetails('stock_kpi')" class="glass-panel p-5 rounded-2xl border-l-4 border-l-brandGreen cursor-pointer hover:bg-white/5 transition-colors">
-                        <span class="text-xs font-bold text-brandGreen uppercase">Categoría C (5% Valor)</span>
-                        <h4 class="text-lg font-bruno text-white mt-1">Tornillería & Clavos por Grano</h4>
-                        <p class="text-xs text-gray-400 mt-1">Conteo cada 90 días • Clic para ver alertas</p>
+                    <div @click="openDetails('stock_kpi')" class="bg-transparent border border-white/10 p-5 cursor-pointer hover:border-white/30 transition-colors">
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Categoría C (5% Valor)</span>
+                        <h4 class="text-base font-medium text-white mt-1">Tornillería & Clavos por Grano</h4>
+                        <p class="text-[11px] text-zinc-500 mt-1">Conteo cada 90 días • Click para ver alertas</p>
                     </div>
                 </div>
 
-                <!-- Tabla de inventario ampliada -->
-                <div class="glass-panel rounded-2xl p-6">
+                <!-- Tabla de inventario ampliada (Estilo Minimalista: bordes rectos, sin fondos de cristal) -->
+                <div class="bg-transparent border border-white/10 p-6">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs border-collapse">
                             <thead>
-                                <tr class="text-gray-400 border-b border-white/10 uppercase">
-                                    <th class="py-3">SKU / Producto</th>
-                                    <th class="py-3">Clasif.</th>
-                                    <th class="py-3">Stock Físico</th>
-                                    <th class="py-3">Min / Seg.</th>
-                                    <th class="py-3">Ubicación</th>
-                                    <th class="py-3 text-center">Scrap / Merma</th>
+                                <tr class="text-zinc-500 border-b border-white/10 uppercase tracking-wider">
+                                    <th class="py-3 font-semibold">SKU / Producto</th>
+                                    <th class="py-3 font-semibold">Clasif.</th>
+                                    <th class="py-3 font-semibold">Stock Físico</th>
+                                    <th class="py-3 font-semibold">Min / Seg.</th>
+                                    <th class="py-3 font-semibold">Ubicación</th>
+                                    <th class="py-3 font-semibold text-center">Scrap / Merma</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-white/5">
                                 <tr class="hover:bg-white/5 cursor-pointer" @click="openDetails('stock_kpi')">
                                     <td class="py-3 font-medium text-white">TRP-16OZ • Martillo Uña Truper 16oz</td>
-                                    <td class="py-3"><span class="px-2.5 py-0.5 rounded bg-brandRed/20 text-brandRed font-bold">A - High</span></td>
-                                    <td class="py-3 text-white font-bold">18 pzas</td>
-                                    <td class="py-3 text-gray-400">Min: 10 | SS: 5</td>
-                                    <td class="py-3 text-gray-400">Pasillo 3 - Estante B</td>
-                                    <td class="py-3 text-center text-gray-400">0 pzas</td>
+                                    <td class="py-3"><span class="text-zinc-400 border border-zinc-700 px-2 py-0.5">A - High</span></td>
+                                    <td class="py-3 text-white">18 pzas</td>
+                                    <td class="py-3 text-zinc-500">Min: 10 | SS: 5</td>
+                                    <td class="py-3 text-zinc-500">Pasillo 3 - Estante B</td>
+                                    <td class="py-3 text-center text-zinc-500 font-mono">0</td>
                                 </tr>
                                 <tr class="hover:bg-white/5 cursor-pointer" @click="openDetails('stock_kpi')">
                                     <td class="py-3 font-medium text-white">PIJ-TAB-100 • Caja Pija Tablaroca #8 x 1"</td>
-                                    <td class="py-3"><span class="px-2.5 py-0.5 rounded bg-brandGreen/20 text-brandGreen font-bold">C - Bulk</span></td>
-                                    <td class="py-3 text-brandRed font-bold">2 cajas ⚠️</td>
-                                    <td class="py-3 text-gray-400">Min: 15 | SS: 8</td>
-                                    <td class="py-3 text-gray-400">Gaveta 12 - Sección T</td>
-                                    <td class="py-3 text-center text-brandRed font-bold">1 dañada (Scrap)</td>
+                                    <td class="py-3"><span class="text-zinc-400 border border-zinc-700 px-2 py-0.5">C - Bulk</span></td>
+                                    <td class="py-3 text-white">2 cajas ⚠️</td>
+                                    <td class="py-3 text-zinc-500">Min: 15 | SS: 8</td>
+                                    <td class="py-3 text-zinc-500">Gaveta 12 - Sección T</td>
+                                    <td class="py-3 text-center text-zinc-400 font-mono">1 (Scrap)</td>
                                 </tr>
                                 <tr class="hover:bg-white/5">
                                     <td class="py-3 font-medium text-white">TUB-COP-12 • Tubo Cobre 1/2" 3m</td>
-                                    <td class="py-3"><span class="px-2.5 py-0.5 rounded bg-brandYellow/20 text-brandYellow font-bold">B - Medium</span></td>
-                                    <td class="py-3 text-white font-bold">45 pzas</td>
-                                    <td class="py-3 text-gray-400">Min: 20 | SS: 10</td>
-                                    <td class="py-3 text-gray-400">Estante Metales 4</td>
-                                    <td class="py-3 text-center text-gray-400">0 pzas</td>
+                                    <td class="py-3"><span class="text-zinc-400 border border-zinc-700 px-2 py-0.5">B - Medium</span></td>
+                                    <td class="py-3 text-white">45 pzas</td>
+                                    <td class="py-3 text-zinc-500">Min: 20 | SS: 10</td>
+                                    <td class="py-3 text-zinc-500">Estante Metales 4</td>
+                                    <td class="py-3 text-center text-zinc-500 font-mono">0</td>
                                 </tr>
                                 <tr class="hover:bg-white/5 cursor-pointer" @click="openDetails('stock_kpi')">
                                     <td class="py-3 font-medium text-white">PNT-VIN-WHT • Pintura Vinílica 19L Blanca</td>
-                                    <td class="py-3"><span class="px-2.5 py-0.5 rounded bg-brandRed/20 text-brandRed font-bold">A - High</span></td>
-                                    <td class="py-3 text-brandRed font-bold">5 pzas ⚠️</td>
-                                    <td class="py-3 text-gray-400">Min: 12 | SS: 6</td>
-                                    <td class="py-3 text-gray-400">Bodega C - Pinturas</td>
-                                    <td class="py-3 text-center text-gray-400">0 pzas</td>
+                                    <td class="py-3"><span class="text-zinc-400 border border-zinc-700 px-2 py-0.5">A - High</span></td>
+                                    <td class="py-3 text-white">5 pzas ⚠️</td>
+                                    <td class="py-3 text-zinc-500">Min: 12 | SS: 6</td>
+                                    <td class="py-3 text-zinc-500">Bodega C - Pinturas</td>
+                                    <td class="py-3 text-center text-zinc-500 font-mono">0</td>
                                 </tr>
                                 <tr class="hover:bg-white/5 cursor-pointer" @click="openDetails('stock_kpi')">
                                     <td class="py-3 font-medium text-white">LLE-ALN-SET • Juego Llaves Alen Estándar</td>
-                                    <td class="py-3"><span class="px-2.5 py-0.5 rounded bg-brandYellow/20 text-brandYellow font-bold">B - Medium</span></td>
-                                    <td class="py-3 text-white font-bold">12 pzas</td>
-                                    <td class="py-3 text-gray-400">Min: 8 | SS: 4</td>
-                                    <td class="py-3 text-gray-400">Vitrina 1 - Herramientas</td>
-                                    <td class="py-3 text-center text-gray-400">1 robada (Scrap)</td>
+                                    <td class="py-3"><span class="text-zinc-400 border border-zinc-700 px-2 py-0.5">B - Medium</span></td>
+                                    <td class="py-3 text-white">12 pzas</td>
+                                    <td class="py-3 text-zinc-500">Min: 8 | SS: 4</td>
+                                    <td class="py-3 text-zinc-500">Vitrina 1 - Herramientas</td>
+                                    <td class="py-3 text-center text-zinc-400 font-mono">1 (Scrap)</td>
                                 </tr>
                                 <tr class="hover:bg-white/5">
                                     <td class="py-3 font-medium text-white">CAR-65L-TRP • Carretilla Truper 65L</td>
-                                    <td class="py-3"><span class="px-2.5 py-0.5 rounded bg-brandRed/20 text-brandRed font-bold">A - High</span></td>
-                                    <td class="py-3 text-white font-bold">3 pzas</td>
-                                    <td class="py-3 text-gray-400">Min: 4 | SS: 2</td>
-                                    <td class="py-3 text-gray-400">Patio Exterior A</td>
-                                    <td class="py-3 text-center text-gray-400">0 pzas</td>
+                                    <td class="py-3"><span class="text-zinc-400 border border-zinc-700 px-2 py-0.5">A - High</span></td>
+                                    <td class="py-3 text-white">3 pzas</td>
+                                    <td class="py-3 text-zinc-500">Min: 4 | SS: 2</td>
+                                    <td class="py-3 text-zinc-500">Patio Exterior A</td>
+                                    <td class="py-3 text-center text-zinc-500 font-mono">0</td>
                                 </tr>
                                 <tr class="hover:bg-white/5">
                                     <td class="py-3 font-medium text-white">CIN-MET-5M • Cinta Métrica de Acero 5m</td>
-                                    <td class="py-3"><span class="px-2.5 py-0.5 rounded bg-brandGreen/20 text-brandGreen font-bold">C - Bulk</span></td>
-                                    <td class="py-3 text-white font-bold">30 pzas</td>
-                                    <td class="py-3 text-gray-400">Min: 15 | SS: 5</td>
-                                    <td class="py-3 text-gray-400">Pasillo 1 - Vitrina C</td>
-                                    <td class="py-3 text-center text-gray-400">0 pzas</td>
+                                    <td class="py-3"><span class="text-zinc-400 border border-zinc-700 px-2 py-0.5">C - Bulk</span></td>
+                                    <td class="py-3 text-white">30 pzas</td>
+                                    <td class="py-3 text-zinc-500">Min: 15 | SS: 5</td>
+                                    <td class="py-3 text-zinc-500">Pasillo 1 - Vitrina C</td>
+                                    <td class="py-3 text-center text-zinc-500 font-mono">0</td>
                                 </tr>
                                 <tr class="hover:bg-white/5 cursor-pointer" @click="openDetails('stock_kpi')">
                                     <td class="py-3 font-medium text-white">CLA-CON-2IN • Caja Clavos de Concreto 2"</td>
-                                    <td class="py-3"><span class="px-2.5 py-0.5 rounded bg-brandGreen/20 text-brandGreen font-bold">C - Bulk</span></td>
-                                    <td class="py-3 text-white font-bold">50 cajas</td>
-                                    <td class="py-3 text-gray-400">Min: 25 | SS: 10</td>
-                                    <td class="py-3 text-gray-400">Gaveta 8 - Clavos</td>
-                                    <td class="py-3 text-center text-brandRed font-bold">2 dañadas (Scrap)</td>
+                                    <td class="py-3"><span class="text-zinc-400 border border-zinc-700 px-2 py-0.5">C - Bulk</span></td>
+                                    <td class="py-3 text-white">50 cajas</td>
+                                    <td class="py-3 text-zinc-500">Min: 25 | SS: 10</td>
+                                    <td class="py-3 text-zinc-500">Gaveta 8 - Clavos</td>
+                                    <td class="py-3 text-center text-zinc-400 font-mono">2 (Scrap)</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -460,35 +464,39 @@
                 </div>
             </div>
 
-            <!-- PESTAÑA 3: VENTAS & COTIZADOR POS -->
-            <div x-show="currentTab === 'ventas'" class="space-y-6">
+            <!-- PESTAÑA 3: VENTAS & COTIZADOR POS [ESTILO: CLEAN DESIGN] -->
+            <div x-show="currentTab === 'ventas'" class="space-y-4 p-6 bg-zinc-50 rounded-3xl border border-zinc-200 shadow-inner">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-widest text-zinc-400">Estilo: Clean Design (Claro y Contrastante)</span>
+                </div>
+
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div class="lg:col-span-2 glass-panel p-6 rounded-2xl space-y-6">
-                        <div class="flex items-center justify-between border-b border-white/10 pb-4">
-                            <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="ph ph-barcode text-soberOrangeLight text-2xl"></i>Punto de Venta Mostrador (POS)</h3>
+                    <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-zinc-200 space-y-6 text-zinc-800">
+                        <div class="flex items-center justify-between border-b border-zinc-100 pb-4">
+                            <h3 class="text-base font-bold text-zinc-950 flex items-center gap-2"><i class="ph ph-barcode text-zinc-900 text-xl"></i>Punto de Venta Mostrador (POS)</h3>
                         </div>
                         <div class="relative">
-                            <i class="ph ph-magnifying-glass absolute left-4 top-3.5 text-gray-400 text-lg"></i>
-                            <input type="text" placeholder="Buscar por código o nombre..." class="w-full bg-negroProfundo border border-white/10 rounded-xl pl-11 pr-4 py-3 text-sm text-white focus:outline-none">
+                            <i class="ph ph-magnifying-glass absolute left-4 top-3.5 text-zinc-400 text-base"></i>
+                            <input type="text" placeholder="Buscar por código o nombre..." class="w-full bg-zinc-100 border border-zinc-200 rounded-xl pl-11 pr-4 py-3 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-zinc-400 focus:bg-white transition-all">
                         </div>
                         <div class="overflow-x-auto">
-                            <table class="w-full text-left text-sm border-collapse">
+                            <table class="w-full text-left text-xs border-collapse">
                                 <thead>
-                                    <tr class="text-gray-400 border-b border-white/10">
+                                    <tr class="text-zinc-400 border-b border-zinc-100 uppercase tracking-wider font-semibold">
                                         <th class="pb-3">Producto</th>
                                         <th class="pb-3 text-center">Cant.</th>
                                         <th class="pb-3 text-right">Subtotal</th>
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-white/5">
+                                <tbody class="divide-y divide-zinc-100">
                                     <template x-for="item in posCart" :key="item.id">
-                                        <tr>
+                                        <tr class="hover:bg-zinc-50/50 transition-colors">
                                             <td class="py-3">
-                                                <p class="font-medium text-white" x-text="item.name"></p>
-                                                <p class="text-xs text-gray-500" x-text="item.code"></p>
+                                                <p class="font-semibold text-zinc-900" x-text="item.name"></p>
+                                                <p class="text-[10px] text-zinc-500" x-text="item.code"></p>
                                             </td>
-                                            <td class="py-3 text-center" x-text="item.qty"></td>
-                                            <td class="py-3 text-right font-bold text-white" x-text="'$' + (item.price * item.qty).toFixed(2)"></td>
+                                            <td class="py-3 text-center text-zinc-700" x-text="item.qty"></td>
+                                            <td class="py-3 text-right font-bold text-zinc-950" x-text="'$' + (item.price * item.qty).toFixed(2)"></td>
                                         </tr>
                                     </template>
                                 </tbody>
@@ -496,69 +504,73 @@
                         </div>
                     </div>
 
-                    <div class="glass-panel p-6 rounded-2xl flex flex-col justify-between space-y-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-zinc-200 flex flex-col justify-between space-y-6 text-zinc-800">
                         <div>
-                            <h4 class="font-bold text-white text-base mb-4 border-b border-white/10 pb-2">Resumen de Pago</h4>
-                            <div class="space-y-3 text-sm">
-                                <div class="flex justify-between text-gray-400"><span>Subtotal:</span><span class="text-white">$1,630.00</span></div>
-                                <div class="flex justify-between text-lg font-bold border-t border-white/10 pt-3"><span class="text-white">Total:</span><span class="text-soberOrangeLight">$1,890.80</span></div>
+                            <h4 class="font-bold text-zinc-950 text-sm mb-4 border-b border-zinc-100 pb-2">Resumen de Pago</h4>
+                            <div class="space-y-3 text-xs">
+                                <div class="flex justify-between text-zinc-500"><span>Subtotal:</span><span class="text-zinc-950 font-semibold">$1,630.00</span></div>
+                                <div class="flex justify-between text-base font-bold border-t border-zinc-100 pt-3"><span class="text-zinc-950">Total:</span><span class="text-zinc-950">$1,890.80</span></div>
                             </div>
                         </div>
                         <div class="space-y-2">
-                            <button class="w-full py-3 bg-brandGreen text-white font-bold rounded-xl text-xs">Cobrar Venta</button>
-                            <button class="w-full py-2.5 bg-white/5 text-white font-medium rounded-xl text-xs">Generar Cotización</button>
+                            <button class="w-full py-3 bg-zinc-900 text-white font-bold rounded-xl text-xs hover:bg-zinc-850 transition-all cursor-pointer">Cobrar Venta</button>
+                            <button class="w-full py-2.5 bg-zinc-100 border border-zinc-200 text-zinc-700 font-semibold rounded-xl text-xs hover:bg-zinc-200 transition-all cursor-pointer">Generar Cotización</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- PESTAÑA 4: FACTURACIÓN AUTOMÁTICA -->
-            <div x-show="currentTab === 'facturacion'" class="space-y-6">
-                <!-- Tarjetas de Control de Facturación -->
+            <!-- PESTAÑA 4: FACTURACIÓN AUTOMÁTICA [ESTILO: DARK MODE] -->
+            <div x-show="currentTab === 'facturacion'" class="space-y-6 bg-black p-6 rounded-3xl border border-zinc-900 shadow-2xl">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-widest text-zinc-700">Estilo: Dark Mode (Contraste Puro y Sobrio)</span>
+                </div>
+
+                <!-- Tarjetas de Control de Facturación (Dark Mode: negro absoluto y bordes grises) -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Tarjeta 1: Facturación Manual -->
-                    <div class="glass-panel p-6 rounded-2xl flex flex-col justify-between gap-4 border-l-4 border-l-aquaTurquesa">
+                    <div class="bg-[#050505] p-6 border border-zinc-800 flex flex-col justify-between gap-4">
                         <div>
-                            <h3 class="text-base font-bold text-white">Facturación Semi-Automática</h3>
-                            <p class="text-xs text-gray-400 mt-1">Crea un comprobante fiscal de mostrador capturando únicamente el RFC. Ferrebot resolverá y timbrará el resto.</p>
+                            <h3 class="text-sm font-bold text-white uppercase tracking-wider">Facturación Semi-Automática</h3>
+                            <p class="text-xs text-zinc-500 mt-1">Crea un comprobante fiscal de mostrador capturando únicamente el RFC. Ferrebot resolverá y timbrará el resto.</p>
                         </div>
-                        <button @click="openBillingModal()" class="w-full bg-aquaTurquesa text-darkBg py-2.5 rounded-xl text-xs font-bold hover:bg-white hover:scale-102 transition-all cursor-pointer flex items-center justify-center gap-2 mt-2">
+                        <button @click="openBillingModal()" class="w-full bg-[#151518] hover:bg-white hover:text-black border border-zinc-850 text-white py-2.5 text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 mt-2">
                             <i class="ph-bold ph-file-plus text-sm"></i> Facturación Manual (Administrador)
                         </button>
                     </div>
 
                     <!-- Tarjeta 2: Auto-Facturación QR Cliente Final -->
-                    <div class="glass-panel p-6 rounded-2xl flex flex-col justify-between gap-4 border-l-4 border-l-soberOrange">
+                    <div class="bg-[#050505] p-6 border border-zinc-800 flex flex-col justify-between gap-4">
                         <div>
-                            <h3 class="text-base font-bold text-white">Auto-Facturación QR (Cliente Final)</h3>
-                            <p class="text-xs text-gray-400 mt-1">Simula la experiencia de un cliente final escaneando el código QR impreso en su ticket de compra.</p>
+                            <h3 class="text-sm font-bold text-white uppercase tracking-wider">Auto-Facturación QR (Cliente Final)</h3>
+                            <p class="text-xs text-zinc-500 mt-1">Simula la experiencia de un cliente final escaneando el código QR impreso en su ticket de compra.</p>
                         </div>
-                        <button @click="openQrModal()" class="w-full bg-soberOrangeLight text-white py-2.5 rounded-xl text-xs font-bold hover:bg-white hover:text-darkBg hover:scale-102 transition-all cursor-pointer flex items-center justify-center gap-2 mt-2">
+                        <button @click="openQrModal()" class="w-full bg-white hover:bg-zinc-800 hover:text-white text-black py-2.5 text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 mt-2">
                             <i class="ph-bold ph-qr-code text-sm"></i> Simular Escaneo QR Auto-Factura
                         </button>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="glass-panel p-5 rounded-2xl">
-                        <p class="text-xs text-gray-400">Facturas Timbradas</p>
+                    <div class="bg-[#050505] border border-zinc-850 p-5">
+                        <p class="text-[10px] text-zinc-500 uppercase tracking-widest font-semibold">Facturas Timbradas</p>
                         <h4 class="text-2xl font-bold text-white mt-1" x-text="invoicesList.length + 1474">1,482</h4>
                     </div>
-                    <div class="glass-panel p-5 rounded-2xl">
-                        <p class="text-xs text-gray-400">Auto-Facturas (QR)</p>
-                        <h4 class="text-2xl font-bold text-aquaTurquesa mt-1" x-text="qrInvoicesCount">583</h4>
+                    <div class="bg-[#050505] border border-zinc-850 p-5">
+                        <p class="text-[10px] text-zinc-500 uppercase tracking-widest font-semibold">Auto-Facturas (QR)</p>
+                        <h4 class="text-2xl font-bold text-white mt-1" x-text="qrInvoicesCount">583</h4>
                     </div>
-                    <div class="glass-panel p-5 rounded-2xl">
-                        <p class="text-xs text-gray-400">Envíos Exitosos</p>
-                        <h4 class="text-2xl font-bold text-soberOrangeLight mt-1">100%</h4>
+                    <div class="bg-[#050505] border border-zinc-850 p-5">
+                        <p class="text-[10px] text-zinc-500 uppercase tracking-widest font-semibold">Envíos Exitosos</p>
+                        <h4 class="text-2xl font-bold text-zinc-400 mt-1">100%</h4>
                     </div>
                 </div>
 
-                <div class="glass-panel p-6 rounded-2xl">
-                    <h4 class="font-bold text-white text-base mb-4">Comprobantes Recientes</h4>
+                <div class="bg-[#050505] border border-zinc-800 p-6">
+                    <h4 class="font-bold text-white text-xs uppercase tracking-wider mb-4">Comprobantes Recientes</h4>
                     <table class="w-full text-left text-xs border-collapse">
                         <thead>
-                            <tr class="text-gray-400 border-b border-white/10 uppercase">
+                            <tr class="text-zinc-600 border-b border-zinc-900 uppercase">
                                 <th class="py-2.5">Folio Fiscal</th>
                                 <th class="py-2.5">Receptor</th>
                                 <th class="py-2.5">Fecha</th>
@@ -566,19 +578,19 @@
                                 <th class="py-2.5 text-right">Descargas</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-white/5">
+                        <tbody class="divide-y divide-zinc-900">
                             <template x-for="inv in invoicesList" :key="inv.folio">
-                                <tr>
+                                <tr class="hover:bg-zinc-950/80">
                                     <td class="py-3 font-mono text-white" x-text="inv.folio"></td>
-                                    <td class="py-3 text-gray-300" x-text="inv.client"></td>
-                                    <td class="py-3 text-gray-400" x-text="inv.date"></td>
+                                    <td class="py-3 text-zinc-400" x-text="inv.client"></td>
+                                    <td class="py-3 text-zinc-500" x-text="inv.date"></td>
                                     <td class="py-3">
-                                        <span :class="inv.status === 'Timbrada' ? 'bg-brandGreen/20 text-brandGreen border border-brandGreen/30' : 'bg-brandRed/20 text-brandRed border border-brandRed/30'" 
-                                              class="px-2 py-0.5 rounded font-bold" x-text="inv.status"></span>
+                                        <span :class="inv.status === 'Timbrada' ? 'border border-zinc-700 text-zinc-300' : 'border border-red-900 text-red-500'" 
+                                              class="px-2 py-0.5 rounded-none text-[10px] font-bold" x-text="inv.status"></span>
                                     </td>
                                     <td class="py-3 text-right space-x-2">
-                                        <button class="px-2 py-1 bg-white/10 rounded cursor-pointer hover:bg-white/20" @click="alert('Descargando archivo XML...')">XML</button>
-                                        <button class="px-2 py-1 bg-white/10 rounded cursor-pointer hover:bg-white/20" @click="alert('Descargando archivo PDF...')">PDF</button>
+                                        <button class="px-2 py-1 bg-zinc-900 border border-zinc-800 text-zinc-300 rounded-none cursor-pointer hover:bg-white hover:text-black" @click="alert('Descargando archivo XML...')">XML</button>
+                                        <button class="px-2 py-1 bg-zinc-900 border border-zinc-800 text-zinc-300 rounded-none cursor-pointer hover:bg-white hover:text-black" @click="alert('Descargando archivo PDF...')">PDF</button>
                                     </td>
                                 </tr>
                             </template>
@@ -587,40 +599,44 @@
                 </div>
             </div>
 
-            <!-- PESTAÑA 5: COMPRAS & COTEJO 3-WAY -->
-            <div x-show="currentTab === 'compras'" class="space-y-6">
-                <!-- Tarjeta Principal con botón para abrir los pendientes de Compras -->
-                <div class="glass-panel p-6 rounded-2xl flex flex-col md:flex-row justify-between gap-4 border-l-4 border-l-soberOrange">
+            <!-- PESTAÑA 5: COMPRAS & COTEJO 3-WAY [ESTILO: ORGANIZACIONAL] -->
+            <div x-show="currentTab === 'compras'" class="space-y-6 bg-[#0f172a]/60 p-6 rounded-2xl border border-slate-800 shadow-xl">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-widest text-slate-500">Estilo: Organizacional (Corporativo y Estructurado)</span>
+                </div>
+
+                <!-- Tarjeta Principal con botón para abrir los pendientes de Compras (Estilo Organizacional: Azul pizarra corporativo) -->
+                <div class="bg-[#1e293b]/90 border border-slate-700/80 p-6 rounded-xl flex flex-col md:flex-row justify-between gap-4">
                     <div>
                         <div class="flex items-center gap-2">
-                            <h3 class="text-lg font-bold text-white">Cotejo de 3 Vías y Extractor OCR</h3>
-                            <span @click="openDetails('compras_kpi')" class="cursor-pointer px-2.5 py-0.5 bg-soberOrange/20 border border-soberOrange/30 text-soberOrangeLight text-[9px] font-bold uppercase rounded-full animate-pulse flex items-center gap-1"><i class="ph-bold ph-bell-ringing"></i> 5 Pendientes</span>
+                            <h3 class="text-base font-bold text-slate-100">Cotejo de 3 Vías y Extractor OCR</h3>
+                            <span @click="openDetails('compras_kpi')" class="cursor-pointer px-2.5 py-0.5 bg-blue-500/10 border border-blue-500/30 text-blue-400 text-[9px] font-bold uppercase rounded-full flex items-center gap-1"><i class="ph-bold ph-bell-ringing"></i> 5 Pendientes</span>
                         </div>
-                        <p class="text-xs text-gray-400 mt-1">Carga las facturas de tus proveedores y FerreBot IA las conciliará contra existencias y Órdenes de Compra.</p>
+                        <p class="text-xs text-slate-400 mt-1">Carga las facturas de tus proveedores y FerreBot IA las conciliará contra existencias y Órdenes de Compra.</p>
                     </div>
                     <div class="flex gap-2">
-                        <button @click="openDetails('compras_kpi')" class="bg-white/5 border border-white/10 text-white px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer hover:bg-white/10">Ver Alertas de Compras</button>
-                        <button @click="ocrProcessing = true; setTimeout(() => { ocrProcessing = false; ocrDone = true; }, 1200)" class="bg-soberOrangeLight text-white px-4 py-2 rounded-xl text-xs font-bold shrink-0 cursor-pointer">Simular Factura PDF</button>
+                        <button @click="openDetails('compras_kpi')" class="bg-slate-800 border border-slate-700 text-slate-200 px-3 py-2 rounded-lg text-xs font-semibold cursor-pointer hover:bg-slate-700">Ver Alertas</button>
+                        <button @click="ocrProcessing = true; setTimeout(() => { ocrProcessing = false; ocrDone = true; }, 1200)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-xs font-bold shrink-0 cursor-pointer">Simular Factura PDF</button>
                     </div>
                 </div>
 
-                <div x-show="ocrProcessing" class="glass-panel p-6 rounded-2xl text-center space-y-3">
-                    <div class="w-8 h-8 border-4 border-soberOrangeLight border-t-transparent rounded-full animate-spin mx-auto"></div>
-                    <p class="text-xs text-white">Extrayendo datos de factura con OCR...</p>
+                <div x-show="ocrProcessing" class="bg-[#1e293b]/50 p-6 rounded-xl text-center space-y-3 border border-slate-700">
+                    <div class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+                    <p class="text-xs text-slate-300">Extrayendo datos de factura con OCR corporativo...</p>
                 </div>
 
-                <div x-show="ocrDone" class="p-3 bg-brandGreen/10 border border-brandGreen/25 text-brandGreen text-xs rounded-xl flex justify-between items-center">
+                <div x-show="ocrDone" class="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs rounded-lg flex justify-between items-center">
                     <span>✅ Conciliación exitosa (Match 100%): Orden de Compra OC-2026-089 coincide con Factura y Guía de Almacén.</span>
                     <button @click="ocrDone = false" class="underline text-white font-bold">Cerrar</button>
                 </div>
 
-                <!-- Tabla de historial de cotejos 3-way -->
-                <div class="glass-panel rounded-2xl p-6">
-                    <h4 class="font-bold text-white text-base mb-4">Auditorías de Compra Recientes (3-Way Matching)</h4>
+                <!-- Tabla de historial de cotejos 3-way (Estilo Organizacional: Estructura de Slate) -->
+                <div class="bg-[#1e293b]/90 border border-slate-700/80 rounded-xl p-6">
+                    <h4 class="font-bold text-slate-100 text-sm mb-4">Auditorías de Compra Recientes (3-Way Matching)</h4>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs border-collapse">
                             <thead>
-                                <tr class="text-gray-400 border-b border-white/10 uppercase">
+                                <tr class="text-slate-400 border-b border-slate-700 uppercase font-semibold">
                                     <th class="py-2.5">Código OC</th>
                                     <th class="py-2.5">Proveedor</th>
                                     <th class="py-2.5">Conciliación</th>
@@ -628,62 +644,62 @@
                                     <th class="py-2.5 text-right">Monto Facturado</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-white/5">
-                                <tr class="hover:bg-white/5 cursor-pointer" @click="openDetails('compras_kpi')">
+                            <tbody class="divide-y divide-slate-800">
+                                <tr class="hover:bg-slate-800/40 cursor-pointer" @click="openDetails('compras_kpi')">
                                     <td class="py-3 font-mono text-white">OC-2026-089</td>
-                                    <td class="py-3 text-gray-300">Truper Herramientas</td>
-                                    <td class="py-3 text-gray-400">OC vs Guía vs Factura</td>
-                                    <td class="py-3"><span class="px-2 py-0.5 bg-brandGreen/20 text-brandGreen rounded font-bold">Match 100%</span></td>
+                                    <td class="py-3 text-slate-300">Truper Herramientas</td>
+                                    <td class="py-3 text-slate-400">OC vs Guía vs Factura</td>
+                                    <td class="py-3"><span class="px-2.5 py-0.5 bg-emerald-500/10 text-emerald-400 rounded-full font-bold border border-emerald-500/20">Match 100%</span></td>
                                     <td class="py-3 text-right font-bold text-white">$14,580.00</td>
                                 </tr>
-                                <tr class="hover:bg-white/5 cursor-pointer" @click="openDetails('compras_kpi')">
+                                <tr class="hover:bg-slate-800/40 cursor-pointer" @click="openDetails('compras_kpi')">
                                     <td class="py-3 font-mono text-white">OC-2026-090</td>
-                                    <td class="py-3 text-gray-300">Metales del Noroeste</td>
-                                    <td class="py-3 text-gray-400">OC vs Guía vs Factura</td>
-                                    <td class="py-3"><span class="px-2 py-0.5 bg-brandRed/20 text-brandRed rounded font-bold">Discrepancia Cant.</span></td>
+                                    <td class="py-3 text-slate-300">Metales del Noroeste</td>
+                                    <td class="py-3 text-slate-400">OC vs Guía vs Factura</td>
+                                    <td class="py-3"><span class="px-2.5 py-0.5 bg-rose-500/10 text-rose-400 rounded-full font-bold border border-rose-500/20">Discrepancia Cant.</span></td>
                                     <td class="py-3 text-right font-bold text-white">$8,940.00</td>
                                 </tr>
-                                <tr class="hover:bg-white/5">
+                                <tr class="hover:bg-slate-800/40">
                                     <td class="py-3 font-mono text-white">OC-2026-091</td>
-                                    <td class="py-3 text-gray-300">Pinturas Berel S.A.</td>
-                                    <td class="py-3 text-gray-400">OC vs Guía vs Factura</td>
-                                    <td class="py-3"><span class="px-2 py-0.5 bg-brandGreen/20 text-brandGreen rounded font-bold">Match 100%</span></td>
+                                    <td class="py-3 text-slate-300">Pinturas Berel S.A.</td>
+                                    <td class="py-3 text-slate-400">OC vs Guía vs Factura</td>
+                                    <td class="py-3"><span class="px-2.5 py-0.5 bg-emerald-500/10 text-emerald-400 rounded-full font-bold border border-emerald-500/20">Match 100%</span></td>
                                     <td class="py-3 text-right font-bold text-white">$18,900.00</td>
                                 </tr>
-                                <tr class="hover:bg-white/5">
+                                <tr class="hover:bg-slate-800/40">
                                     <td class="py-3 font-mono text-white">OC-2026-092</td>
-                                    <td class="py-3 text-gray-300">Clavos y Tornillos de México</td>
-                                    <td class="py-3 text-gray-400">OC vs Guía vs Factura</td>
-                                    <td class="py-3"><span class="px-2 py-0.5 bg-brandGreen/20 text-brandGreen rounded font-bold">Match 100%</span></td>
+                                    <td class="py-3 text-slate-300">Clavos y Tornillos de México</td>
+                                    <td class="py-3 text-slate-400">OC vs Guía vs Factura</td>
+                                    <td class="py-3"><span class="px-2.5 py-0.5 bg-emerald-500/10 text-emerald-400 rounded-full font-bold border border-emerald-500/20">Match 100%</span></td>
                                     <td class="py-3 text-right font-bold text-white">$3,240.00</td>
                                 </tr>
-                                <tr class="hover:bg-white/5 cursor-pointer" @click="openDetails('compras_kpi')">
+                                <tr class="hover:bg-slate-800/40 cursor-pointer" @click="openDetails('compras_kpi')">
                                     <td class="py-3 font-mono text-white">OC-2026-093</td>
-                                    <td class="py-3 text-gray-300">Distribuidora Eléctrica</td>
-                                    <td class="py-3 text-gray-400">OC vs Guía (Sin Factura)</td>
-                                    <td class="py-3"><span class="px-2 py-0.5 bg-brandYellow/20 text-brandYellow rounded font-bold">Falta Factura</span></td>
-                                    <td class="py-3 text-right font-bold text-white">Pnd.</td>
+                                    <td class="py-3 text-slate-300">Distribuidora Eléctrica</td>
+                                    <td class="py-3 text-slate-400">OC vs Guía (Sin Factura)</td>
+                                    <td class="py-3"><span class="px-2.5 py-0.5 bg-amber-500/10 text-amber-400 rounded-full font-bold border border-amber-500/20">Falta Factura</span></td>
+                                    <td class="py-3 text-right font-bold text-slate-400">Pnd.</td>
                                 </tr>
-                                <tr>
+                                <tr class="hover:bg-slate-800/40">
                                     <td class="py-3 font-mono text-white">OC-2026-094</td>
-                                    <td class="py-3 text-gray-300">Herrajes y Cerraduras S.A.</td>
-                                    <td class="py-3 text-gray-400">OC vs Guía vs Factura</td>
-                                    <td class="py-3"><span class="px-2 py-0.5 bg-brandGreen/20 text-brandGreen rounded font-bold">Match 100%</span></td>
+                                    <td class="py-3 text-slate-300">Herrajes y Cerraduras S.A.</td>
+                                    <td class="py-3 text-slate-400">OC vs Guía vs Factura</td>
+                                    <td class="py-3"><span class="px-2.5 py-0.5 bg-emerald-500/10 text-emerald-400 rounded-full font-bold border border-emerald-500/20">Match 100%</span></td>
                                     <td class="py-3 text-right font-bold text-white">$5,620.00</td>
                                 </tr>
-                                <tr>
+                                <tr class="hover:bg-slate-800/40">
                                     <td class="py-3 font-mono text-white">OC-2026-095</td>
-                                    <td class="py-3 text-gray-300">Cementos del Bajío</td>
-                                    <td class="py-3 text-gray-400">OC vs Guía vs Factura</td>
-                                    <td class="py-3"><span class="px-2 py-0.5 bg-brandGreen/20 text-brandGreen rounded font-bold">Match 100%</span></td>
+                                    <td class="py-3 text-slate-300">Cementos del Bajío</td>
+                                    <td class="py-3 text-slate-400">OC vs Guía vs Factura</td>
+                                    <td class="py-3"><span class="px-2.5 py-0.5 bg-emerald-500/10 text-emerald-400 rounded-full font-bold border border-emerald-500/20">Match 100%</span></td>
                                     <td class="py-3 text-right font-bold text-white">$21,400.00</td>
                                 </tr>
-                                <tr class="hover:bg-white/5 cursor-pointer" @click="openDetails('compras_kpi')">
+                                <tr class="hover:bg-slate-800/40 cursor-pointer" @click="openDetails('compras_kpi')">
                                     <td class="py-3 font-mono text-white">OC-2026-096</td>
-                                    <td class="py-3 text-gray-300">Herramientas Globales</td>
-                                    <td class="py-3 text-gray-400">OC vs Factura (Sin Guía)</td>
-                                    <td class="py-3"><span class="px-2 py-0.5 bg-brandYellow/20 text-brandYellow rounded font-bold">Falta Recibir</span></td>
-                                    <td class="py-3 text-right font-bold text-white">Pnd.</td>
+                                    <td class="py-3 text-slate-300">Herramientas Globales</td>
+                                    <td class="py-3 text-slate-400">OC vs Factura (Sin Guía)</td>
+                                    <td class="py-3"><span class="px-2.5 py-0.5 bg-amber-500/10 text-amber-400 rounded-full font-bold border border-amber-500/20">Falta Recibir</span></td>
+                                    <td class="py-3 text-right font-bold text-slate-400">Pnd.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -691,94 +707,101 @@
                 </div>
             </div>
 
-            <!-- PESTAÑA 6: LOGÍSTICA & DESPACHOS -->
-            <div x-show="currentTab === 'logistica'" class="space-y-6">
-                <div class="flex items-center justify-between border-b border-white/10 pb-3">
-                    <h3 class="text-base font-bold text-white">Seguimiento de Despachos y Rutas Activas</h3>
-                    <button @click="openDetails('logistica_kpi')" class="px-3 py-1.5 rounded-xl border border-aquaTurquesa/30 bg-aquaTurquesa/10 text-aquaTurquesa text-xs font-bold flex items-center gap-1.5 cursor-pointer hover:bg-aquaTurquesa/20">
-                        <i class="ph-bold ph-bell-ringing"></i> Ver Incidencias y Firmas Pendientes
+            <!-- PESTAÑA 6: LOGÍSTICA & DESPACHOS [ESTILO: RETRO] -->
+            <div x-show="currentTab === 'logistica'" class="space-y-6 bg-[#030c04] p-6 border-2 border-emerald-500/40 text-emerald-400 font-mono shadow-[0_0_20px_rgba(16,185,129,0.15)]">
+                <div class="flex items-center justify-between border-b border-emerald-500/30 pb-3">
+                    <div class="flex flex-col">
+                        <span class="text-[9px] uppercase tracking-widest text-emerald-600">[ESTILO: RETRO TERMINAL EMULATION]</span>
+                        <h3 class="text-sm font-bold text-emerald-300 uppercase mt-1">SYS_LOGISTICS: RUTAS_ACTUALES</h3>
+                    </div>
+                    <button @click="openDetails('logistica_kpi')" class="px-3 py-1.5 border border-emerald-500/50 bg-transparent text-emerald-400 text-[10px] font-bold uppercase cursor-pointer hover:bg-emerald-950/40">
+                        * VER_PENDIENTES *
                     </button>
                 </div>
-                <!-- Listado de rutas de despacho -->
+                <!-- Listado de rutas de despacho (Estilo Retro: terminal verde, bordes rectos y simples) -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="glass-panel p-5 rounded-2xl cursor-pointer hover:border-brandGreen/30 transition-colors" @click="openDetails('logistica_kpi')">
-                        <h4 class="font-bold text-white text-sm mb-2 flex items-center gap-2">Ruta Norte • Camioneta 01 <span class="ml-auto w-2 h-2 rounded-full bg-brandRed animate-pulse"></span></h4>
-                        <p class="text-xs text-gray-400 mb-3">Materiales pesados en ruta de reparto (Tráfico reportado).</p>
-                        <div class="w-full bg-white/5 rounded-full h-1.5"><div class="bg-brandGreen h-1.5 rounded-full w-[75%]"></div></div>
+                    <div class="bg-black border border-emerald-500/40 p-5 cursor-pointer hover:bg-emerald-950/20 transition-colors" @click="openDetails('logistica_kpi')">
+                        <h4 class="font-bold text-emerald-300 text-xs mb-2 flex items-center gap-2">RUTA_NORTE.SYS • C-01 <span class="ml-auto w-2.5 h-2.5 bg-red-600 animate-pulse"></span></h4>
+                        <p class="text-[11px] text-emerald-500 mb-3">Materiales pesados en ruta de reparto (Tráfico reportado).</p>
+                        <div class="w-full bg-emerald-950 border border-emerald-500/20 h-2"><div class="bg-emerald-400 h-1.5 w-[75%]"></div></div>
                     </div>
-                    <div class="glass-panel p-5 rounded-2xl cursor-pointer hover:border-brandYellow/30 transition-colors" @click="openDetails('logistica_kpi')">
-                        <h4 class="font-bold text-white text-sm mb-2">Ruta Centro • Furgón 02</h4>
-                        <p class="text-xs text-gray-400 mb-3">Herramientas y cajas de volumen medio.</p>
-                        <div class="w-full bg-white/5 rounded-full h-1.5"><div class="bg-brandYellow h-1.5 rounded-full w-[25%]"></div></div>
+                    <div class="bg-black border border-emerald-500/40 p-5 cursor-pointer hover:bg-emerald-950/20 transition-colors" @click="openDetails('logistica_kpi')">
+                        <h4 class="font-bold text-emerald-300 text-xs mb-2">RUTA_CENTRO.SYS • F-02</h4>
+                        <p class="text-[11px] text-emerald-500 mb-3">Herramientas y cajas de volumen medio.</p>
+                        <div class="w-full bg-emerald-950 border border-emerald-500/20 h-2"><div class="bg-emerald-400 h-1.5 w-[25%]"></div></div>
                     </div>
-                    <div class="glass-panel p-5 rounded-2xl">
-                        <h4 class="font-bold text-white text-sm mb-2">Ruta Sur • Camión Torton 01</h4>
-                        <p class="text-xs text-gray-400 mb-3">Reparto de Varilla, Arena y Cemento.</p>
-                        <div class="w-full bg-white/5 rounded-full h-1.5"><div class="bg-brandRed/45 h-1.5 rounded-full w-[0%]"></div></div>
+                    <div class="bg-black border border-emerald-500/40 p-5">
+                        <h4 class="font-bold text-emerald-300 text-xs mb-2">RUTA_SUR.SYS • T-01</h4>
+                        <p class="text-[11px] text-emerald-500 mb-3">Reparto de Varilla, Arena y Cemento.</p>
+                        <div class="w-full bg-emerald-950 border border-emerald-500/20 h-2"><div class="bg-emerald-900 h-1.5 w-[0%]"></div></div>
                     </div>
-                    <div class="glass-panel p-5 rounded-2xl">
-                        <h4 class="font-bold text-white text-sm mb-2">Ruta Poniente • Camioneta 03</h4>
-                        <p class="text-xs text-gray-400 mb-3">Tuberías y conexiones PVC.</p>
-                        <div class="w-full bg-white/5 rounded-full h-1.5"><div class="bg-brandGreen h-1.5 rounded-full w-[90%]"></div></div>
+                    <div class="bg-black border border-emerald-500/40 p-5">
+                        <h4 class="font-bold text-emerald-300 text-xs mb-2">RUTA_PONIENTE.SYS • C-03</h4>
+                        <p class="text-[11px] text-emerald-500 mb-3">Tuberías y conexiones PVC.</p>
+                        <div class="w-full bg-emerald-950 border border-emerald-500/20 h-2"><div class="bg-emerald-400 h-1.5 w-[90%]"></div></div>
                     </div>
-                    <div class="glass-panel p-5 rounded-2xl cursor-pointer hover:border-brandGreen/30 transition-colors" @click="openDetails('logistica_kpi')">
-                        <h4 class="font-bold text-white text-sm mb-2">Ruta Este • Furgón 01</h4>
-                        <p class="text-xs text-gray-400 mb-3">Herrajes y cerraduras residenciales (Falta firma acuse).</p>
-                        <div class="w-full bg-white/5 rounded-full h-1.5"><div class="bg-brandGreen h-1.5 rounded-full w-[100%]"></div></div>
+                    <div class="bg-black border border-emerald-500/40 p-5 cursor-pointer hover:bg-emerald-950/20 transition-colors" @click="openDetails('logistica_kpi')">
+                        <h4 class="font-bold text-emerald-300 text-xs mb-2">RUTA_ESTE.SYS • F-01</h4>
+                        <p class="text-[11px] text-emerald-500 mb-3">Herrajes y cerraduras residenciales (Falta firma acuse).</p>
+                        <div class="w-full bg-emerald-950 border border-emerald-500/20 h-2"><div class="bg-emerald-400 h-1.5 w-[100%]"></div></div>
                     </div>
-                    <div class="glass-panel p-5 rounded-2xl">
-                        <h4 class="font-bold text-white text-sm mb-2">Ruta Express • Motocicleta 01</h4>
-                        <p class="text-xs text-gray-400 mb-3">Tornillería y empaques ligeros urgentess.</p>
-                        <div class="w-full bg-white/5 rounded-full h-1.5"><div class="bg-brandYellow h-1.5 rounded-full w-[50%]"></div></div>
+                    <div class="bg-black border border-emerald-500/40 p-5">
+                        <h4 class="font-bold text-emerald-300 text-xs mb-2">RUTA_EXPRESS.SYS • M-01</h4>
+                        <p class="text-[11px] text-emerald-500 mb-3">Tornillería y empaques ligeros urgentes.</p>
+                        <div class="w-full bg-emerald-950 border border-emerald-500/20 h-2"><div class="bg-emerald-400 h-1.5 w-[50%]"></div></div>
                     </div>
                 </div>
             </div>
 
-            <!-- PESTAÑA 7: IA PERSONALIZADA -->
-            <div x-show="currentTab === 'ferrebot'" class="space-y-6">
+            <!-- PESTAÑA 7: IA PERSONALIZADA [ESTILO: FUTURISTICO] -->
+            <div x-show="currentTab === 'ferrebot'" class="space-y-6 bg-[#0c081e] p-6 rounded-3xl border border-fuchsia-500/20 shadow-[0_0_25px_rgba(240,46,170,0.12)]">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-widest text-fuchsia-400">⚡ Estilo: Futurístico (Cyberpunk / Neón)</span>
+                </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="glass-panel p-6 rounded-2xl text-center space-y-4">
-                        <div class="w-full h-40 bg-black/40 border border-dashed border-aquaTurquesa/40 rounded-xl flex items-center justify-center relative overflow-hidden">
+                    <div class="bg-[#120a2a]/80 border border-cyan-500/30 p-6 rounded-2xl text-center space-y-4 shadow-[0_0_15px_rgba(6,182,212,0.15)]">
+                        <div class="w-full h-40 bg-black/60 border-2 border-dashed border-cyan-500/40 rounded-xl flex items-center justify-center relative overflow-hidden">
                             <template x-if="!photoAnalyzed">
                                 <div class="text-center p-4">
-                                    <i class="ph-bold ph-camera text-3xl text-aquaTurquesa mb-2"></i>
-                                    <p class="text-xs text-gray-400">Simulación: Haz clic en el botón inferior para cargar foto de repuesto</p>
+                                    <i class="ph-bold ph-camera text-3xl text-cyan-400 mb-2 animate-pulse"></i>
+                                    <p class="text-xs text-cyan-300 font-mono uppercase tracking-wider">Esperando Scan Holográfico...</p>
                                 </div>
                             </template>
                             <template x-if="photoAnalyzed">
                                 <div class="text-center p-4">
-                                    <i class="ph-bold ph-nut text-5xl text-soberOrangeLight mb-2 animate-bounce"></i>
-                                    <p class="text-xs text-brandGreen font-bold">Identificación: Pija Autoperforante 1-1/2"</p>
+                                    <i class="ph-bold ph-nut text-5xl text-fuchsia-400 mb-2 animate-bounce"></i>
+                                    <p class="text-xs text-emerald-400 font-bold uppercase tracking-widest">Identificado: Pija Autoperforante 1-1/2"</p>
                                 </div>
                             </template>
                         </div>
-                        <button @click="photoAnalyzed = !photoAnalyzed" class="w-full py-2 bg-aquaTurquesa text-darkBg font-bold text-xs rounded-lg">
-                            <span x-text="photoAnalyzed ? 'Restablecer' : 'Simular Captura de Foto de Pieza'"></span>
+                        <button @click="photoAnalyzed = !photoAnalyzed" class="w-full py-2.5 bg-gradient-to-r from-cyan-500 to-fuchsia-500 hover:from-cyan-400 hover:to-fuchsia-450 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+                            <span x-text="photoAnalyzed ? 'Restablecer Scan' : 'Iniciar Reconocimiento Visual'"></span >
                         </button>
                     </div>
 
-                    <!-- Listado de historial de reconocimiento visual -->
-                    <div class="glass-panel p-6 rounded-2xl flex flex-col justify-between">
+                    <!-- Listado de historial de reconocimiento visual (Estilo Futurístico) -->
+                    <div class="bg-[#120a2a]/80 border border-fuchsia-500/30 p-6 rounded-2xl flex flex-col justify-between shadow-[0_0_15px_rgba(240,46,170,0.1)]">
                         <div>
-                            <h4 class="font-bold text-white text-sm mb-3">Historial de Reconocimientos del Día</h4>
-                            <ul class="space-y-2.5 text-xs text-gray-300">
+                            <h4 class="font-bold text-white text-xs uppercase tracking-wider mb-3 flex items-center gap-1.5"><i class="ph-bold ph-lightning text-cyan-400"></i> Historial Holográfico del Día</h4>
+                            <ul class="space-y-2.5 text-xs font-mono text-zinc-300">
                                 <li class="flex justify-between items-center border-b border-white/5 pb-1.5">
-                                    <span>Tornillo Hexagonal Galvanizado 3"</span><span class="text-brandGreen">98% Match</span>
+                                    <span>Tornillo Hexagonal 3"</span><span class="text-cyan-400 font-bold">98% MATCH</span>
                                 </li>
                                 <li class="flex justify-between items-center border-b border-white/5 pb-1.5">
-                                    <span>Tuerca Hexagonal 1/2" (Inox)</span><span class="text-brandGreen">99% Match</span>
+                                    <span>Tuerca Hexagonal 1/2" (Inox)</span><span class="text-cyan-400 font-bold">99% MATCH</span>
                                 </li>
                                 <li class="flex justify-between items-center border-b border-white/5 pb-1.5">
-                                    <span>Codo de Cobre 90° 1/2"</span><span class="text-brandGreen">95% Match</span>
+                                    <span>Codo de Cobre 90° 1/2"</span><span class="text-cyan-400 font-bold">95% MATCH</span>
                                 </li>
                                 <li class="flex justify-between items-center border-b border-white/5 pb-1.5">
-                                    <span>Rondana Plana 3/8"</span><span class="text-brandGreen">97% Match</span>
+                                    <span>Rondana Plana 3/8"</span><span class="text-cyan-400 font-bold">97% MATCH</span>
                                 </li>
                                 <li class="flex justify-between items-center border-b border-white/5 pb-1.5">
-                                    <span>Abrazadera Omega 1"</span><span class="text-brandGreen">96% Match</span>
+                                    <span>Abrazadera Omega 1"</span><span class="text-cyan-400 font-bold">96% MATCH</span>
                                 </li>
                                 <li class="flex justify-between items-center">
-                                    <span>Pija Autoperforante 1-1/2"</span><span class="text-brandGreen">99% Match</span>
+                                    <span>Pija Autoperforante 1-1/2"</span><span class="text-cyan-400 font-bold">99% MATCH</span>
                                 </li>
                             </ul>
                         </div>
