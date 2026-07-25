@@ -1,57 +1,94 @@
 <!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TSolutions IPIDD — Estandarización, Consultoría y Transformación Digital 360°</title>
-    
+
     <!-- Google Fonts: Bruno Ace & Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bruno+Ace&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Alpine.js for interactive booking calendar -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    
+
     <style>
         :root {
-          --color-naranjaEnergy: #F97316;
-          --color-aquaTurquesa: #00E5FF;
-          --color-negroProfundo: #04040a;
-          --color-blancoPuro: #F0F0F8;
-          --color-midnightPanel: #0a0a14;
-          --color-deepGrid: #0f0f1e;
-          --font-bruno: "Bruno Ace", sans-serif;
-          --font-inter: "Montserrat", sans-serif;
-          --shadow-glowEnergy: 0 0 15px rgba(249,115,22,0.4);
-          --shadow-glowEnergyHover: 0 0 25px rgba(249,115,22,0.65);
-          --shadow-glowAqua: 0 0 15px rgba(0,229,255,0.4);
+            --color-naranjaEnergy: #F97316;
+            --color-aquaTurquesa: #00E5FF;
+            --color-negroProfundo: #04040a;
+            --color-blancoPuro: #F0F0F8;
+            --color-midnightPanel: #0a0a14;
+            --color-deepGrid: #0f0f1e;
+            --font-bruno: "Bruno Ace", sans-serif;
+            --font-inter: "Montserrat", sans-serif;
+            --shadow-glowEnergy: 0 0 15px rgba(249, 115, 22, 0.4);
+            --shadow-glowEnergyHover: 0 0 25px rgba(249, 115, 22, 0.65);
+            --shadow-glowAqua: 0 0 15px rgba(0, 229, 255, 0.4);
         }
 
         @keyframes gridMove {
-            0% { background-position: 0 0; }
-            100% { background-position: 50px 50px; }
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 50px 50px;
+            }
         }
 
         @keyframes shake {
-            0%, 100% { transform: translate(0, 0); }
-            20% { transform: translate(-1.5px, 1px); }
-            40% { transform: translate(-1px, -1.5px); }
-            60% { transform: translate(1.5px, 1px); }
-            80% { transform: translate(1px, -1px); }
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            20% {
+                transform: translate(-1.5px, 1px);
+            }
+
+            40% {
+                transform: translate(-1px, -1.5px);
+            }
+
+            60% {
+                transform: translate(1.5px, 1px);
+            }
+
+            80% {
+                transform: translate(1px, -1px);
+            }
         }
 
         @keyframes electricity {
-            0%, 100% { clip-path: inset(0 0 95% 0); }
-            25% { clip-path: inset(0 95% 0 0); }
-            50% { clip-path: inset(95% 0 0 0); }
-            75% { clip-path: inset(0 0 0 95%); }
+
+            0%,
+            100% {
+                clip-path: inset(0 0 95% 0);
+            }
+
+            25% {
+                clip-path: inset(0 95% 0 0);
+            }
+
+            50% {
+                clip-path: inset(95% 0 0 0);
+            }
+
+            75% {
+                clip-path: inset(0 0 0 95%);
+            }
         }
 
         body {
@@ -63,8 +100,8 @@
         }
 
         .bg-grid-pattern {
-            background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
             background-size: 40px 40px;
             animation: gridMove 20s linear infinite;
         }
@@ -77,18 +114,18 @@
         }
 
         .glow-text-energy {
-            text-shadow: 0 0 15px rgba(249,115,22,0.6);
+            text-shadow: 0 0 15px rgba(249, 115, 22, 0.6);
         }
-        
+
         .glow-text-aqua {
-            text-shadow: 0 0 15px rgba(0,229,255,0.6);
+            text-shadow: 0 0 15px rgba(0, 229, 255, 0.6);
         }
 
         .btn-glow-energy {
             box-shadow: var(--shadow-glowEnergy);
             transition: all 0.3s ease;
         }
-        
+
         .btn-glow-energy:hover {
             box-shadow: var(--shadow-glowEnergyHover);
             transform: translateY(-2px);
@@ -100,10 +137,12 @@
             transition: text-shadow 0.3s ease, transform 0.1s;
             position: relative;
         }
+
         .btn-dashboard-pro:hover {
             animation: shake 0.12s linear infinite;
             text-shadow: 0 0 12px var(--color-aquaTurquesa);
         }
+
         .btn-dashboard-pro::before {
             content: '';
             position: absolute;
@@ -115,6 +154,7 @@
             pointer-events: none;
             box-shadow: 0 0 12px var(--color-naranjaEnergy);
         }
+
         .btn-dashboard-pro:hover::before {
             opacity: 1;
             animation: electricity 1.5s linear infinite;
@@ -123,15 +163,16 @@
         .logo-interactive-container {
             position: relative;
             background: #020205;
-            border: 1px solid rgba(255,255,255,0.03);
+            border: 1px solid rgba(255, 255, 255, 0.03);
             overflow: hidden;
         }
+
         .logo-interactive-glow {
             position: absolute;
             width: 600px;
             height: 600px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(249,115,22,0.15) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, transparent 70%);
             pointer-events: none;
             transform: translate(-50%, -50%);
             transition: left 0.1s ease-out, top 0.1s ease-out;
@@ -141,31 +182,37 @@
         /* Estilo de Tarjetas Magnéticas */
         .magnetic-card {
             background: rgba(10, 10, 22, 0.7);
-            border: 1px solid rgba(255,255,255,0.06);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), border-color 0.3s, box-shadow 0.3s;
         }
+
         .magnetic-card:hover {
             transform: translateY(-8px) scale(1.02);
             border-color: var(--color-naranjaEnergy);
-            box-shadow: 0 12px 30px rgba(249,115,22,0.15);
+            box-shadow: 0 12px 30px rgba(249, 115, 22, 0.15);
         }
 
         .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
         }
+
         .custom-scrollbar::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.2);
+            background: rgba(0, 0, 0, 0.2);
         }
+
         .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(249,115,22,0.3);
+            background: rgba(249, 115, 22, 0.3);
             border-radius: 10px;
         }
 
         /* Reglas del Cursor 3D Personalizado Global */
-        html, body, html *, body * {
+        html,
+        body,
+        html *,
+        body * {
             cursor: none !important;
         }
-        
+
         #custom-3d-cursor {
             position: fixed;
             width: 54px;
@@ -195,6 +242,7 @@
             0% {
                 transform: rotateX(65deg) rotateY(0deg) rotateZ(0deg);
             }
+
             100% {
                 transform: rotateX(65deg) rotateY(360deg) rotateZ(360deg);
             }
@@ -206,7 +254,7 @@
             color: var(--color-naranjaEnergy);
             transform-style: preserve-3d;
             animation: spinHexagon3D 7s linear infinite;
-            filter: drop-shadow(0 0 8px rgba(249,115,22,0.8));
+            filter: drop-shadow(0 0 8px rgba(249, 115, 22, 0.8));
             transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.2s, filter 0.2s;
         }
 
@@ -215,8 +263,10 @@
             color: var(--color-aquaTurquesa);
             filter: drop-shadow(0 0 16px rgba(0, 229, 255, 0.95));
             transform: scale(1.35) rotateX(45deg);
-            animation-duration: 2.5s; /* Gira mucho más rápido al hacer clic */
+            animation-duration: 2.5s;
+            /* Gira mucho más rápido al hacer clic */
         }
+
         #custom-3d-cursor.click-active .cursor-center-dot {
             transform: scale(1.6);
             background-color: var(--color-naranjaEnergy);
@@ -245,13 +295,14 @@
         }
     </script>
 </head>
+
 <body class="antialiased relative min-h-screen flex flex-col" x-data="agendaApp()">
 
     <!-- Cursor 3D Personalizado (Hexágono giratorio + Punto de luz brillante) -->
     <div id="custom-3d-cursor">
         <div class="cursor-center-dot"></div>
         <svg viewBox="0 0 100 100" class="cursor-hexagon-3d">
-            <polygon points="50,5 90,28 90,72 50,95 10,72 10,28" fill="none" stroke="currentColor" stroke-width="5"/>
+            <polygon points="50,5 90,28 90,72 50,95 10,72 10,28" fill="none" stroke="currentColor" stroke-width="5" />
         </svg>
     </div>
 
@@ -266,34 +317,46 @@
                 <!-- TSolutions Logo Hexagon + Triangle -->
                 <div class="w-10 h-10 flex items-center justify-center">
                     <svg viewBox="0 0 100 100" class="w-8 h-8 text-naranjaEnergy">
-                        <polygon points="50,5 90,28 90,72 50,95 10,72 10,28" fill="none" stroke="currentColor" stroke-width="8"/>
-                        <polygon points="50,20 80,70 20,70" fill="none" stroke="currentColor" stroke-width="8"/>
+                        <polygon points="50,5 90,28 90,72 50,95 10,72 10,28" fill="none" stroke="currentColor"
+                            stroke-width="8" />
+                        <polygon points="50,20 80,70 20,70" fill="none" stroke="currentColor" stroke-width="8" />
                     </svg>
                 </div>
                 <div>
                     <h1 class="font-bruno text-xl tracking-wider leading-none">
-                        <span class="text-white">TSolutions</span><span class="text-naranjaEnergy glow-text-energy">IPIDD</span>
+                        <span class="text-white">TSolutions</span><span
+                            class="text-naranjaEnergy glow-text-energy">IPIDD</span>
                     </h1>
-                    <span class="text-[9px] uppercase tracking-widest text-gray-400 font-semibold block mt-0.5">Identificar | Priorizar | Implementar | Documentar | Desplegar</span>
+                    <span
+                        class="text-[9px] uppercase tracking-widest text-gray-400 font-semibold block mt-0.5">Identificar
+                        | Priorizar | Implementar | Documentar | Desplegar</span>
                 </div>
             </a>
-            
+
             <nav class="hidden lg:flex gap-8">
-                <a href="#metodologia" class="text-sm font-medium text-gray-300 hover:text-aquaTurquesa transition-colors">Metodología IPIDD</a>
-                <a href="#ecosistema" class="text-sm font-medium text-gray-300 hover:text-naranjaEnergy transition-colors">Ecosistema 360°</a>
-                <a href="#modulos" class="text-sm font-medium text-gray-300 hover:text-aquaTurquesa transition-colors">Módulos Smart</a>
-                <a href="#roadmap" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Roadmap de Transformación</a>
+                <a href="#metodologia"
+                    class="text-sm font-medium text-gray-300 hover:text-aquaTurquesa transition-colors">Metodología
+                    IPIDD</a>
+                <a href="#ecosistema"
+                    class="text-sm font-medium text-gray-300 hover:text-naranjaEnergy transition-colors">Ecosistema
+                    360°</a>
+                <a href="#modulos"
+                    class="text-sm font-medium text-gray-300 hover:text-aquaTurquesa transition-colors">Módulos
+                    Smart</a>
+                <a href="#roadmap" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Roadmap
+                    de Transformación</a>
             </nav>
 
             <div class="flex items-center gap-3">
                 <!-- RUA Agente IA Call -->
-                <button class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 text-xs font-semibold text-gray-300 hover:text-white hover:bg-white/5 transition-all cursor-pointer">
+                <button
+                    class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 text-xs font-semibold text-gray-300 hover:text-white hover:bg-white/5 transition-all cursor-pointer">
                     <i class="ph-bold ph-robot text-aquaTurquesa animate-bounce"></i> RUA Agente IA
                 </button>
                 <!-- WhatsApp TSolutions -->
-                <a href="https://wa.me/526865261453?text=Hola,%20solicito%20más%20información%20sobre%20el%20ecosistema%20TSolutions%20IPIDD" 
-                   target="_blank"
-                   class="flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-full font-bold text-xs shadow-lg hover:bg-emerald-500 transition-all cursor-pointer">
+                <a href="https://wa.me/526865261453?text=Hola,%20solicito%20más%20información%20sobre%20el%20ecosistema%20TSolutions%20IPIDD"
+                    target="_blank"
+                    class="flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-full font-bold text-xs shadow-lg hover:bg-emerald-500 transition-all cursor-pointer">
                     <i class="ph-bold ph-whatsapp-logo text-base"></i>
                     Más Información
                 </a>
@@ -302,27 +365,28 @@
     </header>
 
     <!-- HERO SECTION (Diseño Renovado Basado en Referencia Visual) -->
-    <section id="inicio" 
-             @mousemove="moveGlow($event)" 
-             @mouseleave="hideGlow()" 
-             class="pt-24 lg:pt-28 pb-8 px-6 relative min-h-screen lg:min-h-0 lg:h-screen flex flex-col justify-center border-b border-white/5 overflow-hidden bg-negroProfundo">
-        
+    <section id="inicio" @mousemove="moveGlow($event)" @mouseleave="hideGlow()"
+        class="pt-24 lg:pt-28 pb-8 px-6 relative min-h-screen lg:min-h-0 lg:h-screen flex flex-col justify-center border-b border-white/5 overflow-hidden bg-negroProfundo">
+
         <!-- Brillo de cursor (rectangular a lo largo de todo el Hero) -->
         <div class="logo-interactive-glow" x-ref="logoGlow" style="left: 50%; top: 50%; opacity: 0.8;"></div>
-        
+
         <!-- Contenedor de 3 Columnas Grid -->
-        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center relative z-10">
-            
+        <div
+            class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center relative z-10">
+
             <!-- Columna Izquierda: Mensaje y CTA Buttons -->
             <div class="lg:col-span-5 text-left space-y-6">
                 <!-- Badge de Autoridad -->
-                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-naranjaEnergy/10 border border-naranjaEnergy/30 text-naranjaEnergy text-xs font-bold uppercase tracking-widest shadow-[0_0_15px_rgba(249,115,22,0.2)]">
+                <div
+                    class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-naranjaEnergy/10 border border-naranjaEnergy/30 text-naranjaEnergy text-xs font-bold uppercase tracking-widest shadow-[0_0_15px_rgba(249,115,22,0.2)]">
                     <span class="w-2 h-2 rounded-full bg-naranjaEnergy animate-pulse"></span>
                     La Primer Plataforma Mexicana de Transformación Digital 360° para PyMES
                 </div>
-                
+
                 <!-- Headline solicitado (Colocado a la izquierda, 2 líneas, sin 90 días) -->
-                <h2 class="font-bruno text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight text-white tracking-tight">
+                <h2
+                    class="font-bruno text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight text-white tracking-tight">
                     Transformación <br>
                     <span class="text-naranjaEnergy glow-text-energy">Digital 360°</span>
                 </h2>
@@ -330,14 +394,13 @@
                 <!-- Botones del Hero (Dashboard PRO y Evaluación Gratuita alineados en una sola fila) -->
                 <div class="flex flex-row items-center gap-6 pt-2">
                     <!-- Dashboard PRO (Solo letras, aqua-turquoise, vibrante con electricidad naranja y efecto de implosión al hacer clic) -->
-                    <a href="/demo.html" 
-                       @click="triggerImplosion($event)"
-                       class="btn-dashboard-pro py-2 font-bruno text-base lg:text-lg tracking-wider font-bold cursor-pointer shrink-0">
+                    <a href="/demo.html" @click="triggerImplosion($event)"
+                        class="btn-dashboard-pro py-2 font-bruno text-base lg:text-lg tracking-wider font-bold cursor-pointer shrink-0">
                         DASHBOARD PRO
                     </a>
 
-                    <button @click="openModal()" 
-                            class="px-5 py-3 rounded-full bg-naranjaEnergy text-white font-bold text-xs lg:text-sm btn-glow-energy cursor-pointer transition-transform hover:scale-105 shadow-[0_0_15px_rgba(249,115,22,0.45)]">
+                    <button @click="openModal()"
+                        class="px-5 py-3 rounded-full bg-naranjaEnergy text-white font-bold text-xs lg:text-sm btn-glow-energy cursor-pointer transition-transform hover:scale-105 shadow-[0_0_15px_rgba(249,115,22,0.45)]">
                         Agendar Evaluación Gratuita
                     </button>
                 </div>
@@ -345,13 +408,16 @@
 
             <!-- Columna Central: Logotipo TSolutions Interactivo -->
             <div class="lg:col-span-4 flex justify-center items-center py-4">
-                <div class="w-64 h-64 lg:w-72 lg:h-72 rounded-full logo-interactive-container flex items-center justify-center shadow-2xl border border-white/5 group">
-                    
+                <div
+                    class="w-64 h-64 lg:w-72 lg:h-72 rounded-full logo-interactive-container flex items-center justify-center shadow-2xl border border-white/5 group">
+
                     <!-- Logotipo TSolutions central -->
                     <div class="relative z-10 w-36 h-36 lg:w-40 lg:h-40 flex items-center justify-center">
-                        <svg viewBox="0 0 100 100" class="w-28 h-28 lg:w-32 lg:h-32 text-white filter drop-shadow-[0_0_15px_rgba(255,255,255,0.85)] group-hover:text-naranjaEnergy group-hover:drop-shadow-[0_0_22px_rgba(249,115,22,0.95)] transition-all duration-500">
-                            <polygon points="50,5 90,28 90,72 50,95 10,72 10,28" fill="none" stroke="currentColor" stroke-width="6"/>
-                            <polygon points="50,20 80,70 20,70" fill="none" stroke="currentColor" stroke-width="6"/>
+                        <svg viewBox="0 0 100 100"
+                            class="w-28 h-28 lg:w-32 lg:h-32 text-white filter drop-shadow-[0_0_15px_rgba(255,255,255,0.85)] group-hover:text-naranjaEnergy group-hover:drop-shadow-[0_0_22px_rgba(249,115,22,0.95)] transition-all duration-500">
+                            <polygon points="50,5 90,28 90,72 50,95 10,72 10,28" fill="none" stroke="currentColor"
+                                stroke-width="6" />
+                            <polygon points="50,20 80,70 20,70" fill="none" stroke="currentColor" stroke-width="6" />
                         </svg>
                     </div>
                 </div>
@@ -361,19 +427,27 @@
             <div class="lg:col-span-3 text-left lg:text-right space-y-4 lg:border-l border-white/10 lg:pl-6 py-1">
                 <div class="space-y-0.5 group/item">
                     <p class="text-[10px] text-gray-500 uppercase tracking-widest font-extrabold">Operación</p>
-                    <p class="text-xs lg:text-sm font-medium transition-all duration-300 text-white group-hover/item:text-aquaTurquesa group-hover/item:drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">Estandarización y automatización de procesos core</p>
+                    <p
+                        class="text-xs lg:text-sm font-medium transition-all duration-300 text-white group-hover/item:text-aquaTurquesa group-hover/item:drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">
+                        Estandarización y automatización de procesos core</p>
                 </div>
                 <div class="space-y-0.5 group/item">
                     <p class="text-[10px] text-gray-500 uppercase tracking-widest font-extrabold">Identidad</p>
-                    <p class="text-xs lg:text-sm font-medium transition-all duration-300 text-white group-hover/item:text-aquaTurquesa group-hover/item:drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">Brand building y percepción de valor premium</p>
+                    <p
+                        class="text-xs lg:text-sm font-medium transition-all duration-300 text-white group-hover/item:text-aquaTurquesa group-hover/item:drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">
+                        Brand building y percepción de valor premium</p>
                 </div>
                 <div class="space-y-0.5 group/item">
                     <p class="text-[10px] text-gray-500 uppercase tracking-widest font-extrabold">Consultoría</p>
-                    <p class="text-xs lg:text-sm font-medium transition-all duration-300 text-white group-hover/item:text-aquaTurquesa group-hover/item:drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">Dirección ejecutiva y estrategia corporativa</p>
+                    <p
+                        class="text-xs lg:text-sm font-medium transition-all duration-300 text-white group-hover/item:text-aquaTurquesa group-hover/item:drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">
+                        Dirección ejecutiva y estrategia corporativa</p>
                 </div>
                 <div class="space-y-0.5 group/item">
                     <p class="text-[10px] text-gray-500 uppercase tracking-widest font-extrabold">IA Personalizada</p>
-                    <p class="text-xs lg:text-sm font-medium transition-all duration-300 text-white group-hover/item:text-aquaTurquesa group-hover/item:drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">Modelos de IA adaptados a las reglas del negocio</p>
+                    <p
+                        class="text-xs lg:text-sm font-medium transition-all duration-300 text-white group-hover/item:text-aquaTurquesa group-hover/item:drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">
+                        Modelos de IA adaptados a las reglas del negocio</p>
                 </div>
             </div>
 
@@ -381,8 +455,10 @@
 
         <!-- Fila de Marcas del Pie del Hero (como en la referencia) -->
         <div class="max-w-7xl mx-auto w-full pt-8 border-t border-white/10 mt-8 lg:mt-10 text-center">
-            <p class="text-[9px] text-gray-500 uppercase tracking-widest font-semibold mb-3">Integraciones & Estándares Compatibles</p>
-            <div class="flex flex-wrap justify-center items-center gap-6 md:gap-12 opacity-30 grayscale hover:opacity-60 transition-opacity">
+            <p class="text-[9px] text-gray-500 uppercase tracking-widest font-semibold mb-3">Integraciones & Estándares
+                Compatibles</p>
+            <div
+                class="flex flex-wrap justify-center items-center gap-6 md:gap-12 opacity-30 grayscale hover:opacity-60 transition-opacity">
                 <span class="font-sans font-medium text-xs text-white">Google Workspace</span>
                 <span class="font-bruno text-xs text-white tracking-widest">Vercel</span>
                 <span class="font-mono text-xs text-white">neon.tech</span>
@@ -401,90 +477,117 @@
     <section id="metodologia" class="py-24 px-6 bg-midnightPanel relative border-b border-white/5">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-16">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-aquaTurquesa/10 border border-aquaTurquesa/30 text-aquaTurquesa text-xs font-bold uppercase tracking-wider mb-3">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-aquaTurquesa/10 border border-aquaTurquesa/30 text-aquaTurquesa text-xs font-bold uppercase tracking-wider mb-3">
                     <i class="ph-bold ph-compass"></i> El Estándar TSolutions
                 </div>
                 <h3 class="font-bruno text-3xl md:text-5xl text-white mb-6">La Metodología IPIDD</h3>
                 <p class="text-gray-400 max-w-3xl mx-auto text-sm md:text-base leading-relaxed">
-                    El marco de transformación oficial para que las PYMEs dejen atrás la operación familiar tradicional y austera, evolucionando hacia organizaciones modernas, escalables y competitivas.
+                    El marco de transformación oficial para que las PYMEs dejen atrás la operación familiar tradicional
+                    y austera, evolucionando hacia organizaciones modernas, escalables y competitivas.
                 </p>
             </div>
 
             <!-- Grid de 5 Tarjetas Magnéticas -->
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
-                
+
                 <!-- Card 1: Identificar -->
-                <div class="magnetic-card p-6 rounded-2xl flex flex-col justify-between h-full relative overflow-hidden group">
+                <div
+                    class="magnetic-card p-6 rounded-2xl flex flex-col justify-between h-full relative overflow-hidden group">
                     <div class="absolute -right-6 -bottom-6 w-20 h-20 bg-naranjaEnergy/5 rounded-full blur-xl"></div>
                     <div>
-                        <div class="text-4xl font-bruno text-naranjaEnergy opacity-40 group-hover:opacity-100 transition-opacity mb-4">01</div>
+                        <div
+                            class="text-4xl font-bruno text-naranjaEnergy opacity-40 group-hover:opacity-100 transition-opacity mb-4">
+                            01</div>
                         <h4 class="font-bruno text-base text-white uppercase tracking-wider mb-3">IDENTIFICAR</h4>
                         <p class="text-gray-400 text-xs leading-relaxed mb-4">
-                            Detectar con precisión qué elementos del negocio impiden escalar y cuáles representan oportunidades de crecimiento.
+                            Detectar con precisión qué elementos del negocio impiden escalar y cuáles representan
+                            oportunidades de crecimiento.
                         </p>
                     </div>
                     <div class="border-t border-white/10 pt-3 text-[10px] text-gray-500">
-                        <strong>Entregables:</strong> Radiografía del negocio, mapa de procesos AS-IS y lista de problemas críticos.
+                        <strong>Entregables:</strong> Radiografía del negocio, mapa de procesos AS-IS y lista de
+                        problemas críticos.
                     </div>
                 </div>
 
                 <!-- Card 2: Priorizar -->
-                <div class="magnetic-card p-6 rounded-2xl flex flex-col justify-between h-full relative overflow-hidden group">
+                <div
+                    class="magnetic-card p-6 rounded-2xl flex flex-col justify-between h-full relative overflow-hidden group">
                     <div class="absolute -right-6 -bottom-6 w-20 h-20 bg-aquaTurquesa/5 rounded-full blur-xl"></div>
                     <div>
-                        <div class="text-4xl font-bruno text-aquaTurquesa opacity-40 group-hover:opacity-100 transition-opacity mb-4">02</div>
+                        <div
+                            class="text-4xl font-bruno text-aquaTurquesa opacity-40 group-hover:opacity-100 transition-opacity mb-4">
+                            02</div>
                         <h4 class="font-bruno text-base text-white uppercase tracking-wider mb-3">PRIORIZAR</h4>
                         <p class="text-gray-400 text-xs leading-relaxed mb-4">
-                            Convertir el diagnóstico inicial en un plan de acción estratégico, ordenado y de alto impacto operativo.
+                            Convertir el diagnóstico inicial en un plan de acción estratégico, ordenado y de alto
+                            impacto operativo.
                         </p>
                     </div>
                     <div class="border-t border-white/10 pt-3 text-[10px] text-gray-500">
-                        <strong>Entregables:</strong> Roadmap estratégico IPIDD, matriz de impacto vs esfuerzo y KPIs base.
+                        <strong>Entregables:</strong> Roadmap estratégico IPIDD, matriz de impacto vs esfuerzo y KPIs
+                        base.
                     </div>
                 </div>
 
                 <!-- Card 3: Implementar -->
-                <div class="magnetic-card p-6 rounded-2xl flex flex-col justify-between h-full relative overflow-hidden group">
+                <div
+                    class="magnetic-card p-6 rounded-2xl flex flex-col justify-between h-full relative overflow-hidden group">
                     <div class="absolute -right-6 -bottom-6 w-20 h-20 bg-white/5 rounded-full blur-xl"></div>
                     <div>
-                        <div class="text-4xl font-bruno text-white opacity-40 group-hover:opacity-100 transition-opacity mb-4">03</div>
+                        <div
+                            class="text-4xl font-bruno text-white opacity-40 group-hover:opacity-100 transition-opacity mb-4">
+                            03</div>
                         <h4 class="font-bruno text-base text-white uppercase tracking-wider mb-3">IMPLEMENTAR</h4>
                         <p class="text-gray-400 text-xs leading-relaxed mb-4">
-                            Ejecutar las mejoras priorizadas con enfoque Lean, digitalización de sistemas y automatización operativa.
+                            Ejecutar las mejoras priorizadas con enfoque Lean, digitalización de sistemas y
+                            automatización operativa.
                         </p>
                     </div>
                     <div class="border-t border-white/10 pt-3 text-[10px] text-gray-500">
-                        <strong>Entregables:</strong> Herramientas ERP/CRM funcionando, flujos de trabajo optimizados y bots/agentes activos.
+                        <strong>Entregables:</strong> Herramientas ERP/CRM funcionando, flujos de trabajo optimizados y
+                        bots/agentes activos.
                     </div>
                 </div>
 
                 <!-- Card 4: Documentar -->
-                <div class="magnetic-card p-6 rounded-2xl flex flex-col justify-between h-full relative overflow-hidden group">
+                <div
+                    class="magnetic-card p-6 rounded-2xl flex flex-col justify-between h-full relative overflow-hidden group">
                     <div class="absolute -right-6 -bottom-6 w-20 h-20 bg-naranjaEnergy/5 rounded-full blur-xl"></div>
                     <div>
-                        <div class="text-4xl font-bruno text-naranjaEnergy opacity-40 group-hover:opacity-100 transition-opacity mb-4">04</div>
+                        <div
+                            class="text-4xl font-bruno text-naranjaEnergy opacity-40 group-hover:opacity-100 transition-opacity mb-4">
+                            04</div>
                         <h4 class="font-bruno text-base text-white uppercase tracking-wider mb-3">DOCUMENTAR</h4>
                         <p class="text-gray-400 text-xs leading-relaxed mb-4">
-                            Convertir el nuevo sistema operativo en un manual replicable para delegar y desvincular al dueño de tareas repetitivas.
+                            Convertir el nuevo sistema operativo en un manual replicable para delegar y desvincular al
+                            dueño de tareas repetitivas.
                         </p>
                     </div>
                     <div class="border-t border-white/10 pt-3 text-[10px] text-gray-500">
-                        <strong>Entregables:</strong> Manual Operativo IPIDD, diagramas TO-BE y biblioteca de SOPs en video.
+                        <strong>Entregables:</strong> Manual Operativo IPIDD, diagramas TO-BE y biblioteca de SOPs en
+                        video.
                     </div>
                 </div>
 
                 <!-- Card 5: Desplegar -->
-                <div class="magnetic-card p-6 rounded-2xl flex flex-col justify-between h-full relative overflow-hidden group">
+                <div
+                    class="magnetic-card p-6 rounded-2xl flex flex-col justify-between h-full relative overflow-hidden group">
                     <div class="absolute -right-6 -bottom-6 w-20 h-20 bg-aquaTurquesa/5 rounded-full blur-xl"></div>
                     <div>
-                        <div class="text-4xl font-bruno text-aquaTurquesa opacity-40 group-hover:opacity-100 transition-opacity mb-4">05</div>
+                        <div
+                            class="text-4xl font-bruno text-aquaTurquesa opacity-40 group-hover:opacity-100 transition-opacity mb-4">
+                            05</div>
                         <h4 class="font-bruno text-base text-white uppercase tracking-wider mb-3">DESPLEGAR</h4>
                         <p class="text-gray-400 text-xs leading-relaxed mb-4">
-                            Operar bajo el nuevo modelo garantizando la alineación cultural y el monitoreo continuo para el escalamiento.
+                            Operar bajo el nuevo modelo garantizando la alineación cultural y el monitoreo continuo para
+                            el escalamiento.
                         </p>
                     </div>
                     <div class="border-t border-white/10 pt-3 text-[10px] text-gray-500">
-                        <strong>Entregables:</strong> Tableros de control de KPIs en tiempo real y modelo de negocio listo para franquiciar.
+                        <strong>Entregables:</strong> Tableros de control de KPIs en tiempo real y modelo de negocio
+                        listo para franquiciar.
                     </div>
                 </div>
 
@@ -496,83 +599,118 @@
     <section id="ecosistema" class="py-24 px-6 relative bg-negroProfundo border-b border-white/5">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-16">
-                <span class="text-xs font-bold text-naranjaEnergy uppercase tracking-widest block mb-2">La Diferencia TSolutions IPIDD</span>
-                <h3 class="font-bruno text-2xl md:text-4xl text-white mb-6">Los 3 pilares de tu transformación, aplicados durante todo tu proyecto</h3>
+                <span class="text-xs font-bold text-naranjaEnergy uppercase tracking-widest block mb-2">La Diferencia
+                    TSolutions IPIDD</span>
+                <h3 class="font-bruno text-2xl md:text-4xl text-white mb-6">Los 3 pilares de tu transformación,
+                    aplicados durante todo tu proyecto</h3>
                 <p class="text-gray-400 max-w-3xl mx-auto text-base">
-                    La mayoría de las agencias te venden un sitio web aislado y los proveedores de software solo una licencia. Nosotros unificamos <strong class="text-white">estrategia, identidad y tecnología</strong> en un solo motor operativo.
+                    La mayoría de las agencias te venden un sitio web aislado y los proveedores de software solo una
+                    licencia. Nosotros unificamos <strong class="text-white">estrategia, identidad y tecnología</strong>
+                    en un solo motor operativo.
                 </p>
             </div>
 
             <!-- Los 3 Motores del Ecosistema -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                
+
                 <!-- Motor 1 -->
-                <div class="glass-panel p-8 rounded-3xl border-naranjaEnergy/20 hover:border-naranjaEnergy/50 transition-all duration-300 relative group">
-                    <div class="w-12 h-12 rounded-2xl bg-naranjaEnergy/10 border border-naranjaEnergy/30 flex items-center justify-center text-naranjaEnergy mb-6 group-hover:scale-110 transition-transform">
+                <div
+                    class="glass-panel p-8 rounded-3xl border-naranjaEnergy/20 hover:border-naranjaEnergy/50 transition-all duration-300 relative group">
+                    <div
+                        class="w-12 h-12 rounded-2xl bg-naranjaEnergy/10 border border-naranjaEnergy/30 flex items-center justify-center text-naranjaEnergy mb-6 group-hover:scale-110 transition-transform">
                         <!-- TSolutions Logo (Central small) -->
                         <svg viewBox="0 0 100 100" class="w-8 h-8 text-naranjaEnergy">
-                            <polygon points="50,5 90,28 90,72 50,95 10,72 10,28" fill="none" stroke="currentColor" stroke-width="8"/>
-                            <polygon points="50,20 80,70 20,70" fill="none" stroke="currentColor" stroke-width="8"/>
+                            <polygon points="50,5 90,28 90,72 50,95 10,72 10,28" fill="none" stroke="currentColor"
+                                stroke-width="8" />
+                            <polygon points="50,20 80,70 20,70" fill="none" stroke="currentColor" stroke-width="8" />
                         </svg>
                     </div>
-                    <span class="text-xs font-bold text-naranjaEnergy uppercase tracking-widest">Motor 01 • El Motor Técnico</span>
-                    <h4 class="font-bruno text-2xl text-white mt-2 mb-4">Ferretería Smart</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Digitalización, automatización y eficiencia operativa real en cada rincón de tu ferretería.</p>
+                    <span class="text-xs font-bold text-naranjaEnergy uppercase tracking-widest">Motor 01 • El Motor
+                        Técnico</span>
+                    <h4 class="font-bruno text-2xl text-white mt-2 mb-4">Tu Negocio Smart</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Digitalización, automatización y eficiencia
+                        operativa real en cada rincón de tu Negocio.</p>
                     <ul class="space-y-2.5 text-xs text-gray-300 border-t border-white/10 pt-4">
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-naranjaEnergy"></i> Inventarios optimizados y conteos cíclicos</li>
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-naranjaEnergy"></i> Ventas, POS y Cotizaciones en 1 Clic</li>
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-naranjaEnergy"></i> Logística y rastreo de envíos</li>
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-naranjaEnergy"></i> Integración nativa con IA personalizada</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-naranjaEnergy"></i>
+                            Inventarios optimizados y conteos cíclicos</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-naranjaEnergy"></i> Ventas,
+                            POS y Cotizaciones en 1 Clic</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-naranjaEnergy"></i>
+                            Logística y rastreo de envíos</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-naranjaEnergy"></i>
+                            Integración nativa con IA personalizada</li>
                     </ul>
                 </div>
 
                 <!-- Motor 2 -->
-                <div class="glass-panel p-8 rounded-3xl border-aquaTurquesa/20 hover:border-aquaTurquesa/50 transition-all duration-300 relative group">
-                    <div class="w-12 h-12 rounded-2xl bg-aquaTurquesa/10 border border-aquaTurquesa/30 flex items-center justify-center text-aquaTurquesa mb-6 group-hover:scale-110 transition-transform">
+                <div
+                    class="glass-panel p-8 rounded-3xl border-aquaTurquesa/20 hover:border-aquaTurquesa/50 transition-all duration-300 relative group">
+                    <div
+                        class="w-12 h-12 rounded-2xl bg-aquaTurquesa/10 border border-aquaTurquesa/30 flex items-center justify-center text-aquaTurquesa mb-6 group-hover:scale-110 transition-transform">
                         <i class="ph-bold ph-palette text-2xl"></i>
                     </div>
-                    <span class="text-xs font-bold text-aquaTurquesa uppercase tracking-widest">Motor 02 • El Motor de Percepción</span>
+                    <span class="text-xs font-bold text-aquaTurquesa uppercase tracking-widest">Motor 02 • El Motor de
+                        Percepción</span>
                     <h4 class="font-bruno text-2xl text-white mt-2 mb-4">Brand Identity Building</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Construcción de marca sólida, diseño coherente y posicionamiento profesional frente a la competencia.</p>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Construcción de marca sólida, diseño coherente
+                        y posicionamiento profesional frente a la competencia.</p>
                     <ul class="space-y-2.5 text-xs text-gray-300 border-t border-white/10 pt-4">
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-aquaTurquesa"></i> Identidad visual y Branding de impacto</li>
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-aquaTurquesa"></i> Experiencia de marca uniforme en tienda y digital</li>
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-aquaTurquesa"></i> Generación de contenido visual premium</li>
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-aquaTurquesa"></i> Diferenciación en mercados saturados</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-aquaTurquesa"></i> Identidad
+                            visual y Branding de impacto</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-aquaTurquesa"></i>
+                            Experiencia de marca uniforme en tienda y digital</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-aquaTurquesa"></i>
+                            Generación de contenido visual premium</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-aquaTurquesa"></i>
+                            Diferenciación en mercados saturados</li>
                     </ul>
                 </div>
 
                 <!-- Motor 3 -->
-                <div class="glass-panel p-8 rounded-3xl border-white/20 hover:border-white/40 transition-all duration-300 relative group">
-                    <div class="w-12 h-12 rounded-2xl bg-white/10 border border-white/30 flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform">
+                <div
+                    class="glass-panel p-8 rounded-3xl border-white/20 hover:border-white/40 transition-all duration-300 relative group">
+                    <div
+                        class="w-12 h-12 rounded-2xl bg-white/10 border border-white/30 flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform">
                         <i class="ph-bold ph-chart-line-up text-2xl"></i>
                     </div>
-                    <span class="text-xs font-bold text-gray-300 uppercase tracking-widest">Motor 03 • El Motor de Decisión</span>
+                    <span class="text-xs font-bold text-gray-300 uppercase tracking-widest">Motor 03 • El Motor de
+                        Decisión</span>
                     <h4 class="font-bruno text-2xl text-white mt-2 mb-4">Consultoría Estratégica</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Dirección ejecutiva, análisis de datos y acompañamiento constante para escalar tu modelo de negocio.</p>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Dirección ejecutiva, análisis de datos y
+                        acompañamiento constante para escalar tu modelo de negocio.</p>
                     <ul class="space-y-2.5 text-xs text-gray-300 border-t border-white/10 pt-4">
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-white"></i> Estrategia empresarial personalizada</li>
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-white"></i> Investigación de mercado y competencia</li>
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-white"></i> Planes de expansión y rentabilidad</li>
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-white"></i> Dirección continua durante todo el ciclo</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-white"></i> Estrategia
+                            empresarial personalizada</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-white"></i> Investigación de
+                            mercado y competencia</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-white"></i> Planes de
+                            expansión y rentabilidad</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-white"></i> Dirección
+                            continua durante todo el ciclo</li>
                     </ul>
                 </div>
 
             </div>
 
             <!-- Insight Destacado (Caja de Impacto Comercial) -->
-            <div class="glass-panel p-8 md:p-12 rounded-3xl border-naranjaEnergy/40 bg-gradient-to-r from-naranjaEnergy/10 via-midnightPanel to-aquaTurquesa/10 relative overflow-hidden">
+            <div
+                class="glass-panel p-8 md:p-12 rounded-3xl border-naranjaEnergy/40 bg-gradient-to-r from-naranjaEnergy/10 via-midnightPanel to-aquaTurquesa/10 relative overflow-hidden">
                 <div class="max-w-4xl mx-auto text-center relative z-10">
-                    <div class="inline-flex items-center gap-2 text-naranjaEnergy font-bold text-sm uppercase tracking-widest mb-4">
+                    <div
+                        class="inline-flex items-center gap-2 text-naranjaEnergy font-bold text-sm uppercase tracking-widest mb-4">
                         <i class="ph-bold ph-lightning text-xl"></i> Insight Clave del Proyecto
                     </div>
                     <h4 class="font-bruno text-2xl md:text-4xl text-white mb-6 leading-tight">
                         Democratizando las herramientas corporativas para la PyME Mexicana
                     </h4>
                     <p class="text-gray-300 text-base md:text-lg leading-relaxed font-light mb-8">
-                        Lo que estás a punto de implementar es la <strong>única solución mexicana</strong> que une consultoría ejecutiva + tecnología de punta + branding + contenido automatizado en un solo flujo. El mismo nivel operativo que usan las grandes cadenas internacionales, ahora adaptado al ritmo y necesidad de tu ferretería.
+                        Lo que estás a punto de implementar es la <strong>única solución mexicana</strong> que une
+                        consultoría ejecutiva + tecnología de punta + branding + contenido automatizado en un solo
+                        flujo. El mismo nivel operativo que usan las grandes cadenas internacionales, ahora adaptado al
+                        ritmo y necesidad de tu Negocio.
                     </p>
-                    <button @click="openModal()" class="inline-flex items-center justify-center gap-3 bg-naranjaEnergy text-white px-8 py-4 rounded-full font-bold text-base btn-glow-energy cursor-pointer">
+                    <button @click="openModal()"
+                        class="inline-flex items-center justify-center gap-3 bg-naranjaEnergy text-white px-8 py-4 rounded-full font-bold text-base btn-glow-energy cursor-pointer">
                         <i class="ph-bold ph-user-check"></i>
                         Agendar Sesión con Javier Gallardo
                     </button>
@@ -585,92 +723,126 @@
     <section id="modulos" class="py-24 px-6 relative bg-negroProfundo border-t border-white/5">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-16">
-                <span class="text-xs font-bold text-aquaTurquesa uppercase tracking-widest block mb-2">Módulos Automatizados</span>
+                <span class="text-xs font-bold text-aquaTurquesa uppercase tracking-widest block mb-2">Módulos
+                    Automatizados</span>
                 <h3 class="font-bruno text-3xl md:text-5xl text-white mb-4">Estructura Operativa Smart</h3>
-                <p class="text-gray-400 max-w-2xl mx-auto text-base">Módulos especializados que resuelven los problemas reales del mostrador y almacén ferretero.</p>
+                <p class="text-gray-400 max-w-2xl mx-auto text-base">Módulos especializados que resuelven los problemas
+                    reales del mostrador y almacén ferretero.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                
+
                 <!-- Módulo 1 -->
-                <div @click="triggerImplosionWithTab($event, 'inventario')" class="glass-panel p-8 rounded-3xl border-white/10 hover:border-naranjaEnergy/40 transition-all duration-300 group hover:-translate-y-1 cursor-pointer">
-                    <div class="w-14 h-14 rounded-2xl bg-naranjaEnergy/10 border border-naranjaEnergy/30 flex items-center justify-center text-naranjaEnergy mb-6 group-hover:scale-110 transition-transform">
+                <div @click="triggerImplosionWithTab($event, 'inventario')"
+                    class="glass-panel p-8 rounded-3xl border-white/10 hover:border-naranjaEnergy/40 transition-all duration-300 group hover:-translate-y-1 cursor-pointer">
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-naranjaEnergy/10 border border-naranjaEnergy/30 flex items-center justify-center text-naranjaEnergy mb-6 group-hover:scale-110 transition-transform">
                         <i class="ph-bold ph-package text-3xl"></i>
                     </div>
                     <span class="text-xs font-bold text-naranjaEnergy uppercase tracking-widest">Módulo 01</span>
                     <h4 class="font-bruno text-2xl text-white mt-1 mb-4">Smart Stock & Almacén</h4>
-                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Control de inventario sin errores humanos, clasificación y auditorías continuas.</p>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Control de inventario sin errores humanos,
+                        clasificación y auditorías continuas.</p>
                     <ul class="space-y-3 text-sm text-gray-300 border-t border-white/10 pt-4">
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i> Conteos Cíclicos clasificación ABC/XYZ</li>
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i> Control estricto de Scrap y Mermas</li>
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i> Alertas de Stock Mínimo y Reorden</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
+                            Conteos Cíclicos clasificación ABC/XYZ</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
+                            Control estricto de Scrap y Mermas</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
+                            Alertas de Stock Mínimo y Reorden</li>
                     </ul>
                 </div>
 
                 <!-- Módulo 2 -->
-                <div @click="triggerImplosionWithTab($event, 'ventas')" class="glass-panel p-8 rounded-3xl border-white/10 hover:border-aquaTurquesa/40 transition-all duration-300 group hover:-translate-y-1 cursor-pointer">
-                    <div class="w-14 h-14 rounded-2xl bg-aquaTurquesa/10 border border-aquaTurquesa/30 flex items-center justify-center text-aquaTurquesa mb-6 group-hover:scale-110 transition-transform">
+                <div @click="triggerImplosionWithTab($event, 'ventas')"
+                    class="glass-panel p-8 rounded-3xl border-white/10 hover:border-aquaTurquesa/40 transition-all duration-300 group hover:-translate-y-1 cursor-pointer">
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-aquaTurquesa/10 border border-aquaTurquesa/30 flex items-center justify-center text-aquaTurquesa mb-6 group-hover:scale-110 transition-transform">
                         <i class="ph-bold ph-shopping-cart-simple text-3xl"></i>
                     </div>
                     <span class="text-xs font-bold text-aquaTurquesa uppercase tracking-widest">Módulo 02</span>
                     <h4 class="font-bruno text-2xl text-white mt-1 mb-4">Ventas & Cotizador POS</h4>
-                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Punto de venta ultra rápido de mostrador y presupuestos inmediatos.</p>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Punto de venta ultra rápido de mostrador y
+                        presupuestos inmediatos.</p>
                     <ul class="space-y-3 text-sm text-gray-300 border-t border-white/10 pt-4">
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-aquaTurquesa"></i> POS ultrarrápido + Código de barras</li>
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-aquaTurquesa"></i> Cotización a Pedido/Factura en 1 Clic</li>
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-aquaTurquesa"></i> Envío directo por WhatsApp y Email</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-aquaTurquesa"></i>
+                            POS ultrarrápido + Código de barras</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-aquaTurquesa"></i>
+                            Cotización a Pedido/Factura en 1 Clic</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-aquaTurquesa"></i>
+                            Envío directo por WhatsApp y Email</li>
                     </ul>
                 </div>
 
                 <!-- Módulo 3 -->
-                <div @click="triggerImplosionWithTab($event, 'compras')" class="glass-panel p-8 rounded-3xl border-white/10 hover:border-naranjaEnergy/40 transition-all duration-300 group hover:-translate-y-1 cursor-pointer">
-                    <div class="w-14 h-14 rounded-2xl bg-naranjaEnergy/10 border border-naranjaEnergy/30 flex items-center justify-center text-naranjaEnergy mb-6 group-hover:scale-110 transition-transform">
+                <div @click="triggerImplosionWithTab($event, 'compras')"
+                    class="glass-panel p-8 rounded-3xl border-white/10 hover:border-naranjaEnergy/40 transition-all duration-300 group hover:-translate-y-1 cursor-pointer">
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-naranjaEnergy/10 border border-naranjaEnergy/30 flex items-center justify-center text-naranjaEnergy mb-6 group-hover:scale-110 transition-transform">
                         <i class="ph-bold ph-receipt text-3xl"></i>
                     </div>
                     <span class="text-xs font-bold text-naranjaEnergy uppercase tracking-widest">Módulo 03</span>
                     <h4 class="font-bruno text-2xl text-white mt-1 mb-4">Compras & Cotejo 3-Way</h4>
-                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Auditoría automática de facturas contra recepciones de mercancía y órdenes.</p>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Auditoría automática de facturas contra
+                        recepciones de mercancía y órdenes.</p>
                     <ul class="space-y-3 text-sm text-gray-300 border-t border-white/10 pt-4">
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i> Cotejo automático (OC vs Guía vs Factura)</li>
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i> Expediente digital único de proveedores</li>
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i> Sugerencia de compras según Lead Time</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
+                            Cotejo automático (OC vs Guía vs Factura)</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
+                            Expediente digital único de proveedores</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
+                            Sugerencia de compras según Lead Time</li>
                     </ul>
                 </div>
 
                 <!-- Módulo 4 -->
-                <div @click="triggerImplosionWithTab($event, 'facturacion')" class="glass-panel p-8 rounded-3xl border-white/10 hover:border-aquaTurquesa/40 transition-all duration-300 group hover:-translate-y-1 cursor-pointer">
-                    <div class="w-14 h-14 rounded-2xl bg-aquaTurquesa/10 border border-aquaTurquesa/30 flex items-center justify-center text-aquaTurquesa mb-6 group-hover:scale-110 transition-transform">
+                <div @click="triggerImplosionWithTab($event, 'facturacion')"
+                    class="glass-panel p-8 rounded-3xl border-white/10 hover:border-aquaTurquesa/40 transition-all duration-300 group hover:-translate-y-1 cursor-pointer">
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-aquaTurquesa/10 border border-aquaTurquesa/30 flex items-center justify-center text-aquaTurquesa mb-6 group-hover:scale-110 transition-transform">
                         <i class="ph-bold ph-file-cloud text-3xl"></i>
                     </div>
                     <span class="text-xs font-bold text-aquaTurquesa uppercase tracking-widest">Módulo 04</span>
                     <h4 class="font-bruno text-2xl text-white mt-1 mb-4">Facturación Automática</h4>
-                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Timbrado fiscal automático y portal de autofacturación inmediata para clientes.</p>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Timbrado fiscal automático y portal de
+                        autofacturación inmediata para clientes.</p>
                     <ul class="space-y-3 text-sm text-gray-300 border-t border-white/10 pt-4">
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-aquaTurquesa"></i> Timbrado/Sellado fiscal al instante</li>
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-aquaTurquesa"></i> Auto-Facturación por código QR</li>
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-aquaTurquesa"></i> Despacho automático de XML + PDF</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-aquaTurquesa"></i>
+                            Timbrado/Sellado fiscal al instante</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-aquaTurquesa"></i>
+                            Auto-Facturación por código QR</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-aquaTurquesa"></i>
+                            Despacho automático de XML + PDF</li>
                     </ul>
                 </div>
 
                 <!-- Módulo 5 -->
-                <div @click="triggerImplosionWithTab($event, 'logistica')" class="glass-panel p-8 rounded-3xl border-white/10 hover:border-naranjaEnergy/40 transition-all duration-300 group hover:-translate-y-1 cursor-pointer">
-                    <div class="w-14 h-14 rounded-2xl bg-naranjaEnergy/10 border border-naranjaEnergy/30 flex items-center justify-center text-naranjaEnergy mb-6 group-hover:scale-110 transition-transform">
+                <div @click="triggerImplosionWithTab($event, 'logistica')"
+                    class="glass-panel p-8 rounded-3xl border-white/10 hover:border-naranjaEnergy/40 transition-all duration-300 group hover:-translate-y-1 cursor-pointer">
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-naranjaEnergy/10 border border-naranjaEnergy/30 flex items-center justify-center text-naranjaEnergy mb-6 group-hover:scale-110 transition-transform">
                         <i class="ph-bold ph-truck text-3xl"></i>
                     </div>
                     <span class="text-xs font-bold text-naranjaEnergy uppercase tracking-widest">Módulo 05</span>
                     <h4 class="font-bruno text-2xl text-white mt-1 mb-4">Logística & Despachos</h4>
-                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Optimización de entregas para materiales pesados y distribución local.</p>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Optimización de entregas para materiales
+                        pesados y distribución local.</p>
                     <ul class="space-y-3 text-sm text-gray-300 border-t border-white/10 pt-4">
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i> Agrupación de rutas por zona</li>
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i> Reserva automática de inventario</li>
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i> Rastreo de guías en tiempo real</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
+                            Agrupación de rutas por zona</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
+                            Reserva automática de inventario</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check-circle text-naranjaEnergy"></i>
+                            Rastreo de guías en tiempo real</li>
                     </ul>
                 </div>
 
                 <!-- IA PERSONALIZADA -->
-                <div @click="triggerImplosionWithTab($event, 'ferrebot')" id="ferrebot" class="glass-panel p-8 rounded-3xl border-aquaTurquesa/40 bg-gradient-to-br from-aquaTurquesa/10 via-midnightPanel to-negroProfundo hover:border-aquaTurquesa/80 transition-all duration-300 relative overflow-hidden group cursor-pointer">
+                <div @click="triggerImplosionWithTab($event, 'ferrebot')" id="ferrebot"
+                    class="glass-panel p-8 rounded-3xl border-aquaTurquesa/40 bg-gradient-to-br from-aquaTurquesa/10 via-midnightPanel to-negroProfundo hover:border-aquaTurquesa/80 transition-all duration-300 relative overflow-hidden group cursor-pointer">
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="w-12 h-12 rounded-2xl bg-aquaTurquesa text-negroProfundo flex items-center justify-center font-bold shadow-[0_0_15px_rgba(0,229,255,0.4)]">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-aquaTurquesa text-negroProfundo flex items-center justify-center font-bold shadow-[0_0_15px_rgba(0,229,255,0.4)]">
                             <i class="ph-bold ph-robot text-2xl"></i>
                         </div>
                         <div>
@@ -679,12 +851,16 @@
                         </div>
                     </div>
                     <p class="text-gray-300 text-sm mb-6 leading-relaxed">
-                        Modelos de IA exclusivos con el catálogo de tu empresa para atender clientes, resolver dudas técnicas e identificar tornillería por foto.
+                        Modelos de IA exclusivos con el catálogo de tu empresa para atender clientes, resolver dudas
+                        técnicas e identificar tornillería por foto.
                     </p>
                     <ul class="space-y-3 text-sm text-gray-300 border-t border-white/10 pt-4">
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-sparkle text-aquaTurquesa"></i> Buscador por cámara de fotos (Tornillos/Piezas)</li>
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-sparkle text-aquaTurquesa"></i> OCR inteligente para extraer facturas PDF</li>
-                        <li class="flex items-center gap-2"><i class="ph-bold ph-sparkle text-aquaTurquesa"></i> Asistente de ventas WhatsApp 24/7</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-sparkle text-aquaTurquesa"></i>
+                            Buscador por cámara de fotos (Tornillos/Piezas)</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-sparkle text-aquaTurquesa"></i> OCR
+                            inteligente para extraer facturas PDF</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-sparkle text-aquaTurquesa"></i>
+                            Asistente de ventas WhatsApp 24/7</li>
                     </ul>
                 </div>
 
@@ -696,46 +872,58 @@
     <section id="roadmap" class="py-24 px-6 bg-midnightPanel relative border-t border-white/5">
         <div class="max-w-5xl mx-auto">
             <div class="text-center mb-16">
-                <span class="text-xs font-bold text-naranjaEnergy uppercase tracking-widest block mb-2">Metodología Comprobada</span>
+                <span class="text-xs font-bold text-naranjaEnergy uppercase tracking-widest block mb-2">Metodología
+                    Comprobada</span>
                 <h3 class="font-bruno text-3xl md:text-4xl text-white mb-4">Roadmap de Transformación</h3>
-                <p class="text-gray-400 max-w-2xl mx-auto text-sm">Un proceso por fases diseñado para no interrumpir tu operación diaria mientras modernizas el negocio.</p>
+                <p class="text-gray-400 max-w-2xl mx-auto text-sm">Un proceso por fases diseñado para no interrumpir tu
+                    operación diaria mientras modernizas el negocio.</p>
             </div>
 
-            <div class="relative space-y-12 before:absolute before:inset-0 before:ml-[1.75rem] md:before:mx-auto md:before:translate-x-0 before:w-0.5 before:h-full before:bg-gradient-to-b before:from-naranjaEnergy before:via-aquaTurquesa before:to-white/10">
-                
+            <div
+                class="relative space-y-12 before:absolute before:inset-0 before:ml-[1.75rem] md:before:mx-auto md:before:translate-x-0 before:w-0.5 before:h-full before:bg-gradient-to-b before:from-naranjaEnergy before:via-aquaTurquesa before:to-white/10">
+
                 <!-- Fase 1 -->
                 <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-                    <div class="flex items-center justify-center w-14 h-14 rounded-full border-4 border-negroProfundo bg-naranjaEnergy text-white shadow-[0_0_15px_rgba(249,115,22,0.5)] shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                    <div
+                        class="flex items-center justify-center w-14 h-14 rounded-full border-4 border-negroProfundo bg-naranjaEnergy text-white shadow-[0_0_15px_rgba(249,115,22,0.5)] shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
                         <i class="ph-bold ph-package text-2xl"></i>
                     </div>
-                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl glass-panel border-naranjaEnergy/20 transition-transform hover:-translate-y-1">
+                    <div
+                        class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl glass-panel border-naranjaEnergy/20 transition-transform hover:-translate-y-1">
                         <div class="text-naranjaEnergy text-sm font-bold uppercase tracking-wider mb-2">Mes 1</div>
                         <h4 class="font-bold text-xl text-white mb-3">Fundamentos, Inventario & Brand Identity</h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">Migración de catálogo SKUs, conteos cíclicos iniciales, definición de la identidad visual de marca y configuración del POS.</p>
+                        <p class="text-gray-400 text-sm leading-relaxed">Migración de catálogo SKUs, conteos cíclicos
+                            iniciales, definición de la identidad visual de marca y configuración del POS.</p>
                     </div>
                 </div>
 
                 <!-- Fase 2 -->
                 <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-                    <div class="flex items-center justify-center w-14 h-14 rounded-full border-4 border-negroProfundo bg-aquaTurquesa text-negroProfundo shadow-[0_0_15px_rgba(0,229,255,0.5)] shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                    <div
+                        class="flex items-center justify-center w-14 h-14 rounded-full border-4 border-negroProfundo bg-aquaTurquesa text-negroProfundo shadow-[0_0_15px_rgba(0,229,255,0.5)] shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
                         <i class="ph-bold ph-robot text-2xl"></i>
                     </div>
-                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl glass-panel border-aquaTurquesa/20 transition-transform hover:-translate-y-1">
+                    <div
+                        class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl glass-panel border-aquaTurquesa/20 transition-transform hover:-translate-y-1">
                         <div class="text-aquaTurquesa text-sm font-bold uppercase tracking-wider mb-2">Mes 2</div>
                         <h4 class="font-bold text-xl text-white mb-3">Integración IA & Facturación</h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">Entrenamiento de la IA con tu catálogo, despliegue del buscador por foto, cotejo 3-way de facturas y timbrado automático.</p>
+                        <p class="text-gray-400 text-sm leading-relaxed">Entrenamiento de la IA con tu catálogo,
+                            despliegue del buscador por foto, cotejo 3-way de facturas y timbrado automático.</p>
                     </div>
                 </div>
 
                 <!-- Fase 3 -->
                 <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-                    <div class="flex items-center justify-center w-14 h-14 rounded-full border-4 border-negroProfundo bg-white text-negroProfundo shadow-[0_0_15px_rgba(255,255,255,0.5)] shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                    <div
+                        class="flex items-center justify-center w-14 h-14 rounded-full border-4 border-negroProfundo bg-white text-negroProfundo shadow-[0_0_15px_rgba(255,255,255,0.5)] shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
                         <i class="ph-bold ph-chart-bar text-2xl"></i>
                     </div>
-                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl glass-panel border-white/20 transition-transform hover:-translate-y-1">
+                    <div
+                        class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl glass-panel border-white/20 transition-transform hover:-translate-y-1">
                         <div class="text-gray-300 text-sm font-bold uppercase tracking-wider mb-2">Mes 3</div>
                         <h4 class="font-bold text-xl text-white mb-3">Consultoría Estratégica & Despliegue Total</h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">Activación del Dashboard ejecutivo, optimización de logística de envíos y plan de expansión estratégica continua.</p>
+                        <p class="text-gray-400 text-sm leading-relaxed">Activación del Dashboard ejecutivo,
+                            optimización de logística de envíos y plan de expansión estratégica continua.</p>
                     </div>
                 </div>
 
@@ -747,12 +935,15 @@
     <section class="py-24 px-6 bg-negroProfundo relative border-t border-white/5 overflow-hidden text-center">
         <div class="absolute inset-0 bg-gradient-to-r from-naranjaEnergy/10 via-transparent to-aquaTurquesa/10"></div>
         <div class="max-w-4xl mx-auto relative z-10">
-            <span class="text-xs font-bold text-naranjaEnergy uppercase tracking-widest block mb-4">Agenda Abierta • Cupo Limitado (4 Citas / Día)</span>
+            <span class="text-xs font-bold text-naranjaEnergy uppercase tracking-widest block mb-4">Agenda Abierta •
+                Cupo Limitado (4 Citas / Día)</span>
             <h3 class="font-bruno text-3xl md:text-5xl text-white mb-6">¿Listo para transformar tu Negocio?</h3>
             <p class="text-gray-300 text-lg max-w-2xl mx-auto mb-10 font-light">
-                Solicita tu sesión personalizada con <strong>Javier Gallardo</strong>. Analizaremos tu operación actual y te mostraremos la arquitectura exacta para escalar tu negocio.
+                Solicita tu sesión personalizada con <strong>Javier Gallardo</strong>. Analizaremos tu operación actual
+                y te mostraremos la arquitectura exacta para escalar tu negocio.
             </p>
-            <button @click="openModal()" class="inline-flex items-center justify-center gap-3 bg-naranjaEnergy text-white px-10 py-5 rounded-full font-extrabold text-xl btn-glow-energy cursor-pointer">
+            <button @click="openModal()"
+                class="inline-flex items-center justify-center gap-3 bg-naranjaEnergy text-white px-10 py-5 rounded-full font-extrabold text-xl btn-glow-energy cursor-pointer">
                 <i class="ph-bold ph-calendar-check text-2xl"></i>
                 Reservar Cita Ejecutiva Ahora
             </button>
@@ -764,32 +955,31 @@
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-3">
                 <svg viewBox="0 0 100 100" class="w-8 h-8 text-naranjaEnergy">
-                    <polygon points="50,5 90,28 90,72 50,95 10,72 10,28" fill="none" stroke="currentColor" stroke-width="8"/>
-                    <polygon points="50,20 80,70 20,70" fill="none" stroke="currentColor" stroke-width="8"/>
+                    <polygon points="50,5 90,28 90,72 50,95 10,72 10,28" fill="none" stroke="currentColor"
+                        stroke-width="8" />
+                    <polygon points="50,20 80,70 20,70" fill="none" stroke="currentColor" stroke-width="8" />
                 </svg>
-                <span class="font-bruno text-lg text-white">TSolutions <span class="text-naranjaEnergy">IPIDD</span></span>
+                <span class="font-bruno text-lg text-white">TSolutions <span
+                        class="text-naranjaEnergy">IPIDD</span></span>
             </div>
             <p class="text-gray-400 text-sm font-medium">
-                Contacto Ejecutivo: <a href="mailto:javier.gallardo@tsolutionsipidd.com" class="text-naranjaEnergy hover:underline">javier.gallardo@tsolutionsipidd.com</a>
+                Contacto Ejecutivo: <a href="mailto:javier.gallardo@tsolutionsipidd.com"
+                    class="text-naranjaEnergy hover:underline">javier.gallardo@tsolutionsipidd.com</a>
             </p>
             <p class="text-gray-500 text-xs">© 2026 TSolutions IPIDD. Plataforma 360° para PyMES.</p>
         </div>
     </footer>
 
     <!-- MODAL DE AGENDA DE CITAS (Javier Gallardo) -->
-    <div x-show="modalOpen" 
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0"
-         x-transition:enter-end="opacity-100"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100"
-         x-transition:leave-end="opacity-0"
-         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-negroProfundo/80 backdrop-blur-md overflow-y-auto"
-         style="display: none;">
-        
+    <div x-show="modalOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-negroProfundo/80 backdrop-blur-md overflow-y-auto"
+        style="display: none;">
+
         <div class="relative w-full max-w-2xl bg-midnightPanel border border-white/15 rounded-3xl p-6 md:p-8 shadow-2xl my-8 text-left"
-             @click.outside="modalOpen = false">
-            
+            @click.outside="modalOpen = false">
+
             <!-- Botón Cerrar -->
             <button @click="modalOpen = false" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl">
                 <i class="ph-bold ph-x"></i>
@@ -797,32 +987,33 @@
 
             <!-- Encabezado del Modal -->
             <div class="mb-6 border-b border-white/10 pb-4">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-naranjaEnergy/10 text-naranjaEnergy text-xs font-bold uppercase tracking-wider mb-2">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-naranjaEnergy/10 text-naranjaEnergy text-xs font-bold uppercase tracking-wider mb-2">
                     <i class="ph-bold ph-calendar"></i> Citas de 1 Hora • Máx 4 por día
                 </div>
                 <h3 class="font-bruno text-2xl md:text-3xl text-white">Agendar Presentación Ejecutiva</h3>
-                <p class="text-gray-400 text-sm mt-1">Con <strong class="text-white">Javier Gallardo</strong> (Director de Consultoría & Tecnología)</p>
+                <p class="text-gray-400 text-sm mt-1">Con <strong class="text-white">Javier Gallardo</strong> (Director
+                    de Consultoría & Tecnología)</p>
             </div>
 
             <!-- Formulario de Agenda -->
             <div x-show="!submitted">
                 <form @submit.prevent="submitBooking()" class="space-y-4">
-                    
+
                     <!-- 1. Modalidad (Zoom vs Presencial) -->
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Modalidad de la Cita</label>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Modalidad de
+                            la Cita</label>
                         <div class="grid grid-cols-2 gap-3">
-                            <button type="button" 
-                                    @click="modalidad = 'zoom'"
-                                    :class="modalidad === 'zoom' ? 'bg-aquaTurquesa/20 border-aquaTurquesa text-aquaTurquesa font-bold' : 'bg-white/5 border-white/10 text-gray-400'"
-                                    class="flex items-center justify-center gap-2 p-3 rounded-2xl border text-sm transition-all cursor-pointer">
+                            <button type="button" @click="modalidad = 'zoom'"
+                                :class="modalidad === 'zoom' ? 'bg-aquaTurquesa/20 border-aquaTurquesa text-aquaTurquesa font-bold' : 'bg-white/5 border-white/10 text-gray-400'"
+                                class="flex items-center justify-center gap-2 p-3 rounded-2xl border text-sm transition-all cursor-pointer">
                                 <i class="ph-bold ph-video-camera text-lg"></i>
                                 <span>Vía Zoom (Virtual)</span>
                             </button>
-                            <button type="button" 
-                                    @click="modalidad = 'presencial'"
-                                    :class="modalidad === 'presencial' ? 'bg-naranjaEnergy/20 border-naranjaEnergy text-naranjaEnergy font-bold' : 'bg-white/5 border-white/10 text-gray-400'"
-                                    class="flex items-center justify-center gap-2 p-3 rounded-2xl border text-sm transition-all cursor-pointer">
+                            <button type="button" @click="modalidad = 'presencial'"
+                                :class="modalidad === 'presencial' ? 'bg-naranjaEnergy/20 border-naranjaEnergy text-naranjaEnergy font-bold' : 'bg-white/5 border-white/10 text-gray-400'"
+                                class="flex items-center justify-center gap-2 p-3 rounded-2xl border text-sm transition-all cursor-pointer">
                                 <i class="ph-bold ph-buildings text-lg"></i>
                                 <span>Presencial (Oficina)</span>
                             </button>
@@ -831,33 +1022,31 @@
 
                     <!-- 2. Selección de Fecha -->
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1">Selecciona la Fecha</label>
-                        <input type="date" 
-                               x-model="fecha" 
-                               :min="minDate"
-                               @change="checkSlotAvailability()"
-                               required
-                               class="w-full bg-negroProfundo border border-white/10 rounded-2xl px-4 py-3 text-white focus:outline-none focus:border-aquaTurquesa text-sm">
-                        
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1">Selecciona la
+                            Fecha</label>
+                        <input type="date" x-model="fecha" :min="minDate" @change="checkSlotAvailability()" required
+                            class="w-full bg-negroProfundo border border-white/10 rounded-2xl px-4 py-3 text-white focus:outline-none focus:border-aquaTurquesa text-sm">
+
                         <div x-show="dayFull" class="text-red-400 text-xs mt-1 font-semibold flex items-center gap-1">
-                            <i class="ph-bold ph-warning-circle"></i> Esta fecha ya tiene las 4 citas máximas ocupadas. Por favor elige otro día.
+                            <i class="ph-bold ph-warning-circle"></i> Esta fecha ya tiene las 4 citas máximas ocupadas.
+                            Por favor elige otro día.
                         </div>
                     </div>
 
                     <!-- 3. Horarios Disponibles (10 am a 4 pm con 1 hr de diferencia) -->
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">
-                            Horario Disponible (10:00 AM - 4:00 PM) 
-                            <span class="text-gray-400 font-normal lowercase">(Citas asignadas: <span x-text="getBookedCount(fecha)"></span>/4)</span>
+                            Horario Disponible (10:00 AM - 4:00 PM)
+                            <span class="text-gray-400 font-normal lowercase">(Citas asignadas: <span
+                                    x-text="getBookedCount(fecha)"></span>/4)</span>
                         </label>
-                        
+
                         <div class="grid grid-cols-3 sm:grid-cols-4 gap-2">
                             <template x-for="timeSlot in availableTimeSlots" :key="timeSlot">
-                                <button type="button"
-                                        @click="hora = timeSlot"
-                                        :disabled="isSlotBooked(fecha, timeSlot) || dayFull"
-                                        :class="hora === timeSlot ? 'bg-naranjaEnergy text-white border-naranjaEnergy font-bold' : (isSlotBooked(fecha, timeSlot) ? 'bg-white/5 text-gray-600 border-white/5 cursor-not-allowed line-through' : 'bg-white/5 border-white/10 text-gray-300 hover:border-white/30')"
-                                        class="p-2.5 rounded-xl border text-xs text-center transition-all cursor-pointer">
+                                <button type="button" @click="hora = timeSlot"
+                                    :disabled="isSlotBooked(fecha, timeSlot) || dayFull"
+                                    :class="hora === timeSlot ? 'bg-naranjaEnergy text-white border-naranjaEnergy font-bold' : (isSlotBooked(fecha, timeSlot) ? 'bg-white/5 text-gray-600 border-white/5 cursor-not-allowed line-through' : 'bg-white/5 border-white/10 text-gray-300 hover:border-white/30')"
+                                    class="p-2.5 rounded-xl border text-xs text-center transition-all cursor-pointer">
                                     <span x-text="timeSlot"></span>
                                 </button>
                             </template>
@@ -868,60 +1057,74 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-white/10 pt-4">
                         <div>
                             <label class="block text-xs font-bold text-gray-300 mb-1">Nombre Completo *</label>
-                            <input type="text" x-model="nombre" required placeholder="Ej. Carlos Mendoza" class="w-full bg-negroProfundo border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-naranjaEnergy">
+                            <input type="text" x-model="nombre" required placeholder="Ej. Carlos Mendoza"
+                                class="w-full bg-negroProfundo border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-naranjaEnergy">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-gray-300 mb-1">Empresa *</label>
-                            <input type="text" x-model="empresa" required placeholder="Ej. Ferretería El Candado" class="w-full bg-negroProfundo border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-naranjaEnergy">
+                            <input type="text" x-model="empresa" required placeholder="Ej. <Tu Negocio> El Candado"
+                                class="w-full bg-negroProfundo border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-naranjaEnergy">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-gray-300 mb-1">Correo Electrónico *</label>
-                            <input type="email" x-model="email" required placeholder="ejemplo@dominio.com" class="w-full bg-negroProfundo border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-naranjaEnergy">
+                            <input type="email" x-model="email" required placeholder="ejemplo@dominio.com"
+                                class="w-full bg-negroProfundo border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-naranjaEnergy">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-gray-300 mb-1">Teléfono / WhatsApp *</label>
-                            <input type="tel" x-model="telefono" required placeholder="+52 55 1234 5678" class="w-full bg-negroProfundo border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-naranjaEnergy">
+                            <input type="tel" x-model="telefono" required placeholder="+52 55 1234 5678"
+                                class="w-full bg-negroProfundo border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-naranjaEnergy">
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-gray-300 mb-1">¿Algún objetivo o duda en particular?</label>
-                        <textarea x-model="comentarios" rows="2" placeholder="Comentarios breves sobre el estado actual de tu empresa..." class="w-full bg-negroProfundo border border-white/10 rounded-xl px-4 py-2 text-white text-sm focus:outline-none focus:border-naranjaEnergy"></textarea>
+                        <label class="block text-xs font-bold text-gray-300 mb-1">¿Algún objetivo o duda en
+                            particular?</label>
+                        <textarea x-model="comentarios" rows="2"
+                            placeholder="Comentarios breves sobre el estado actual de tu empresa..."
+                            class="w-full bg-negroProfundo border border-white/10 rounded-xl px-4 py-2 text-white text-sm focus:outline-none focus:border-naranjaEnergy"></textarea>
                     </div>
 
                     <!-- Botón Enviar -->
-                    <button type="submit" 
-                            :disabled="!fecha || !hora || dayFull"
-                            class="w-full py-4 rounded-full bg-naranjaEnergy text-white font-extrabold text-base btn-glow-energy transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                    <button type="submit" :disabled="!fecha || !hora || dayFull"
+                        class="w-full py-4 rounded-full bg-naranjaEnergy text-white font-extrabold text-base btn-glow-energy transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
                         Confirmar y Enviar Alerta a Javier Gallardo
                     </button>
-                    
+
                     <p class="text-[11px] text-gray-500 text-center">
-                        🔒 Notificación automática enviada a: <span class="text-gray-300">javier.gallardo@tsolutionsipidd.com</span>
+                        🔒 Notificación automática enviada a: <span
+                            class="text-gray-300">javier.gallardo@tsolutionsipidd.com</span>
                     </p>
                 </form>
             </div>
 
             <!-- Mensaje de Confirmación Exitosa -->
             <div x-show="submitted" class="text-center py-8 space-y-4">
-                <div class="w-16 h-16 rounded-full bg-aquaTurquesa/20 border border-aquaTurquesa text-aquaTurquesa flex items-center justify-center text-3xl mx-auto shadow-[0_0_20px_rgba(0,229,255,0.4)]">
+                <div
+                    class="w-16 h-16 rounded-full bg-aquaTurquesa/20 border border-aquaTurquesa text-aquaTurquesa flex items-center justify-center text-3xl mx-auto shadow-[0_0_20px_rgba(0,229,255,0.4)]">
                     <i class="ph-bold ph-check-circle"></i>
                 </div>
-                
+
                 <h4 class="font-bruno text-2xl text-white">¡Cita Agendada con Éxito!</h4>
-                
+
                 <div class="glass-panel p-6 rounded-2xl border-white/10 text-left max-w-lg mx-auto text-sm space-y-2">
-                    <p class="text-gray-300"><strong class="text-white">Cliente:</strong> <span x-text="nombre"></span> (<span x-text="empresa"></span>)</p>
-                    <p class="text-gray-300"><strong class="text-white">Fecha & Hora:</strong> <span x-text="fecha"></span> a las <span x-text="hora"></span></p>
-                    <p class="text-gray-300"><strong class="text-white">Modalidad:</strong> <span class="uppercase text-aquaTurquesa font-semibold" x-text="modalidad"></span></p>
-                    <p class="text-gray-300"><strong class="text-white">Notificación enviada a:</strong> javier.gallardo@tsolutionsipidd.com</p>
+                    <p class="text-gray-300"><strong class="text-white">Cliente:</strong> <span x-text="nombre"></span>
+                        (<span x-text="empresa"></span>)</p>
+                    <p class="text-gray-300"><strong class="text-white">Fecha & Hora:</strong> <span
+                            x-text="fecha"></span> a las <span x-text="hora"></span></p>
+                    <p class="text-gray-300"><strong class="text-white">Modalidad:</strong> <span
+                            class="uppercase text-aquaTurquesa font-semibold" x-text="modalidad"></span></p>
+                    <p class="text-gray-300"><strong class="text-white">Notificación enviada a:</strong>
+                        javier.gallardo@tsolutionsipidd.com</p>
                 </div>
 
                 <p class="text-xs text-gray-400 max-w-md mx-auto leading-relaxed">
-                    Hemos registrado tu solicitud en el sistema de TSolutions IPIDD. Javier Gallardo revisará la información y te enviará la liga de Zoom o confirmación presencial a tu correo.
+                    Hemos registrado tu solicitud en el sistema de TSolutions IPIDD. Javier Gallardo revisará la
+                    información y te enviará la liga de Zoom o confirmación presencial a tu correo.
                 </p>
 
-                <button @click="resetForm()" class="px-8 py-3 rounded-full bg-white/10 text-white font-bold text-sm hover:bg-white/20 transition-all cursor-pointer">
+                <button @click="resetForm()"
+                    class="px-8 py-3 rounded-full bg-white/10 text-white font-bold text-sm hover:bg-white/20 transition-all cursor-pointer">
                     Cerrar y Volver al Sitio
                 </button>
             </div>
@@ -945,7 +1148,7 @@
                 comentarios: '',
                 submitted: false,
                 dayFull: false,
-                
+
                 availableTimeSlots: [
                     '10:00 AM',
                     '11:00 AM',
@@ -1066,7 +1269,7 @@
         document.addEventListener('mousemove', (e) => {
             const cursorEl = document.getElementById('custom-3d-cursor');
             if (!cursorEl) return;
-            
+
             cursorEl.style.left = `${e.clientX}px`;
             cursorEl.style.top = `${e.clientY}px`;
             cursorEl.style.opacity = '1';
@@ -1095,4 +1298,5 @@
         });
     </script>
 </body>
+
 </html>
