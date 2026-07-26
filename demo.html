@@ -921,6 +921,11 @@
                                             </div>
                                         </div>
 
+                                        <!-- Imagen de Producto -->
+                                        <div class="w-full h-36 bg-black/40 rounded-xl overflow-hidden mb-3.5 border border-white/5 flex items-center justify-center">
+                                            <img :src="prod.image" :alt="prod.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                        </div>
+
                                         <!-- Contenido Tarjeta -->
                                         <h4 class="font-bold text-white text-sm" x-text="prod.name"></h4>
                                         <p class="text-gray-400 text-xs mt-1 leading-relaxed" x-text="prod.desc"></p>
@@ -1625,12 +1630,12 @@
 
                 // --- ESTADOS DE E-COMMERCE INTELLIGENT ---
                 ecProducts: [
-                    { id: 101, name: 'Martillo Truper 16oz', category: 'Herramientas', desc: 'Martillo de uña curva fabricado en acero de alta resistencia.', price: 245.00, stock: 18, rating: 4.8, userRating: 0 },
-                    { id: 102, name: 'Juego de Llaves Alen', category: 'Herramientas', desc: 'Juego de llaves hexagonales estándar en estuche organizador.', price: 225.00, stock: 12, rating: 4.6, userRating: 0 },
-                    { id: 103, name: 'Pintura Vinílica Blanca 19L', category: 'Pinturas', desc: 'Pintura vinil-acrílica de gran cobertura para interiores y exteriores.', price: 1890.00, stock: 5, rating: 4.9, userRating: 0 },
-                    { id: 104, name: 'Tubo de Cobre 1/2" 3m', category: 'Materiales', desc: 'Tubo de cobre rígido de alta pureza para conducción de agua.', price: 540.00, stock: 45, rating: 4.5, userRating: 0 },
-                    { id: 105, name: 'Caja Pija Tablaroca 1"', category: 'Tornillería', desc: 'Caja de 100 pijas fosfatadas negras para tablaroca.', price: 120.00, stock: 15, rating: 4.2, userRating: 0 },
-                    { id: 106, name: 'Taladro Rotomartillo Dewalt', category: 'Maquinaria', desc: 'Rotomartillo inalámbrico de 20V Max con cargador y maleta.', price: 2450.00, stock: 8, rating: 5.0, userRating: 0 }
+                    { id: 101, name: 'Martillo Truper 16oz', category: 'Herramientas', desc: 'Martillo de uña curva fabricado en acero de alta resistencia.', price: 245.00, stock: 18, rating: 4.8, userRating: 0, image: 'martillo_16oz.jpg' },
+                    { id: 102, name: 'Juego de Llaves Alen', category: 'Herramientas', desc: 'Juego de llaves hexagonales estándar en estuche organizador.', price: 225.00, stock: 12, rating: 4.6, userRating: 0, image: 'llaves_alen.jpg' },
+                    { id: 103, name: 'Pintura Vinílica Blanca 19L', category: 'Pinturas', desc: 'Pintura vinil-acrílica de gran cobertura para interiores y exteriores.', price: 1890.00, stock: 5, rating: 4.9, userRating: 0, image: 'pintura_19l.jpg' },
+                    { id: 104, name: 'Tubo de Cobre 1/2" 3m', category: 'Materiales', desc: 'Tubo de cobre rígido de alta pureza para conducción de agua.', price: 540.00, stock: 45, rating: 4.5, userRating: 0, image: 'tubo_cobre.jpg' },
+                    { id: 105, name: 'Caja Pija Tablaroca 1"', category: 'Tornillería', desc: 'Caja de 100 pijas fosfatadas negras para tablaroca.', price: 120.00, stock: 15, rating: 4.2, userRating: 0, image: 'caja_pijas.jpg' },
+                    { id: 106, name: 'Taladro Rotomartillo Dewalt', category: 'Maquinaria', desc: 'Rotomartillo inalámbrico de 20V Max con cargador y maleta.', price: 2450.00, stock: 8, rating: 5.0, userRating: 0, image: 'taladro_dewalt.jpg' }
                 ],
                 ecCart: [],
                 ecSearch: '',
