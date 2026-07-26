@@ -170,6 +170,14 @@
                 <span class="text-aquaTurquesa font-medium">07. Ferrebot IA (Futurístico)</span>
             </button>
 
+            <!-- E-Commerce & Tienda -->
+            <button @click="currentTab = 'ecommerce'; mobileMenu = false" 
+                    :class="currentTab === 'ecommerce' ? 'bg-soberOrange/20 text-soberOrangeLight border-soberOrange/40 font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent'"
+                    class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl border transition-all text-sm text-left cursor-pointer">
+                <i class="ph ph-shopping-bag text-lg text-soberOrangeLight"></i>
+                <span class="text-soberOrangeLight font-medium">08. E-Commerce & Tienda (Personalizado)</span>
+            </button>
+
         </nav>
 
         <div class="p-4 border-t border-white/10">
@@ -206,6 +214,7 @@
                     <span x-show="currentTab === 'compras'">05. Compras & Cotejo 3-Way</span>
                     <span x-show="currentTab === 'logistica'">06. Logística & Despachos</span>
                     <span x-show="currentTab === 'ferrebot'">07. IA Personalizada</span>
+                    <span x-show="currentTab === 'ecommerce'">08. E-Commerce & Tienda Smart</span>
                 </h2>
                 <p class="text-xs text-gray-400">Entorno interactivo ilustrativo de TSolutions IPIDD</p>
             </div>
@@ -845,6 +854,243 @@
                 </div>
             </div>
 
+            <!-- PESTAÑA 8: E-COMMERCE & TIENDA ONLINE [ESTILO: PERSONALIZADO / PREMIUM] -->
+            <div x-show="currentTab === 'ecommerce'" class="space-y-6">
+                <!-- Descripción del Estilo (Top Center) -->
+                <div class="flex justify-center mb-6">
+                    <div class="max-w-xl text-center bg-white/5 border border-white/10 rounded-2xl p-4 shadow-md">
+                        <span class="text-[10px] uppercase font-extrabold tracking-widest text-soberOrangeLight">Módulo: E-Commerce Inteligente</span>
+                        <p class="text-xs text-gray-300 mt-1 leading-relaxed">Simulador de Tienda en Línea integrado con pasarela de pagos 3D Secure, buscador dinámico con sugerencias en tiempo real, registro de Hooks de venta e inventario, y panel analítico de búsquedas.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Columna Izquierda: Catálogo y Buscador -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <!-- Buscador Inteligente y Categorías -->
+                        <div class="glass-panel p-6 rounded-2xl space-y-4">
+                            <div class="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
+                                <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="ph ph-shopping-bag text-soberOrangeLight text-2xl"></i>Catálogo Digital Smart</h3>
+                                
+                                <!-- Buscador Input con Autocomplete -->
+                                <div class="relative w-full md:w-72">
+                                    <i class="ph ph-magnifying-glass absolute left-4 top-3 text-gray-400 text-base"></i>
+                                    <input type="text" 
+                                           placeholder="Buscar productos..." 
+                                           x-model="ecSearch" 
+                                           @input="updateEcSuggestions()"
+                                           class="w-full bg-negroProfundo border border-white/10 rounded-xl pl-11 pr-4 py-2 text-xs text-white focus:outline-none focus:border-soberOrangeLight transition-all">
+                                    
+                                    <!-- Autocomplete suggestions box -->
+                                    <div x-show="ecSuggestions.length > 0" 
+                                         class="absolute left-0 right-0 mt-1 bg-zinc-900 border border-white/15 rounded-xl shadow-2xl z-40 p-2 space-y-1"
+                                         style="display: none;">
+                                        <template x-for="sug in ecSuggestions">
+                                            <div @click="selectEcSuggestion(sug)" 
+                                                 class="px-3 py-2 hover:bg-white/5 rounded-lg text-xs text-gray-300 cursor-pointer flex justify-between">
+                                                <span x-text="sug.name"></span>
+                                                <span class="text-gray-500 text-[10px]" x-text="sug.category"></span>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Filtros de categoría por tipo de producto -->
+                            <div class="flex gap-2 flex-wrap pb-1">
+                                <template x-for="cat in ['Todos', 'Herramientas', 'Pinturas', 'Materiales', 'Tornillería', 'Maquinaria']">
+                                    <button @click="ecCategory = cat; trackSearchCategory(cat)"
+                                            :class="ecCategory === cat ? 'bg-soberOrange text-white border-soberOrange/40 font-semibold' : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border-white/5'"
+                                            class="px-3 py-1.5 rounded-lg border text-xs transition-all cursor-pointer"
+                                            x-text="cat"></button>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Grid de Tarjetas Dinámicas -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <template x-for="prod in filteredEcProducts()" :key="prod.id">
+                                <div class="glass-panel p-5 rounded-2xl relative overflow-hidden group flex flex-col justify-between hover:border-soberOrange/35 transition-all">
+                                    <div>
+                                        <!-- Header Tarjeta -->
+                                        <div class="flex justify-between items-start mb-3">
+                                            <span class="text-[9px] uppercase tracking-wider text-soberOrangeLight font-bold bg-soberOrange/10 px-2 py-0.5 rounded border border-soberOrange/20" x-text="prod.category"></span>
+                                            <div class="flex items-center gap-1 text-amber-400">
+                                                <i class="ph-fill ph-star text-xs"></i>
+                                                <span class="text-[10px] font-bold" x-text="prod.rating.toFixed(1)"></span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Contenido Tarjeta -->
+                                        <h4 class="font-bold text-white text-sm" x-text="prod.name"></h4>
+                                        <p class="text-gray-400 text-xs mt-1 leading-relaxed" x-text="prod.desc"></p>
+                                        
+                                        <!-- Calificación individual del producto -->
+                                        <div class="flex items-center gap-1 mt-2.5">
+                                            <span class="text-[9px] text-gray-500 mr-1">Calificar:</span>
+                                            <template x-for="star in [1, 2, 3, 4, 5]">
+                                                <button @click="rateProduct(prod.id, star)" class="cursor-pointer text-[10px]">
+                                                    <i class="ph-bold ph-star" :class="star <= (prod.userRating || 0) ? 'text-amber-400 ph-fill' : 'text-gray-600'"></i>
+                                                </button>
+                                            </template>
+                                        </div>
+                                    </div>
+
+                                    <!-- Footer Tarjeta -->
+                                    <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between">
+                                        <div>
+                                            <span class="text-gray-500 text-[10px] block">Precio Unitario</span>
+                                            <span class="text-white font-bold text-base" x-text="'$' + prod.price.toFixed(2)"></span>
+                                        </div>
+                                        <div>
+                                            <span class="text-gray-500 text-[9px] block text-right" :class="prod.stock <= 5 ? 'text-brandRed font-bold' : ''" x-text="'Stock: ' + prod.stock + ' pzas'"></span>
+                                            <button @click="addToEcCart(prod)" 
+                                                    :disabled="prod.stock === 0"
+                                                    :class="prod.stock === 0 ? 'bg-white/5 text-gray-600 cursor-not-allowed' : 'bg-soberOrangeLight text-white hover:bg-white hover:text-darkBg'"
+                                                    class="mt-1 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5">
+                                                <i class="ph-bold ph-shopping-cart-simple"></i> Agregar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Columna Derecha: Carrito y Panel de Análisis/Satisfacción -->
+                    <div class="space-y-6">
+                        <!-- Carrito de Compras -->
+                        <div class="glass-panel p-6 rounded-2xl flex flex-col justify-between min-h-[300px]">
+                            <div>
+                                <h4 class="font-bold text-white text-sm mb-4 border-b border-white/10 pb-2 flex justify-between">
+                                    <span>Carrito de Compras</span>
+                                    <span class="text-xs text-soberOrangeLight" x-text="getEcCartCount() + ' Items'"></span>
+                                </h4>
+                                
+                                <div class="space-y-3 max-h-[220px] overflow-y-auto pr-2 custom-scrollbar">
+                                    <template x-if="ecCart.length === 0">
+                                        <div class="text-center py-8 text-gray-500 text-xs">
+                                            <i class="ph ph-shopping-cart text-3xl mb-2 block mx-auto text-gray-600"></i>
+                                            El carrito está vacío
+                                        </div>
+                                    </template>
+                                    <template x-for="item in ecCart" :key="item.id">
+                                        <div class="flex justify-between items-center text-xs">
+                                            <div>
+                                                <p class="font-medium text-white" x-text="item.name"></p>
+                                                <p class="text-[10px] text-gray-500" x-text="'$' + item.price.toFixed(2) + ' x ' + item.qty"></p>
+                                            </div>
+                                            <div class="flex items-center gap-1">
+                                                <button @click="removeEcCartItem(item)" class="p-1 hover:bg-white/5 rounded text-gray-400 hover:text-white cursor-pointer"><i class="ph-bold ph-minus"></i></button>
+                                                <span class="text-white w-4 text-center font-bold" x-text="item.qty"></span>
+                                                <button @click="addEcCartItem(item)" class="p-1 hover:bg-white/5 rounded text-gray-400 hover:text-white cursor-pointer"><i class="ph-bold ph-plus"></i></button>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <div class="pt-4 border-t border-white/10 mt-4 space-y-3">
+                                <div class="flex justify-between text-xs text-gray-400">
+                                    <span>Subtotal:</span>
+                                    <span class="text-white" x-text="'$' + getEcCartSubtotal().toFixed(2)"></span>
+                                </div>
+                                <div class="flex justify-between text-sm font-bold">
+                                    <span class="text-white">Total (IVA inc.):</span>
+                                    <span class="text-soberOrangeLight" x-text="'$' + getEcCartTotal().toFixed(2)"></span>
+                                </div>
+                                <button @click="showPaymentGateway = true" 
+                                        :disabled="ecCart.length === 0"
+                                        :class="ecCart.length === 0 ? 'bg-white/5 text-gray-600 cursor-not-allowed' : 'bg-brandGreen text-white hover:bg-white hover:text-darkBg'"
+                                        class="w-full py-2.5 font-bold rounded-xl text-xs transition-all cursor-pointer">
+                                    Proceder al Pago
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Panel de Análisis de Búsqueda y Satisfacción -->
+                        <div class="glass-panel p-6 rounded-2xl space-y-6">
+                            <!-- Análisis de Búsquedas -->
+                            <div>
+                                <h4 class="font-bold text-white text-xs uppercase tracking-wider mb-3 border-b border-white/5 pb-1 flex justify-between">
+                                    <span>Análisis de Búsqueda</span>
+                                    <i class="ph ph-chart-line text-soberOrangeLight"></i>
+                                </h4>
+                                <div class="space-y-2 text-xs">
+                                    <div class="flex justify-between text-gray-400">
+                                        <span>Búsquedas Realizadas:</span>
+                                        <span class="text-white font-mono" x-text="ecSearchAnalytics.totalSearches"></span>
+                                    </div>
+                                    <div class="flex justify-between text-gray-400">
+                                        <span>Búsquedas sin Resultado:</span>
+                                        <span class="text-brandRed font-mono" x-text="ecSearchAnalytics.failedSearches"></span>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-400 mb-1.5">Términos más populares:</p>
+                                        <div class="flex flex-wrap gap-1">
+                                            <template x-for="pop in ecSearchAnalytics.popularTerms">
+                                                <span class="text-[9px] bg-white/5 border border-white/5 px-2 py-0.5 rounded text-gray-300 font-mono" x-text="pop.term + ' (' + pop.count + ')'"></span>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Calificación del Sitio e Inventario -->
+                            <div>
+                                <h4 class="font-bold text-white text-xs uppercase tracking-wider mb-3 border-b border-white/5 pb-1">
+                                    Calificación de Experiencia
+                                </h4>
+                                <div class="space-y-3.5 text-xs">
+                                    <!-- Calificación del Sitio -->
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <span class="text-gray-400 block">Calidad del Sitio Web:</span>
+                                            <span class="text-[10px] text-gray-500" x-text="'Promedio: ' + ecRatings.siteRating.toFixed(1) + ' estrellas'"></span>
+                                        </div>
+                                        <div class="flex gap-1">
+                                            <template x-for="star in [1, 2, 3, 4, 5]">
+                                                <button @click="rateSite(star)" class="cursor-pointer">
+                                                    <i class="ph-bold ph-star text-sm" :class="star <= ecRatings.userSiteRating ? 'text-amber-400 ph-fill' : 'text-gray-600'"></i>
+                                                </button>
+                                            </template>
+                                        </div>
+                                    </div>
+
+                                    <!-- Calificación del Inventario -->
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <span class="text-gray-400 block">Surtido de Inventario:</span>
+                                            <span class="text-[10px] text-gray-500" x-text="'Promedio: ' + ecRatings.inventoryRating.toFixed(1) + ' estrellas'"></span>
+                                        </div>
+                                        <div class="flex gap-1">
+                                            <template x-for="star in [1, 2, 3, 4, 5]">
+                                                <button @click="rateInventory(star)" class="cursor-pointer">
+                                                    <i class="ph-bold ph-star text-sm" :class="star <= ecRatings.userInventoryRating ? 'text-amber-400 ph-fill' : 'text-gray-600'"></i>
+                                                </button>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Logs de Hooks de Ventas / Automatización -->
+                            <div>
+                                <h4 class="font-bold text-white text-xs uppercase tracking-wider mb-2 flex justify-between items-center">
+                                    <span>Hooks de Ventas e Inventario</span>
+                                    <span class="w-1.5 h-1.5 rounded-full bg-brandGreen animate-ping"></span>
+                                </h4>
+                                <div class="bg-black/35 rounded-xl p-3 text-[10px] font-mono text-gray-400 space-y-1 h-28 overflow-y-auto custom-scrollbar">
+                                    <template x-for="log in ecSalesHooksLog">
+                                        <div class="text-left leading-normal" x-text="log"></div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 
@@ -894,6 +1140,92 @@
             </div>
             <i x-show="chatOpen" class="ph-bold ph-x text-2xl" style="display: none;"></i>
         </button>
+    </div>
+
+    <!-- MODAL DE PASARELA DE PAGOS (SIMULADOR E-COMMERCE) -->
+    <div x-show="showPaymentGateway" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-transparent overflow-y-auto"
+         style="display: none;">
+        
+        <div class="relative w-full max-w-md border border-white/15 rounded-3xl p-6 shadow-2xl my-8 text-left"
+             style="background: rgba(24, 24, 27, 0.15); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);"
+             @click.outside="if (ecPaymentState === 'idle' || ecPaymentState === 'success') showPaymentGateway = false">
+            
+            <!-- Close button -->
+            <button x-show="ecPaymentState === 'idle' || ecPaymentState === 'success'" @click="showPaymentGateway = false" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl cursor-pointer">
+                <i class="ph-bold ph-x"></i>
+            </button>
+
+            <!-- Header -->
+            <div class="mb-5 border-b border-white/10 pb-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brandGreen/10 text-brandGreen text-xs font-bold uppercase tracking-wider mb-2 border border-brandGreen/20">
+                    <i class="ph-bold ph-shield-check"></i> Pasarela de Pago 3D Secure
+                </div>
+                <h3 class="font-bruno text-base text-white">Procesar Pago Electrónico</h3>
+                <p class="text-gray-400 text-xs mt-1" x-text="'Monto a liquidar: $' + getEcCartTotal().toFixed(2)"></p>
+            </div>
+
+            <!-- Paso 1: Formulario de Tarjeta -->
+            <div x-show="ecPaymentState === 'idle'" class="space-y-4">
+                <div>
+                    <label class="block text-[10px] font-semibold text-gray-300 mb-1.5 uppercase tracking-wider">Nombre en la Tarjeta</label>
+                    <input type="text" x-model="ecCardName" placeholder="EJ. JUAN PEREZ MARTINEZ" class="w-full bg-black/45 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white uppercase focus:outline-none focus:border-soberOrangeLight">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-semibold text-gray-300 mb-1.5 uppercase tracking-wider">Número de Tarjeta (Simulado)</label>
+                    <input type="text" x-model="ecCardNumber" placeholder="4152 3133 9021 4452" class="w-full bg-black/45 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-soberOrangeLight">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] font-semibold text-gray-300 mb-1.5 uppercase tracking-wider">Vencimiento</label>
+                        <input type="text" x-model="ecCardExpiry" placeholder="MM/AA" class="w-full bg-black/45 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white text-center font-mono focus:outline-none focus:border-soberOrangeLight">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-semibold text-gray-300 mb-1.5 uppercase tracking-wider">CVV</label>
+                        <input type="password" x-model="ecCardCvv" placeholder="***" class="w-full bg-black/45 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white text-center font-mono focus:outline-none focus:border-soberOrangeLight">
+                    </div>
+                </div>
+                <button @click="processEcPayment()" class="w-full py-3 bg-brandGreen hover:bg-white hover:text-darkBg text-white font-bold rounded-xl text-xs transition-all cursor-pointer flex items-center justify-center gap-2">
+                    <i class="ph-bold ph-credit-card"></i> Pagar Ahora
+                </button>
+            </div>
+
+            <!-- Paso 2: Procesando -->
+            <div x-show="ecPaymentState === 'processing'" class="py-12 flex flex-col items-center justify-center text-center space-y-4">
+                <div class="w-12 h-12 border-4 border-brandGreen border-t-transparent rounded-full animate-spin"></div>
+                <div>
+                    <h4 class="font-bruno text-white text-sm">Procesando Transacción...</h4>
+                    <p class="text-xs text-gray-500 mt-1">Conectando con la red bancaria y autenticando con 3D Secure...</p>
+                </div>
+            </div>
+
+            <!-- Paso 3: Pago Exitoso -->
+            <div x-show="ecPaymentState === 'success'" class="py-6 flex flex-col items-center justify-center text-center space-y-4">
+                <div class="w-16 h-16 rounded-full bg-brandGreen/20 border border-brandGreen text-brandGreen flex items-center justify-center text-3xl">
+                    <i class="ph-bold ph-check"></i>
+                </div>
+                <div>
+                    <h4 class="font-bruno text-white text-base">¡Transacción Aprobada!</h4>
+                    <p class="text-xs text-gray-400 mt-1">La compra se ha completado exitosamente.</p>
+                </div>
+                
+                <div class="w-full bg-white/5 rounded-xl p-4 text-xs text-left space-y-2 border border-white/5">
+                    <div class="flex justify-between"><span class="text-gray-400">Monto Cobrado:</span><span class="text-white font-bold" x-text="'$' + getEcCartTotal().toFixed(2)"></span></div>
+                    <div class="flex justify-between"><span class="text-gray-400">Autorización:</span><span class="text-white font-mono">AUT-88921B</span></div>
+                    <div class="flex justify-between"><span class="text-gray-400">Estatus Hooks:</span><span class="text-brandGreen font-bold font-mono">[LOGS GENERADOS]</span></div>
+                </div>
+
+                <button @click="showPaymentGateway = false; ecPaymentState = 'idle';" class="w-full py-2.5 bg-brandGreen text-white font-bold rounded-xl text-xs hover:bg-white hover:text-darkBg transition-all cursor-pointer">
+                    Entendido
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- MODAL DE SEGUIMIENTO (MAGNETIC CARDS DETAILS SYSTEM) -->
@@ -1291,6 +1623,46 @@
                 qrLogMsg: '',
                 qrSuccessFolio: '',
 
+                // --- ESTADOS DE E-COMMERCE INTELLIGENT ---
+                ecProducts: [
+                    { id: 101, name: 'Martillo Truper 16oz', category: 'Herramientas', desc: 'Martillo de uña curva fabricado en acero de alta resistencia.', price: 245.00, stock: 18, rating: 4.8, userRating: 0 },
+                    { id: 102, name: 'Juego de Llaves Alen', category: 'Herramientas', desc: 'Juego de llaves hexagonales estándar en estuche organizador.', price: 225.00, stock: 12, rating: 4.6, userRating: 0 },
+                    { id: 103, name: 'Pintura Vinílica Blanca 19L', category: 'Pinturas', desc: 'Pintura vinil-acrílica de gran cobertura para interiores y exteriores.', price: 1890.00, stock: 5, rating: 4.9, userRating: 0 },
+                    { id: 104, name: 'Tubo de Cobre 1/2" 3m', category: 'Materiales', desc: 'Tubo de cobre rígido de alta pureza para conducción de agua.', price: 540.00, stock: 45, rating: 4.5, userRating: 0 },
+                    { id: 105, name: 'Caja Pija Tablaroca 1"', category: 'Tornillería', desc: 'Caja de 100 pijas fosfatadas negras para tablaroca.', price: 120.00, stock: 15, rating: 4.2, userRating: 0 },
+                    { id: 106, name: 'Taladro Rotomartillo Dewalt', category: 'Maquinaria', desc: 'Rotomartillo inalámbrico de 20V Max con cargador y maleta.', price: 2450.00, stock: 8, rating: 5.0, userRating: 0 }
+                ],
+                ecCart: [],
+                ecSearch: '',
+                ecCategory: 'Todos',
+                ecSuggestions: [],
+                showPaymentGateway: false,
+                ecCardName: '',
+                ecCardNumber: '',
+                ecCardExpiry: '',
+                ecCardCvv: '',
+                ecPaymentState: 'idle', // 'idle', 'processing', 'success'
+                ecSalesHooksLog: [
+                    '[HOOK] Sistema de E-Commerce inicializado correctamente.',
+                    '[HOOK] Triggers de inventario vinculados con PAC/SAT.'
+                ],
+                ecSearchAnalytics: {
+                    totalSearches: 47,
+                    failedSearches: 2,
+                    popularTerms: [
+                        { term: 'taladro', count: 12 },
+                        { term: 'cobre', count: 8 },
+                        { term: 'pija', count: 6 },
+                        { term: 'martillo', count: 5 }
+                    ]
+                },
+                ecRatings: {
+                    siteRating: 4.8,
+                    inventoryRating: 4.7,
+                    userSiteRating: 0,
+                    userInventoryRating: 0
+                },
+
                 openBillingModal() {
                     this.billingRfc = '';
                     this.billingName = '';
@@ -1464,6 +1836,162 @@
                             { id: 3, title: 'Retornos de Inventario (1)', desc: '2 bultos de cemento devueltos por el cliente en Ruta Poniente por exceso de humedad.', icon: 'ph-arrow-counter-clockwise', badge: 'Ingreso Almacén', badgeColor: 'bg-brandGreen/20 text-brandGreen border-brandGreen/30', action: 'Reingresar Físico' }
                         ];
                     }
+                }
+
+                // --- FUNCIONES DE E-COMMERCE INTELLIGENT ---
+                updateEcSuggestions() {
+                    if (!this.ecSearch.trim()) {
+                        this.ecSuggestions = [];
+                        return;
+                    }
+                    const term = this.ecSearch.toLowerCase();
+                    this.ecSearchAnalytics.totalSearches++;
+                    this.ecSuggestions = this.ecProducts.filter(p => 
+                        p.name.toLowerCase().includes(term) || p.category.toLowerCase().includes(term)
+                    ).slice(0, 4);
+
+                    if (this.ecSuggestions.length === 0) {
+                        this.ecSearchAnalytics.failedSearches++;
+                    }
+
+                    const existingTerm = this.ecSearchAnalytics.popularTerms.find(t => t.term === term);
+                    if (existingTerm) {
+                        existingTerm.count++;
+                    } else if (term.length > 3) {
+                        this.ecSearchAnalytics.popularTerms.unshift({ term: term, count: 1 });
+                        if (this.ecSearchAnalytics.popularTerms.length > 4) {
+                            this.ecSearchAnalytics.popularTerms.pop();
+                        }
+                    }
+                },
+
+                selectEcSuggestion(sug) {
+                    this.ecSearch = sug.name;
+                    this.ecSuggestions = [];
+                },
+
+                trackSearchCategory(cat) {
+                    this.ecSearchAnalytics.totalSearches++;
+                    const existingTerm = this.ecSearchAnalytics.popularTerms.find(t => t.term === cat.toLowerCase());
+                    if (existingTerm) {
+                        existingTerm.count++;
+                    } else {
+                        this.ecSearchAnalytics.popularTerms.unshift({ term: cat.toLowerCase(), count: 1 });
+                    }
+                },
+
+                filteredEcProducts() {
+                    return this.ecProducts.filter(p => {
+                        const matchCat = this.ecCategory === 'Todos' || p.category === this.ecCategory;
+                        const matchSearch = !this.ecSearch.trim() || p.name.toLowerCase().includes(this.ecSearch.toLowerCase()) || p.category.toLowerCase().includes(this.ecSearch.toLowerCase());
+                        return matchCat && matchSearch;
+                    });
+                },
+
+                addToEcCart(prod) {
+                    if (prod.stock <= 0) return;
+                    const existing = this.ecCart.find(item => item.id === prod.id);
+                    if (existing) {
+                        if (existing.qty < prod.stock) {
+                            existing.qty++;
+                            this.ecSalesHooksLog.unshift(`[CARRITO] Incrementado: ${prod.name} x${existing.qty}`);
+                        } else {
+                            alert(`Solo hay ${prod.stock} unidades en stock.`);
+                        }
+                    } else {
+                        this.ecCart.push({ id: prod.id, name: prod.name, price: prod.price, qty: 1, stock: prod.stock });
+                        this.ecSalesHooksLog.unshift(`[CARRITO] Agregado: ${prod.name}`);
+                    }
+                },
+
+                addEcCartItem(item) {
+                    if (item.qty < item.stock) {
+                        item.qty++;
+                        this.ecSalesHooksLog.unshift(`[CARRITO] Incrementado: ${item.name} x${item.qty}`);
+                    } else {
+                        alert(`Solo hay ${item.stock} unidades en stock.`);
+                    }
+                },
+
+                removeEcCartItem(item) {
+                    item.qty--;
+                    if (item.qty <= 0) {
+                        this.ecCart = this.ecCart.filter(i => i.id !== item.id);
+                        this.ecSalesHooksLog.unshift(`[CARRITO] Eliminado: ${item.name}`);
+                    } else {
+                        this.ecSalesHooksLog.unshift(`[CARRITO] Decrementado: ${item.name} x${item.qty}`);
+                    }
+                },
+
+                getEcCartCount() {
+                    return this.ecCart.reduce((sum, item) => sum + item.qty, 0);
+                },
+
+                getEcCartSubtotal() {
+                    return this.ecCart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+                },
+
+                getEcCartTotal() {
+                    return this.getEcCartSubtotal() * 1.16;
+                },
+
+                rateSite(stars) {
+                    this.ecRatings.userSiteRating = stars;
+                    this.ecRatings.siteRating = ((4.8 * 148) + stars) / 149;
+                    this.ecSalesHooksLog.unshift(`[CALIFICACIÓN] Cliente calificó el sitio con ${stars} estrellas.`);
+                },
+
+                rateInventory(stars) {
+                    this.ecRatings.userInventoryRating = stars;
+                    this.ecRatings.inventoryRating = ((4.7 * 92) + stars) / 93;
+                    this.ecSalesHooksLog.unshift(`[CALIFICACIÓN] Cliente calificó inventario con ${stars} estrellas.`);
+                },
+
+                rateProduct(prodId, stars) {
+                    const prod = this.ecProducts.find(p => p.id === prodId);
+                    if (prod) {
+                        prod.userRating = stars;
+                        prod.rating = ((prod.rating * 24) + stars) / 25;
+                        this.ecSalesHooksLog.unshift(`[CALIFICACIÓN] Producto ${prod.name} calificado con ${stars} estrellas.`);
+                    }
+                },
+
+                processEcPayment() {
+                    if (!this.ecCardName || !this.ecCardNumber) {
+                        alert('Completa la información de pago.');
+                        return;
+                    }
+                    this.ecPaymentState = 'processing';
+                    this.ecSalesHooksLog.unshift(`[PASARELA] Solicitud de cobro enviada por $${this.getEcCartTotal().toFixed(2)}`);
+
+                    setTimeout(() => {
+                        this.ecPaymentState = 'success';
+                        
+                        this.ecCart.forEach(item => {
+                            const p = this.ecProducts.find(prod => prod.id === item.id);
+                            if (p) {
+                                p.stock -= item.qty;
+                                this.ecSalesHooksLog.unshift(`[HOOK INVENTARIO] Reducción de Stock: ${p.name} (-${item.qty}) -> Nuevo Stock: ${p.stock}`);
+                            }
+                        });
+
+                        this.ecSalesHooksLog.unshift(`[HOOK SAT/PAC] Factura timbrada automáticamente bajo RFC genérico.`);
+                        this.ecSalesHooksLog.unshift(`[HOOK BANCO] Cobro liquidado. Aprobación AUT-88921B.`);
+                        
+                        const newFolio = 'F-EC-' + Math.floor(Math.random() * 90000 + 10000);
+                        this.invoicesList.unshift({
+                            folio: newFolio,
+                            client: 'Compra Online (' + this.ecCardName.toUpperCase() + ')',
+                            date: 'Hoy',
+                            status: 'Timbrada'
+                        });
+
+                        this.ecCart = [];
+                        this.ecCardName = '';
+                        this.ecCardNumber = '';
+                        this.ecCardExpiry = '';
+                        this.ecCardCvv = '';
+                    }, 2000);
                 }
             }
         }
