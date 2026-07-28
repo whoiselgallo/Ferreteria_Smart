@@ -220,6 +220,13 @@
             </div>
             
             <div class="flex items-center gap-4">
+                <!-- Botón ASK Rua (Ayuda de IA) -->
+                <button @click="ruaModalOpen = true; askRua('inicio')" 
+                        class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-aquaTurquesa/10 hover:bg-aquaTurquesa text-aquaTurquesa hover:text-darkBg border border-aquaTurquesa/20 hover:border-transparent text-xs font-bold transition-all duration-300 cursor-pointer shadow-lg hover:scale-[1.03]">
+                    <i class="ph-bold ph-sparkle text-xs animate-pulse"></i>
+                    <span>ASK Rua (TSOLUTIONS)</span>
+                </button>
+
                 <button @click="chatOpen = !chatOpen" class="relative p-2 text-gray-400 hover:text-white transition-colors cursor-pointer">
                     <i class="ph ph-chat-teardrop-text text-2xl text-aquaTurquesa"></i>
                     <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-aquaTurquesa rounded-full border border-darkBg"></span>
@@ -1184,6 +1191,90 @@
         </div>
     </div>
 
+    <!-- MODAL DE AYUDA DE IA: ASK RUA (TSOLUTIONS) -->
+    <div x-show="ruaModalOpen" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-transparent overflow-y-auto"
+         style="display: none;">
+         
+        <!-- Contenido de la Tarjeta con 85% de Transparencia y Contorno Completamente Transparente -->
+        <div class="relative w-full max-w-xl border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl bg-darkBg/85 backdrop-blur-xl text-left"
+             @click.away="ruaModalOpen = false">
+             
+            <!-- Botón de Cerrar -->
+            <button @click="ruaModalOpen = false" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer">
+                <i class="ph ph-x text-xl"></i>
+            </button>
+
+            <!-- Cabecera de la IA -->
+            <div class="flex items-center gap-3 border-b border-white/5 pb-4 mb-6">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-aquaTurquesa to-soberOrange flex items-center justify-center text-white shadow-md">
+                    <i class="ph-bold ph-robot text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="font-extrabold text-white text-base tracking-wider flex items-center gap-1.5">
+                        <span>Rua</span>
+                        <span class="text-[9px] bg-aquaTurquesa/15 text-aquaTurquesa border border-aquaTurquesa/30 px-2 py-0.5 rounded-full font-bold uppercase">TSOLUTIONS IA</span>
+                    </h3>
+                    <p class="text-[11px] text-gray-400">Asistente Inteligente de Soporte Avanzado</p>
+                </div>
+            </div>
+
+            <!-- Panel de Conversación -->
+            <div class="space-y-4 mb-6">
+                <div class="p-4 bg-white/5 rounded-xl border border-white/5 min-h-[100px] flex flex-col justify-between">
+                    <div class="text-xs text-white leading-relaxed font-mono">
+                        <template x-if="ruaResponseText">
+                            <span x-text="ruaResponseText"></span>
+                        </template>
+                        <template x-if="!ruaResponseText">
+                            <span class="text-gray-400 italic">Haz clic en alguna de las consultas de abajo para que Rua te asista en tiempo real...</span>
+                        </template>
+                        <!-- Indicador de escritura animado -->
+                        <span x-show="ruaTyping" class="inline-block w-1.5 h-3.5 bg-aquaTurquesa ml-1 animate-[pulse_0.8s_infinite]"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sugerencias de Consultas Dinámicas -->
+            <div class="space-y-3">
+                <h4 class="text-[10px] uppercase font-extrabold tracking-widest text-gray-400 mb-2">Preguntas Frecuentes a Rua:</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <button @click="askRua('inventario')" 
+                            :class="ruaActiveQuery === 'inventario' ? 'border-aquaTurquesa bg-aquaTurquesa/10 text-white' : 'border-white/5 bg-white/5 text-gray-300'"
+                            class="p-3 text-left rounded-xl border text-xs font-semibold hover:border-aquaTurquesa/50 hover:bg-white/5 transition-all cursor-pointer flex flex-col justify-between gap-1.5">
+                        <span>📦 ¿Cómo automatiza Ferrebot mi inventario?</span>
+                        <span class="text-[9px] text-aquaTurquesa uppercase tracking-wider">Ver respuesta →</span>
+                    </button>
+                    <button @click="askRua('compras')" 
+                            :class="ruaActiveQuery === 'compras' ? 'border-aquaTurquesa bg-aquaTurquesa/10 text-white' : 'border-white/5 bg-white/5 text-gray-300'"
+                            class="p-3 text-left rounded-xl border text-xs font-semibold hover:border-aquaTurquesa/50 hover:bg-white/5 transition-all cursor-pointer flex flex-col justify-between gap-1.5">
+                        <span>⚖️ ¿Cómo funciona el Cotejo 3-Way de Compras?</span>
+                        <span class="text-[9px] text-aquaTurquesa uppercase tracking-wider">Ver respuesta →</span>
+                    </button>
+                    <button @click="askRua('sat')" 
+                            :class="ruaActiveQuery === 'sat' ? 'border-aquaTurquesa bg-aquaTurquesa/10 text-white' : 'border-white/5 bg-white/5 text-gray-300'"
+                            class="p-3 text-left rounded-xl border text-xs font-semibold hover:border-aquaTurquesa/50 hover:bg-white/5 transition-all cursor-pointer flex flex-col justify-between gap-1.5">
+                        <span>📑 ¿Cómo se valida la Facturación con el SAT?</span>
+                        <span class="text-[9px] text-aquaTurquesa uppercase tracking-wider">Ver respuesta →</span>
+                    </button>
+                    <button @click="askRua('tecnologias')" 
+                            :class="ruaActiveQuery === 'tecnologias' ? 'border-aquaTurquesa bg-aquaTurquesa/10 text-white' : 'border-white/5 bg-white/5 text-gray-300'"
+                            class="p-3 text-left rounded-xl border text-xs font-semibold hover:border-aquaTurquesa/50 hover:bg-white/5 transition-all cursor-pointer flex flex-col justify-between gap-1.5">
+                        <span>💻 ¿Qué tecnologías utiliza este demo?</span>
+                        <span class="text-[9px] text-aquaTurquesa uppercase tracking-wider">Ver respuesta →</span>
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
     <!-- MODAL DE SEGUIMIENTO (MAGNETIC CARDS DETAILS SYSTEM) -->
     <div x-show="detailsModalOpen" 
          x-transition:enter="transition ease-out duration-300"
@@ -1619,6 +1710,12 @@
                     userInventoryRating: 0
                 },
 
+                // --- ESTADOS DE RUA IA (TSOLUTIONS) ---
+                ruaModalOpen: false,
+                ruaActiveQuery: '',
+                ruaResponseText: '',
+                ruaTyping: false,
+
                 openBillingModal() {
                     this.billingRfc = '';
                     this.billingName = '';
@@ -1948,6 +2045,31 @@
                         this.ecCardExpiry = '';
                         this.ecCardCvv = '';
                     }, 2000);
+                },
+
+                askRua(queryKey) {
+                    this.ruaActiveQuery = queryKey;
+                    this.ruaTyping = true;
+                    this.ruaResponseText = '';
+
+                    const responses = {
+                        inventario: 'Rua: Ferrebot automatiza tu inventario cruzando fotos tomadas con WhatsApp, el POS físico y las facturas XML recibidas del SAT. Calcula automáticamente el Punto de Reorden y genera sugerencias de compra para que nunca te quedes sin stock.',
+                        compras: 'Rua: El Cotejo 3-Way analiza en 1 segundo que los artículos físicos recibidos en el almacén coincidan exactamente con la Factura XML del SAT y tu Orden de Compra original. Cualquier descuadre genera una alerta de discrepancia instantánea.',
+                        sat: 'Rua: Al realizar una venta, Ferrebot valida el RFC del cliente en la lista oficial del SAT en tiempo real, asigna el uso de CFDI 4.0 adecuado, y genera el timbrado fiscal de forma transparente sin intervención del cajero.',
+                        tecnologias: 'Rua: Este entorno interactivo de Ferretería Smart está optimizado con componentes modulares en Alpine.js, Tailwind CSS premium para la fidelidad visual, e integración simulada con servicios API del SAT y pasarelas de pago 3D Secure.'
+                    };
+
+                    const text = responses[queryKey] || 'Rua: Hola, soy el asistente inteligente de TSOLUTIONS. ¿En qué módulo o automatización puedo ayudarte hoy?';
+                    
+                    let i = 0;
+                    const interval = setInterval(() => {
+                        this.ruaResponseText += text.charAt(i);
+                        i++;
+                        if (i >= text.length) {
+                            clearInterval(interval);
+                            this.ruaTyping = false;
+                        }
+                    }, 12);
                 }
             }
         }
