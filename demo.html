@@ -1225,50 +1225,86 @@
                 </div>
             </div>
 
-            <!-- Panel de Conversación -->
-            <div class="space-y-4 mb-6">
-                <div class="p-4 bg-white/5 rounded-xl border border-white/5 min-h-[100px] flex flex-col justify-between">
-                    <div class="text-xs text-white leading-relaxed font-mono">
-                        <template x-if="ruaResponseText">
-                            <span x-text="ruaResponseText"></span>
-                        </template>
-                        <template x-if="!ruaResponseText">
-                            <span class="text-gray-400 italic">Haz clic en alguna de las consultas de abajo para que Rua te asista en tiempo real...</span>
-                        </template>
-                        <!-- Indicador de escritura animado -->
-                        <span x-show="ruaTyping" class="inline-block w-1.5 h-3.5 bg-aquaTurquesa ml-1 animate-[pulse_0.8s_infinite]"></span>
-                    </div>
+            <!-- Panel de Conversación (Chat Log) -->
+            <div class="space-y-4 mb-4">
+                <div id="ruaChatPanel" class="p-4 bg-white/5 rounded-2xl border border-white/5 h-48 overflow-y-auto custom-scrollbar space-y-3 flex flex-col">
+                    <template x-for="(msg, idx) in ruaChatLog" :key="idx">
+                        <div :class="msg.sender === 'user' ? 'self-end bg-aquaTurquesa/15 text-aquaTurquesa border border-aquaTurquesa/20 rounded-2xl rounded-tr-none' : 'self-start bg-white/5 text-gray-200 border border-white/5 rounded-2xl rounded-tl-none'"
+                             class="max-w-[85%] p-3 text-[11px] leading-relaxed font-mono whitespace-pre-line">
+                            <div class="flex items-center gap-1.5 mb-1 text-[9px] uppercase tracking-wider text-gray-400 font-sans font-bold">
+                                <i :class="msg.sender === 'user' ? 'ph ph-user' : 'ph ph-robot'"></i>
+                                <span x-text="msg.sender === 'user' ? 'Usuario' : 'Rua'"></span>
+                            </div>
+                            <span x-text="msg.text"></span>
+                            <!-- Cursor parpadeante si está escribiendo -->
+                            <span x-show="msg.typing" class="inline-block w-1 h-3 bg-aquaTurquesa ml-0.5 animate-pulse"></span>
+                        </div>
+                    </template>
                 </div>
             </div>
 
+            <!-- Entrada de Consulta Manual -->
+            <div class="flex gap-2 mb-6">
+                <input type="text" 
+                       placeholder="Haz una pregunta o consulta manual a Rua..." 
+                       x-model="ruaManualQuery" 
+                       @keydown.enter="submitRuaManualQuery()"
+                       class="flex-1 bg-negroProfundo border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-aquaTurquesa transition-all">
+                <button @click="submitRuaManualQuery()" 
+                        class="px-4 py-2.5 bg-aquaTurquesa hover:bg-white text-darkBg font-bold rounded-xl text-xs transition-all cursor-pointer flex items-center justify-center">
+                    <i class="ph-bold ph-paper-plane-right text-sm"></i>
+                </button>
+            </div>
+
             <!-- Sugerencias de Consultas Dinámicas -->
-            <div class="space-y-3">
-                <h4 class="text-[10px] uppercase font-extrabold tracking-widest text-gray-400 mb-2">Preguntas Frecuentes a Rua:</h4>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <button @click="askRua('inventario')" 
-                            :class="ruaActiveQuery === 'inventario' ? 'border-aquaTurquesa bg-aquaTurquesa/10 text-white' : 'border-white/5 bg-white/5 text-gray-300'"
-                            class="p-3 text-left rounded-xl border text-xs font-semibold hover:border-aquaTurquesa/50 hover:bg-white/5 transition-all cursor-pointer flex flex-col justify-between gap-1.5">
-                        <span>📦 ¿Cómo automatiza Ferrebot mi inventario?</span>
-                        <span class="text-[9px] text-aquaTurquesa uppercase tracking-wider">Ver respuesta →</span>
-                    </button>
-                    <button @click="askRua('compras')" 
-                            :class="ruaActiveQuery === 'compras' ? 'border-aquaTurquesa bg-aquaTurquesa/10 text-white' : 'border-white/5 bg-white/5 text-gray-300'"
-                            class="p-3 text-left rounded-xl border text-xs font-semibold hover:border-aquaTurquesa/50 hover:bg-white/5 transition-all cursor-pointer flex flex-col justify-between gap-1.5">
-                        <span>⚖️ ¿Cómo funciona el Cotejo 3-Way de Compras?</span>
-                        <span class="text-[9px] text-aquaTurquesa uppercase tracking-wider">Ver respuesta →</span>
-                    </button>
-                    <button @click="askRua('sat')" 
-                            :class="ruaActiveQuery === 'sat' ? 'border-aquaTurquesa bg-aquaTurquesa/10 text-white' : 'border-white/5 bg-white/5 text-gray-300'"
-                            class="p-3 text-left rounded-xl border text-xs font-semibold hover:border-aquaTurquesa/50 hover:bg-white/5 transition-all cursor-pointer flex flex-col justify-between gap-1.5">
-                        <span>📑 ¿Cómo se valida la Facturación con el SAT?</span>
-                        <span class="text-[9px] text-aquaTurquesa uppercase tracking-wider">Ver respuesta →</span>
-                    </button>
-                    <button @click="askRua('tecnologias')" 
-                            :class="ruaActiveQuery === 'tecnologias' ? 'border-aquaTurquesa bg-aquaTurquesa/10 text-white' : 'border-white/5 bg-white/5 text-gray-300'"
-                            class="p-3 text-left rounded-xl border text-xs font-semibold hover:border-aquaTurquesa/50 hover:bg-white/5 transition-all cursor-pointer flex flex-col justify-between gap-1.5">
-                        <span>💻 ¿Qué tecnologías utiliza este demo?</span>
-                        <span class="text-[9px] text-aquaTurquesa uppercase tracking-wider">Ver respuesta →</span>
-                    </button>
+            <div class="space-y-4">
+                <div class="border-t border-white/5 pt-4">
+                    <h4 class="text-[10px] uppercase font-extrabold tracking-widest text-gray-400 mb-2">Preguntas Frecuentes:</h4>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button @click="askRua('inventario', '📦 ¿Cómo funciona la automatización de inventarios?')" 
+                                class="p-2 text-left rounded-lg bg-white/5 border border-white/5 text-[10px] text-gray-300 hover:border-aquaTurquesa/40 hover:bg-white/10 transition-all cursor-pointer">
+                            📦 Inventarios
+                        </button>
+                        <button @click="askRua('compras', '⚖️ ¿Qué es el Cotejo de 3 Vías?')" 
+                                class="p-2 text-left rounded-lg bg-white/5 border border-white/5 text-[10px] text-gray-300 hover:border-aquaTurquesa/40 hover:bg-white/10 transition-all cursor-pointer">
+                            ⚖️ Cotejo 3-Way
+                        </button>
+                        <button @click="askRua('sat', '📑 ¿Cómo se timbra en tiempo real?')" 
+                                class="p-2 text-left rounded-lg bg-white/5 border border-white/5 text-[10px] text-gray-300 hover:border-aquaTurquesa/40 hover:bg-white/10 transition-all cursor-pointer">
+                            📑 Validación SAT
+                        </button>
+                        <button @click="askRua('tecnologias', '💻 ¿Cuál es la arquitectura técnica?')" 
+                                class="p-2 text-left rounded-lg bg-white/5 border border-white/5 text-[10px] text-gray-300 hover:border-aquaTurquesa/40 hover:bg-white/10 transition-all cursor-pointer">
+                            💻 Arquitectura
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Activador de Reportes de Cada Módulo -->
+                <div class="border-t border-white/5 pt-4">
+                    <h4 class="text-[10px] uppercase font-extrabold tracking-widest text-soberOrangeLight mb-2">Generación de Reportes de Módulo (PDF/Auditoría):</h4>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button @click="generateRuaReport('Inventario')" 
+                                class="px-2.5 py-1.5 rounded-lg bg-soberOrange/10 border border-soberOrange/20 hover:border-soberOrange hover:bg-soberOrange/20 text-soberOrangeLight text-[9px] font-bold uppercase transition-all cursor-pointer">
+                            📦 Inv.
+                        </button>
+                        <button @click="generateRuaReport('Ventas POS')" 
+                                class="px-2.5 py-1.5 rounded-lg bg-soberOrange/10 border border-soberOrange/20 hover:border-soberOrange hover:bg-soberOrange/20 text-soberOrangeLight text-[9px] font-bold uppercase transition-all cursor-pointer">
+                            💰 POS
+                        </button>
+                        <button @click="generateRuaReport('Auditoría Compras')" 
+                                class="px-2.5 py-1.5 rounded-lg bg-soberOrange/10 border border-soberOrange/20 hover:border-soberOrange hover:bg-soberOrange/20 text-soberOrangeLight text-[9px] font-bold uppercase transition-all cursor-pointer">
+                            ⚖️ Compras
+                        </button>
+                        <button @click="generateRuaReport('Logística')" 
+                                class="px-2.5 py-1.5 rounded-lg bg-soberOrange/10 border border-soberOrange/20 hover:border-soberOrange hover:bg-soberOrange/20 text-soberOrangeLight text-[9px] font-bold uppercase transition-all cursor-pointer">
+                            🚚 Rutas
+                        </button>
+                        <button @click="generateRuaReport('E-Commerce')" 
+                                class="px-2.5 py-1.5 rounded-lg bg-soberOrange/10 border border-soberOrange/20 hover:border-soberOrange hover:bg-soberOrange/20 text-soberOrangeLight text-[9px] font-bold uppercase transition-all cursor-pointer">
+                            🛒 E-Com
+                        </button>
+                    </div>
                 </div>
             </div>
             
@@ -1715,6 +1751,10 @@
                 ruaActiveQuery: '',
                 ruaResponseText: '',
                 ruaTyping: false,
+                ruaManualQuery: '',
+                ruaChatLog: [
+                    { sender: 'rua', text: 'Hola, soy Rua, tu asistente inteligente de TSOLUTIONS. ¿En qué módulo, consulta o reporte de automatización te puedo apoyar hoy?' }
+                ],
 
                 openBillingModal() {
                     this.billingRfc = '';
@@ -2047,29 +2087,146 @@
                     }, 2000);
                 },
 
-                askRua(queryKey) {
+                askRua(queryKey, label = '') {
                     this.ruaActiveQuery = queryKey;
+                    
+                    // Si se provee un label de pregunta de usuario, lo registramos en el chat log
+                    if (label) {
+                        this.ruaChatLog.push({ sender: 'user', text: label });
+                    }
+                    
                     this.ruaTyping = true;
-                    this.ruaResponseText = '';
+                    const logIndex = this.ruaChatLog.push({ sender: 'rua', text: '', typing: true }) - 1;
 
                     const responses = {
-                        inventario: 'Rua: Ferrebot automatiza tu inventario cruzando fotos tomadas con WhatsApp, el POS físico y las facturas XML recibidas del SAT. Calcula automáticamente el Punto de Reorden y genera sugerencias de compra para que nunca te quedes sin stock.',
-                        compras: 'Rua: El Cotejo 3-Way analiza en 1 segundo que los artículos físicos recibidos en el almacén coincidan exactamente con la Factura XML del SAT y tu Orden de Compra original. Cualquier descuadre genera una alerta de discrepancia instantánea.',
-                        sat: 'Rua: Al realizar una venta, Ferrebot valida el RFC del cliente en la lista oficial del SAT en tiempo real, asigna el uso de CFDI 4.0 adecuado, y genera el timbrado fiscal de forma transparente sin intervención del cajero.',
-                        tecnologias: 'Rua: Este entorno interactivo de Ferretería Smart está optimizado con componentes modulares en Alpine.js, Tailwind CSS premium para la fidelidad visual, e integración simulada con servicios API del SAT y pasarelas de pago 3D Secure.'
+                        inicio: 'Hola, soy Rua, tu asistente inteligente de TSOLUTIONS. ¿En qué módulo, consulta o reporte de automatización te puedo apoyar hoy?',
+                        inventario: 'Ferrebot automatiza tu inventario cruzando fotos tomadas con WhatsApp, el POS físico y las facturas XML recibidas del SAT. Calcula automáticamente el Punto de Reorden y genera sugerencias de compra para que nunca te quedes sin stock.',
+                        compras: 'El Cotejo 3-Way analiza en 1 segundo que los artículos físicos recibidos en el almacén coincidan exactamente con la Factura XML del SAT y tu Orden de Compra original. Cualquier descuadre genera una alerta de discrepancia instantánea.',
+                        sat: 'Al realizar una venta, Ferrebot valida el RFC del cliente en la lista oficial del SAT en tiempo real, asigna el uso de CFDI 4.0 adecuado, y genera el timbrado fiscal de forma transparente sin intervención del cajero.',
+                        tecnologias: 'Este entorno interactivo de Ferretería Smart está optimizado con componentes modulares en Alpine.js, Tailwind CSS premium para la fidelidad visual, e integración simulada con servicios API del SAT y pasarelas de pago 3D Secure.'
                     };
 
-                    const text = responses[queryKey] || 'Rua: Hola, soy el asistente inteligente de TSOLUTIONS. ¿En qué módulo o automatización puedo ayudarte hoy?';
+                    const text = responses[queryKey] || 'Hola, soy el asistente inteligente de TSOLUTIONS. ¿En qué módulo o automatización puedo ayudarte hoy?';
                     
                     let i = 0;
                     const interval = setInterval(() => {
-                        this.ruaResponseText += text.charAt(i);
+                        this.ruaChatLog[logIndex].text += text.charAt(i);
                         i++;
                         if (i >= text.length) {
                             clearInterval(interval);
+                            this.ruaChatLog[logIndex].typing = false;
                             this.ruaTyping = false;
+                            
+                            // Hacer scroll automático al final del panel de chat
+                            setTimeout(() => {
+                                const el = document.getElementById('ruaChatPanel');
+                                if (el) el.scrollTop = el.scrollHeight;
+                            }, 50);
                         }
-                    }, 12);
+                    }, 8);
+                },
+
+                submitRuaManualQuery() {
+                    const query = this.ruaManualQuery.trim();
+                    if (!query) return;
+
+                    // Agregar pregunta del usuario
+                    this.ruaChatLog.push({ sender: 'user', text: query });
+                    this.ruaManualQuery = '';
+                    
+                    // Hacer scroll automático
+                    setTimeout(() => {
+                        const el = document.getElementById('ruaChatPanel');
+                        if (el) el.scrollTop = el.scrollHeight;
+                    }, 50);
+
+                    this.ruaTyping = true;
+                    const logIndex = this.ruaChatLog.push({ sender: 'rua', text: '', typing: true }) - 1;
+
+                    // Procesamiento básico de palabras clave (NLP heurístico)
+                    const lowerQuery = query.toLowerCase();
+                    let responseText = '';
+
+                    if (lowerQuery.includes('reporte') || lowerQuery.includes('genera') || lowerQuery.includes('descarga')) {
+                        if (lowerQuery.includes('inventario') || lowerQuery.includes('stock')) {
+                            responseText = 'Procesando solicitud de Reporte de Inventario... [REPORTE GENERADO]\n- Valor en Almacén: $325,480.00 MXN\n- Categorías: 6 activas\n- Alerta: 2 artículos por debajo del punto de reorden.';
+                        } else if (lowerQuery.includes('venta') || lowerQuery.includes('pos') || lowerQuery.includes('cobro')) {
+                            responseText = 'Procesando solicitud de Reporte de Ventas... [REPORTE GENERADO]\n- Ventas hoy: $124,580.00 MXN (147 transacciones)\n- Canal principal: POS Mostrador (84%)\n- Estatus de caja: Cuadrada.';
+                        } else if (lowerQuery.includes('compra') || lowerQuery.includes('cotejo') || lowerQuery.includes('3-way')) {
+                            responseText = 'Procesando solicitud de Auditoría de Compras... [REPORTE GENERADO]\n- Facturas validadas hoy: 8 XMLs\n- Coincidencia perfecta (Match): 98.4%\n- Discrepancias: 1 resuelta automáticamente.';
+                        } else if (lowerQuery.includes('logistica') || lowerQuery.includes('ruta') || lowerQuery.includes('despacho')) {
+                            responseText = 'Procesando solicitud de Bitácora Logística... [REPORTE GENERADO]\n- Entregas programadas: 6\n- Estatus: 2 completadas, 3 en ruta, 1 pendiente (Ruta Sur).\n- Eficiencia de entrega: 94.2%.';
+                        } else if (lowerQuery.includes('ecommerce') || lowerQuery.includes('tienda') || lowerQuery.includes('carrito')) {
+                            responseText = 'Procesando solicitud de Métricas E-Commerce... [REPORTE GENERADO]\n- Visitas hoy: 1,482 usuarios\n- Conversión: 39 pedidos liquidados vía 3D Secure\n- Calificación media: 4.8 / 5.0 ⭐';
+                        } else {
+                            responseText = 'Entendido. Por favor selecciona uno de los reportes rápidos que deseas generar utilizando la sección de "Generación de Reportes Rápidos" o escribe el nombre específico del módulo.';
+                        }
+                    } else if (lowerQuery.includes('soporte') || lowerQuery.includes('contacto') || lowerQuery.includes('telefono') || lowerQuery.includes('correo') || lowerQuery.includes('asesor') || lowerQuery.includes('humano')) {
+                        responseText = 'Para soporte técnico o atención personalizada de TSOLUTIONS IPIDD, puedes contactar al Ing. Javier Gallardo al teléfono 6865261453 o escribir a javier.gallardo@tsolutionsipidd.com. ¡Estamos para servirte!';
+                    } else if (lowerQuery.includes('devolucion') || lowerQuery.includes('garantia') || lowerQuery.includes('cambio')) {
+                        responseText = 'Políticas Generales de TSOLUTIONS:\n- Herramientas y maquinaria cuentan con 1 año de garantía directo del fabricante.\n- Cambios y devoluciones físicas se aceptan dentro de los primeros 30 días con ticket/factura original.';
+                    } else if (lowerQuery.includes('horario') || lowerQuery.includes('sucursal') || lowerQuery.includes('donde') || lowerQuery.includes('direccion')) {
+                        responseText = 'Nuestros horarios de atención:\n- Lunes a Sábado: 7:00 AM - 7:00 PM\n- Domingo: 8:00 AM - 3:00 PM\n- E-Commerce: Disponible 24/7 con soporte automatizado.';
+                    } else if (lowerQuery.includes('sat') || lowerQuery.includes('rfc') || lowerQuery.includes('factura')) {
+                        responseText = 'Ferrebot valida RFCs con el listado oficial del SAT en milisegundos, pre-capturando régimen fiscal y código postal para auto-facturación sin errores.';
+                    } else {
+                        responseText = 'He registrado tu consulta. Para atención a clientes especializada y soporte directo sobre la plataforma TSOLUTIONS, comunícate al 6865261453. ¿Deseas que simule la generación de un reporte de operaciones?';
+                    }
+
+                    let i = 0;
+                    const interval = setInterval(() => {
+                        this.ruaChatLog[logIndex].text += responseText.charAt(i);
+                        i++;
+                        if (i >= responseText.length) {
+                            clearInterval(interval);
+                            this.ruaChatLog[logIndex].typing = false;
+                            this.ruaTyping = false;
+                            
+                            setTimeout(() => {
+                                const el = document.getElementById('ruaChatPanel');
+                                if (el) el.scrollTop = el.scrollHeight;
+                            }, 50);
+                        }
+                    }, 8);
+                },
+
+                generateRuaReport(moduleName) {
+                    this.ruaChatLog.push({ sender: 'user', text: `Generar Reporte de: ${moduleName}` });
+                    
+                    this.ruaTyping = true;
+                    const logIndex = this.ruaChatLog.push({ sender: 'rua', text: '', typing: true }) - 1;
+
+                    let responseText = '';
+                    if (moduleName === 'Inventario') {
+                        responseText = 'Rua: [REPORTE OPERATIVO - INVENTARIO]\n- Valor Total en Almacén: $325,480.00 MXN\n- Items Activos: 1,842 sku\n- Rotación Mensual: 14.2%\n- Estatus: Alerta de stock bajo en Tuercas 1/2".';
+                    } else if (moduleName === 'Ventas POS') {
+                        responseText = 'Rua: [REPORTE OPERATIVO - VENTAS POS]\n- Ingresos Hoy: $124,580.00 MXN\n- Tickets Liquidados: 147\n- Descuentos Aplicados: 1.2%\n- Estatus: Arqueo de caja completado y validado.';
+                    } else if (moduleName === 'Auditoría Compras') {
+                        responseText = 'Rua: [AUDITORÍA DE COMPRAS 3-WAY MATCH]\n- Facturas de proveedores auditadas hoy: 8\n- Coincidencia perfecta: 98.4%\n- Errores de cobro prevenidos hoy por IA: $2,400.00 MXN.';
+                    } else if (moduleName === 'Logística') {
+                        responseText = 'Rua: [BITÁCORA OPERATIVA DE RUTAS]\n- Entregas programadas: 6 repartos\n- Estatus: 2 entregadas, 3 en tránsito, 1 pendiente (Sur).\n- Tiempo de atención: 42 min promedio.';
+                    } else if (moduleName === 'E-Commerce') {
+                        responseText = 'Rua: [ANALÍTICAS TIENDA DIGITAL]\n- Visitas hoy: 1,482 usuarios únicos\n- Conversiones vía Pasarela 3D Secure: 39 compras liquidadas\n- Satisfacción: 4.8 / 5.0 ⭐';
+                    }
+
+                    let i = 0;
+                    const interval = setInterval(() => {
+                        this.ruaChatLog[logIndex].text += responseText.charAt(i);
+                        i++;
+                        if (i >= responseText.length) {
+                            clearInterval(interval);
+                            this.ruaChatLog[logIndex].typing = false;
+                            this.ruaTyping = false;
+                            
+                            // Generar alerta en consola/hooks
+                            this.ecSalesHooksLog.unshift(`[Rua IA] Reporte de ${moduleName} generado y exportado a auditoría.`);
+                            
+                            setTimeout(() => {
+                                const el = document.getElementById('ruaChatPanel');
+                                if (el) el.scrollTop = el.scrollHeight;
+                            }, 50);
+                        }
+                    }, 8);
                 }
             }
         }
