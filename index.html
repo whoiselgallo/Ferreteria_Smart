@@ -272,6 +272,23 @@
             background-color: var(--color-naranjaEnergy);
             box-shadow: 0 0 12px var(--color-naranjaEnergy);
         }
+
+        /* Estilos de animación de entrada (Intro Loader) */
+        .intro-hidden-el {
+            opacity: 0 !important;
+            transform: translateY(30px);
+            transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .intro-hidden-header {
+            opacity: 0 !important;
+            transform: translateY(-30px);
+            transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        
+        .intro-visible-el {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
     </style>
 
     <script>
@@ -298,6 +315,20 @@
 
 <body class="antialiased relative min-h-screen flex flex-col" x-data="agendaApp()">
 
+    <!-- INTRO ENTRY LOADER: PANTALLA NEGRA Y LOGO NACIENTE -->
+    <div id="intro-loader" class="fixed inset-0 bg-[#04040a] z-[99999] flex items-center justify-center overflow-hidden transition-all duration-[1200ms] ease-out pointer-events-auto">
+        <!-- Destello (Flash Overlay) -->
+        <div id="intro-flash" class="absolute inset-0 bg-white opacity-0 pointer-events-none z-[100000] transition-opacity duration-300"></div>
+        
+        <!-- Logo en el centro -->
+        <div id="intro-logo-container" class="relative z-[99999] scale-0 opacity-0 transition-all duration-[1500ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] flex items-center justify-center">
+            <svg id="intro-logo-svg" viewBox="0 0 100 100" class="w-36 h-36 md:w-48 md:h-48 text-white">
+                <polygon points="50,5 90,28 90,72 50,95 10,72 10,28" fill="none" stroke="currentColor" stroke-width="5" />
+                <polygon points="50,20 80,70 20,70" fill="none" stroke="currentColor" stroke-width="5" />
+            </svg>
+        </div>
+    </div>
+
     <!-- Cursor 3D Personalizado (Hexágono giratorio + Punto de luz brillante) -->
     <div id="custom-3d-cursor">
         <div class="cursor-center-dot"></div>
@@ -311,7 +342,7 @@
     <div class="fixed inset-0 bg-gradient-to-b from-negroProfundo/50 via-negroProfundo to-negroProfundo -z-10"></div>
 
     <!-- Header -->
-    <header class="fixed top-0 w-full z-50 glass-panel border-b border-white/5">
+    <header class="fixed top-0 w-full z-50 glass-panel border-b border-white/5 intro-hidden-header">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <a href="#inicio" class="flex items-center gap-3">
                 <!-- TSolutions Logo Hexagon + Triangle -->
@@ -376,7 +407,7 @@
             class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center relative z-10">
 
             <!-- Columna Izquierda: Mensaje y CTA Buttons -->
-            <div class="lg:col-span-5 text-left space-y-6">
+            <div class="lg:col-span-5 text-left space-y-6 intro-hidden-el">
                 <!-- Badge de Autoridad -->
                 <div
                     class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-naranjaEnergy/10 border border-naranjaEnergy/30 text-naranjaEnergy text-xs font-bold uppercase tracking-widest shadow-[0_0_15px_rgba(249,115,22,0.2)]">
@@ -408,11 +439,11 @@
 
             <!-- Columna Central: Logotipo TSolutions Interactivo -->
             <div class="lg:col-span-4 flex justify-center items-center py-4">
-                <div
-                    class="w-64 h-64 lg:w-72 lg:h-72 rounded-full logo-interactive-container flex items-center justify-center shadow-2xl border border-white/5 group">
+                <div id="hero-logo-target-wrapper"
+                    class="w-64 h-64 lg:w-72 lg:h-72 rounded-full logo-interactive-container flex items-center justify-center shadow-2xl border border-white/5 group opacity-0 transition-opacity duration-700">
 
                     <!-- Logotipo TSolutions central -->
-                    <div class="relative z-10 w-36 h-36 lg:w-40 lg:h-40 flex items-center justify-center">
+                    <div id="hero-logo-target" class="relative z-10 w-36 h-36 lg:w-40 lg:h-40 flex items-center justify-center">
                         <svg viewBox="0 0 100 100"
                             class="w-28 h-28 lg:w-32 lg:h-32 text-white filter drop-shadow-[0_0_15px_rgba(255,255,255,0.85)] group-hover:text-naranjaEnergy group-hover:drop-shadow-[0_0_22px_rgba(249,115,22,0.95)] transition-all duration-500">
                             <polygon points="50,5 90,28 90,72 50,95 10,72 10,28" fill="none" stroke="currentColor"
@@ -424,7 +455,7 @@
             </div>
 
             <!-- Columna Derecha: Texto descriptivo renovado -->
-            <div class="lg:col-span-3 text-left lg:text-right space-y-4 lg:border-l border-white/10 lg:pl-6 py-1">
+            <div class="lg:col-span-3 text-left lg:text-right space-y-4 lg:border-l border-white/10 lg:pl-6 py-1 intro-hidden-el">
                 <div class="space-y-0.5 group/item">
                     <p class="text-[10px] text-gray-500 uppercase tracking-widest font-extrabold">Operación</p>
                     <p
@@ -454,7 +485,7 @@
         </div>
 
         <!-- Fila de Marcas del Pie del Hero (como en la referencia) -->
-        <div class="max-w-7xl mx-auto w-full pt-8 border-t border-white/10 mt-8 lg:mt-10 text-center">
+        <div class="max-w-7xl mx-auto w-full pt-8 border-t border-white/10 mt-8 lg:mt-10 text-center intro-hidden-el">
             <p class="text-[9px] text-gray-500 uppercase tracking-widest font-semibold mb-3">Integraciones & Estándares
                 Compatibles</p>
             <div
@@ -1295,6 +1326,91 @@
         document.addEventListener('mouseenter', () => {
             const cursorEl = document.getElementById('custom-3d-cursor');
             if (cursorEl) cursorEl.style.opacity = '1';
+        });
+
+        // Lógica de la animación de entrada (Loader a Hero)
+        window.addEventListener('DOMContentLoaded', () => {
+            // Desactivar scroll
+            document.body.style.overflow = 'hidden';
+
+            const introLoader = document.getElementById('intro-loader');
+            const introLogoContainer = document.getElementById('intro-logo-container');
+            const introLogoSvg = document.getElementById('intro-logo-svg');
+            const introFlash = document.getElementById('intro-flash');
+            
+            const heroLogoTarget = document.getElementById('hero-logo-target');
+            const heroLogoTargetWrapper = document.getElementById('hero-logo-target-wrapper');
+            const hiddenEls = document.querySelectorAll('.intro-hidden-el');
+            const hiddenHeader = document.querySelector('.intro-hidden-header');
+
+            // 1. Nace el logo desde el centro en blanco brillante
+            setTimeout(() => {
+                if (introLogoContainer) {
+                    introLogoContainer.style.transform = 'scale(1)';
+                    introLogoContainer.style.opacity = '1';
+                }
+            }, 100);
+
+            // 2. Destello (Flash) y movimiento del logo a su posición final
+            setTimeout(() => {
+                // Activar destello (flash)
+                if (introFlash) {
+                    introFlash.style.opacity = '1';
+                }
+
+                // Mostrar el resto del hero y header
+                hiddenEls.forEach(el => el.classList.add('intro-visible-el'));
+                if (hiddenHeader) {
+                    hiddenHeader.classList.add('intro-visible-el');
+                }
+
+                if (introLogoSvg && heroLogoTarget) {
+                    // Calcular posiciones para el FLIP del logo
+                    const firstRect = introLogoSvg.getBoundingClientRect();
+                    const lastRect = heroLogoTarget.getBoundingClientRect();
+
+                    const deltaX = (lastRect.left + lastRect.width/2) - (firstRect.left + firstRect.width/2);
+                    const deltaY = (lastRect.top + lastRect.height/2) - (firstRect.top + firstRect.height/2);
+                    const deltaScale = lastRect.width / firstRect.width;
+
+                    // Animar el logo del intro hacia su posición en el Hero
+                    introLogoSvg.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${deltaScale})`;
+                    introLogoSvg.style.filter = 'drop-shadow(0 0 15px rgba(249, 115, 22, 0.85))';
+                    introLogoSvg.style.color = '#F97316'; // color naranjaEnergy
+                }
+
+                // Desvanecer el fondo negro para revelar la landing
+                if (introLoader) {
+                    introLoader.style.backgroundColor = 'transparent';
+                    introLoader.style.pointerEvents = 'none';
+                }
+
+                // Reducir la intensidad del destello
+                setTimeout(() => {
+                    if (introFlash) {
+                        introFlash.style.opacity = '0';
+                    }
+                }, 300);
+
+            }, 2000); // 2 segundos después del nacimiento
+
+            // 3. Ocultar el logo del loader y revelar el del Hero original
+            setTimeout(() => {
+                if (heroLogoTargetWrapper) {
+                    heroLogoTargetWrapper.style.opacity = '1';
+                }
+                if (introLogoContainer) {
+                    introLogoContainer.style.opacity = '0';
+                }
+                
+                // Limpieza total del loader
+                setTimeout(() => {
+                    if (introLoader) {
+                        introLoader.remove();
+                    }
+                    document.body.style.overflow = '';
+                }, 1000);
+            }, 3200); // 1.2 segundos después del inicio del movimiento (1200ms de transición)
         });
     </script>
 </body>
