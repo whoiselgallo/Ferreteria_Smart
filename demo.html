@@ -528,6 +528,34 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Tarjeta de Cobro Libre / Terminal Virtual -->
+                <div class="glass-panel p-6 rounded-2xl border border-white/5 flex flex-col gap-4 mt-2">
+                    <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                        <i class="ph-bold ph-currency-dollar text-soberOrangeLight text-lg"></i> Cobro Libre (Cualquier Monto)
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+                        <div class="space-y-2 md:col-span-1">
+                            <label class="text-[10px] text-gray-400 uppercase tracking-widest font-semibold block">Monto a Cobrar (MXN)</label>
+                            <input type="number" x-model="cobroLibreAmount" placeholder="0.00" class="w-full bg-negroProfundo border border-white/10 rounded-xl px-4 py-3 text-lg font-bold text-white placeholder-gray-500 focus:outline-none focus:border-soberOrangeLight transition-all">
+                        </div>
+                        <div class="space-y-2 md:col-span-2">
+                            <label class="text-[10px] text-gray-400 uppercase tracking-widest font-semibold block">Método de Pago y Facturación</label>
+                            <div class="flex gap-4">
+                                <button @click="processCobroLibre('efectivo')" class="flex-1 py-3 bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-600/30 text-emerald-400 hover:text-white font-bold rounded-xl text-xs transition-all cursor-pointer flex justify-center items-center gap-2">
+                                    <i class="ph-bold ph-money text-base"></i> Efectivo (Stripe)
+                                </button>
+                                <button @click="processCobroLibre('tarjeta')" class="flex-1 py-3 bg-[#635BFF]/20 hover:bg-[#635BFF] border border-[#635BFF]/30 text-[#635BFF] hover:text-white font-bold rounded-xl text-xs transition-all cursor-pointer flex justify-center items-center gap-2">
+                                    <i class="ph-bold ph-stripe-logo text-lg"></i> Tarjeta
+                                </button>
+                                <button @click="openBillingModal()" class="flex-1 py-3 bg-aquaTurquesa/20 hover:bg-aquaTurquesa border border-aquaTurquesa/30 text-aquaTurquesa hover:text-darkBg font-bold rounded-xl text-xs transition-all cursor-pointer flex justify-center items-center gap-2" title="Facturar Venta">
+                                    <i class="ph-bold ph-receipt text-base"></i> Facturar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-gray-500 mt-2">Cobro abierto: permite registrar pagos en efectivo mediante Stripe o usar la terminal virtual para cobros con tarjeta, enlazando directamente al sistema de facturación.</p>
+                </div>
             </div>
 
             <!-- PESTAÑA 4: FACTURACIÓN AUTOMÁTICA [ESTILO: PERSONALIZADO] -->
@@ -1641,6 +1669,7 @@
                 currentTab: 'dashboard',
                 mobileMenu: false,
                 chatOpen: false,
+                cobroLibreAmount: '',
 
                 // Estados de demo (6 artículos precargados en POS)
                 posCart: [
@@ -1755,6 +1784,21 @@
                 ruaChatLog: [
                     { sender: 'rua', text: 'Hola, soy Rua, tu asistente inteligente de TSOLUTIONS. ¿En qué módulo, consulta o reporte de automatización te puedo apoyar hoy?' }
                 ],
+
+                processCobroLibre(method) {
+                    if (!this.cobroLibreAmount || parseFloat(this.cobroLibreAmount) <= 0) {
+                        alert('Por favor ingrese un monto válido para cobrar.');
+                        return;
+                    }
+                    const amountFormatted = parseFloat(this.cobroLibreAmount).toFixed(2);
+                    if (method === 'efectivo') {
+                        alert(`Cobro en Efectivo por $${amountFormatted} registrado exitosamente en la plataforma y Stripe (como registro manual).`);
+                    } else if (method === 'tarjeta') {
+                        alert(`Iniciando terminal virtual Stripe para el cobro de $${amountFormatted}... Transacción Aprobada.`);
+                    }
+                    this.billingAmount = this.cobroLibreAmount;
+                    this.cobroLibreAmount = '';
+                },
 
                 openBillingModal() {
                     this.billingRfc = '';
